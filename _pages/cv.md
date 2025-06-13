@@ -11,12 +11,13 @@ redirect_from:
 
 ---
 
-Education
-- **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028*  
+# Education
+- **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028* 
+
 - **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, with Distinction*
 ---
 
-Work experience
+# Work experience
 
 ## Research Experience
 ### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Graduate Research Assistant*, CWRU (2024–Present)
@@ -50,7 +51,7 @@ Work experience
 
 ---
 
-## Selected Projects
+# Selected Projects
 
 ### Causal PointNet - *Causality and Inference Graduate Project*, Case Western Reserve University (F. 2024)
 - Integrates structural causal models into DenseFusion to correct for confounders like symmetry and viewpoint variation in 6D pose estimation
@@ -75,7 +76,7 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 
 ---
 
-## Skills
+# Skills
 
 **Languages**: Assembly, Bash, C/C++, CUDA, MATLAB, Python
 
@@ -89,7 +90,7 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 
 ---
 
-## Publications
+# Publications
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
@@ -110,7 +111,7 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 
 ---
 
-## Leadership
+# Leadership
 ### MATLAB Student Ambassador – *MathWorks*, 2024–Present
   * Organized workshops, demos, and campus-wide outreach for MATLAB applications in research and industry
   * Planned and executed an ML hackathon

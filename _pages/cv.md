@@ -9,13 +9,15 @@ redirect_from:
 
 {% include base_path %}
 
+---
+
 Education
-======
 - **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028*  
 - **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, with Distinction*
+---
 
 Work experience
-======
+
 ## Research Experience
 ### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Graduate Research Assistant*, CWRU (2024–Present)
 #### QUAN: Quaternion Approximate Networks
@@ -30,14 +32,11 @@ Work experience
 - Collected and annotated industrial datasets; developed RGB-D oriented object detection model with CNNs and vision transformers
 - Achieved 0.92 mAP @ IoU 0.5–0.95; integrated model into robotic arm control stack for factory simulation
 
----
-
 ## Industry Experience
 
 ### HP — *Ph.D. Machine Learning Intern*, Summer 2024
 - Designed ensemble forecasting system for cloud spend using LSTM, ARIMA, and STL decomposition  
-- Built RAG-based conversational agent using FAISS + LangChain for intelligent printer setup guidance  
- while evaluating the performance of various LLMs, retrieval methods, text chunking, and query expansion techniques
+- Built RAG-based conversational agent using FAISS + LangChain for intelligent printer setup guidance while evaluating the performance of various LLMs, retrieval methods, text chunking, and query expansion techniques
 - Prototyped topic-aware customer support retriever system using BERT + clustering for call transcript search
 
 
@@ -52,18 +51,23 @@ Work experience
 ---
 
 ## Selected Projects
+
 ### Causal PointNet - *Causality and Inference Graduate Project*, Case Western Reserve University (F. 2024)
 - Integrates structural causal models into DenseFusion to correct for confounders like symmetry and viewpoint variation in 6D pose estimation
 - Uses targeted interventions and backdoor adjustment
+
 ### Probabilistic Digital Twins for Robots at Scale - *Probabilistic Graph Models Graduate Project*, Case Western Reserve University (S. 2025)
 - Built a ROS2-integrated Dynamic Bayesian Network using UKF to estimate UR robot friction, damping, and health over time
 - Enables fault detection and evolving simulation from real-time sensor streams
+
 ### DDPMs for Robotics Survey - *Stochastic Modeling Graduate Project*, Case Western Reserve University (S. 2025)
 - Implemented a NoProp-style denoising diffusion model with applications in stochastic robot control and sequential decision modeling
 - Includes theoretical grounding in Markov processes and SDEs
+
 ### PET Reconstruction with Convex Optimization - *Convex Optimization Graduate Project*, Case Western Reserve University (S. 2025)
 Reconstructed PET scan images from detector data by maximizing log-likelihood using sparse matrix operations and KKT conditions
 - Derived and implemented Hessian gradient updates and visualized convergence
+
 ### Electrical and Computer Engineering Department - *J.A.R.V.I.S. Navigation Systems Lead*, University of Kentucky (2023)
 - Designed and implemented vision and navigation systems for a telehealth robot within a full-stack, Zoom-integrated application
 utilizing multithreaded architecture for autonomous and manual navigation, and seamless websocket communication
@@ -74,9 +78,13 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 ## Skills
 
 **Languages**: Assembly, Bash, C/C++, CUDA, MATLAB, Python
+
 **Frameworks**: PyTorch, TensorFlow, ROS2, OpenCV, Open3D  
+
 **Tools**: Ansys, AWS EC2/S3, Docker, Flask, FAISS, Git, LangChain, MuJoCo, SolidWorks, Wireshark
+
 **Concepts** Causal Inference, Computer Vision, NLP, RAG, Robotics, Self-Supervised Learning
+
 **Spoken languages**: English (Native), French (Fluent), Russian (Conversational)
 
 ---

@@ -11,101 +11,77 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Electrical Engineering, Case Western Reserve University, 2028 (Expected)
-* Dual B.S. with distinguished honors in Electrical & Computer Engineering, University of Kentucky, 2024
+- **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028*  
+- **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, with Distinction*
 
 Work experience
 ======
-## Case Western Reserve University: Cleveland, OH
-### Aug. 2024 - Present: _Augmented Intelligence for Smart Manufacturing (AISM) Lab Graduate Research Assistant_ 
-  * Developed the first quaternion based pipeline for oriented and classic object detection 
-  * Achieved SOTA performance and comparable inference time in image classification, and object detection against benchmarked datasets while 
-  cutting parameters and file size by 74%
+## Research Experience
+### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Graduate Research Assistant*, CWRU (2024–Present)
+#### QUAN: Quaternion Approximate Networks
+- Developed the first quaternion-based object detection framework 
+- Implemented custom **forward and backward CUDA kernels** and quaternion autograd ops, achieving **SOTA performance** on COCO and DOTA with **¼ the parameters** of baseline models and comparable inference time  
+- Researching structured optimization over the Hamilton product representations in quaternion networks to identify task-specific configurations for improved geometric learning
+
+#### SPARK: Sequential Planning via Anchored Robotic Keypoints
+- Designing an interpretable robot planning framework that represents manipulation tasks as symbolic “scores” of keypoint-anchored actions  
+ 
+### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Undergraduate Research Assistant*, University of Kentucky (2023–2024)  
+- Collected and annotated industrial datasets; developed RGB-D oriented object detection model with CNNs and vision transformers
+- Achieved 0.92 mAP @ IoU 0.5–0.95; integrated model into robotic arm control stack for factory simulation
+
+---
+
+## Industry Experience
+
+### HP — *Ph.D. Machine Learning Intern*, Summer 2024
+- Designed ensemble forecasting system for cloud spend using LSTM, ARIMA, and STL decomposition  
+- Built RAG-based conversational agent using FAISS + LangChain for intelligent printer setup guidance  
+ while evaluating the performance of various LLMs, retrieval methods, text chunking, and query expansion techniques
+- Prototyped topic-aware customer support retriever system using BERT + clustering for call transcript search
 
 
+### Honeywell — *Embedded Systems Intern*, Summer 2023
+- Developed embedded API for fire safety device firmware, improving resiliency and signal integrity  
+- Designed microcontroller fallback system to prevent ASIC and EEPROM failure-induced production halts
 
-## HP: Vancouver, WA
-### May 2024 - Aug. 2024: _PhD ML Intern_
-  * Designed and deployed an ensemble ML pipeline for hierarchical cloud cost analysis, integrating LSTM and ARIMA models for
-forecasting, along with STL decomposition for anomaly detection, utilizing S3 and EC2 to manage and analyze large-scale data
-  * Designed and deployed a RAG-based conversational agent for AI-enabled printer setup using LangChain and FAISS, while 
-evaluating the performance of various LLMs, retrieval methods, text chunking, and query expansion techniques
-  * Designed and deployed an AI-driven customer call search engine through BERT, clustering techniques, and topic modeling
+### Lexmark — *Electrical Engineering Intern*, 2022–2023  
+- Developed Flask apps for controlling test hardware for laser imaging systems  
+- Automated sensor alignment and improved test reliability for laser scanning subsystems  
 
-## University of Kentucky: Lexington, KY
-### Aug. 2023 - May 2024: _Augmented Intelligence for Smart Manufacturing (AISM) Lab Undergraduate Research Assistant_ 
-  * Created a large, labeled dataset of manufacturing environments and developed a CNN and Transformer based oriented object 
-detection and pose estimation model for processing RGB and depth images to guide robotic movement, achieving a mean 
-Average Precision (mAP) of .92 at 0.5:0.95 Intersection over Union (IoU)
+---
 
-### Jan. 2023 - Dec. 2023: _J.A.R.V.I.S. Navigation Systems Lead_ 
-  * Designed and implemented vision and navigation systems for a telehealth robot within a full-stack, Zoom-integrated application
+## Selected Projects
+### Causal PointNet - *Causality and Inference Graduate Project*, Case Western Reserve University (F. 2024)
+- Integrates structural causal models into DenseFusion to correct for confounders like symmetry and viewpoint variation in 6D pose estimation
+- Uses targeted interventions and backdoor adjustment
+### Probabilistic Digital Twins for Robots at Scale - *Probabilistic Graph Models Graduate Project*, Case Western Reserve University (S. 2025)
+- Built a ROS2-integrated Dynamic Bayesian Network using UKF to estimate UR robot friction, damping, and health over time
+- Enables fault detection and evolving simulation from real-time sensor streams
+### DDPMs for Robotics Survey - *Stochastic Modeling Graduate Project*, Case Western Reserve University (S. 2025)
+- Implemented a NoProp-style denoising diffusion model with applications in stochastic robot control and sequential decision modeling
+- Includes theoretical grounding in Markov processes and SDEs
+### PET Reconstruction with Convex Optimization - *Convex Optimization Graduate Project*, Case Western Reserve University (S. 2025)
+Reconstructed PET scan images from detector data by maximizing log-likelihood using sparse matrix operations and KKT conditions
+- Derived and implemented Hessian gradient updates and visualized convergence
+### Electrical and Computer Engineering Department - *J.A.R.V.I.S. Navigation Systems Lead*, University of Kentucky (2023)
+- Designed and implemented vision and navigation systems for a telehealth robot within a full-stack, Zoom-integrated application
 utilizing multithreaded architecture for autonomous and manual navigation, and seamless websocket communication
-  * Utilized SLAM, LiDAR sensors, and machine learning methods for object detection and mapping of the robot’s environment
+- Utilized SLAM, LiDAR sensors, and machine learning methods for object detection and mapping of the robot’s environment
 
-## Honeywell: Atlanta, GA
-### May 2023 - Aug. 2023: _Embedded Systems Software Engineer Intern_
-  * Developed an API in the communication firmware of a new microcontroller board for life safety models utilized in fire systems
-  * Led critical resiliency project to prevent product line stoppage through alternate design strategies of the ASIC and EEPROM
-  * Implemented SAFE Agile framework and Honeywell best practices for comprehensive development, testing, and verification
+---
 
-## Lexmark: Lexington, KY
-### May 2022 - May 2023: _Electrical Engineering Intern_
-  * Designed software-controlled test equipment to optimize print quality and fixture reliability for the Laser Scanning Unit
-  * Developed tkinter and flask applications to control sensors and cameras, optimizing power roll-off measurements
+## Skills
 
-Skills
-======
+**Languages**: Assembly, Bash, C/C++, CUDA, MATLAB, Python
+**Frameworks**: PyTorch, TensorFlow, ROS2, OpenCV, Open3D  
+**Tools**: Ansys, AWS EC2/S3, Docker, Flask, FAISS, Git, LangChain, MuJoCo, SolidWorks, Wireshark
+**Concepts** Causal Inference, Computer Vision, NLP, RAG, Robotics, Self-Supervised Learning
+**Spoken languages**: English (Native), French (Fluent), Russian (Conversational)
 
-* Programming Languages 
-  * Assembly
-  * Bash
-  * C
-  * C++
-  * CUDA
-  * MATLAB
-  * Python
-    * Matplotlib
-    * OpenCV
-    * Open3D
-    * Pandas
-    * Numpy
-    * Pytorch
-    * TensorFlow
-  * SQL
-* Tools
-  * Ansys Workbench
-  * AWS EC2 & S3
-  * Azure
-  * Docker
-  * Git
-  * ROS
-  * Solidworks
-  * SQL
-  * Wireshark
-* Technical
-  * Computer Vision
-  * Data Supervision
-  * Digital Sensors
-  * DSP
-  * ETL
-  * Gen AI 
-  * LiDAR
-  * Linu
-  * MLOps
-  * NLP
-  * Robotics
-  * Sequential Modeling
-  * Wireless Networking 
-* Languages
-  * English (Native)
-  * French (Working Proficiency)
-  * Portuguese (Intermediate)
-  * Russian (Intermediate)
+---
 
-
-Publications
-======
+## Publications
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
@@ -123,10 +99,11 @@ Publications
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
    -->
-   
-Service and leadership
-======
-## Mathworks: Boston, MA
-### Oct. 2024 - Present: _MATLAB Student Ambassador_
-  * Plan and execute events every semester around MATLAB applications, projects and competitions while raising brand awareness on campus
+
+---
+
+## Leadership
+### MATLAB Student Ambassador – *MathWorks*, 2024–Present
+  * Organized workshops, demos, and campus-wide outreach for MATLAB applications in research and industry
+  * Planned and executed an ML hackathon
 

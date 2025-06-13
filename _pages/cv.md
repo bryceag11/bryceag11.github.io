@@ -12,9 +12,10 @@ redirect_from:
 ---
 
 # Education
-- **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028* 
 
+- **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028* 
 - **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, with Distinction*
+
 ---
 
 # Work experience

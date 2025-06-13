@@ -5,7 +5,7 @@ permalink: /projects/
 author_profile: true
 ---
 
-Below are selected research and class projects. Each combines theory and implementation, with applications in robotic perception, causal inference, and intelligent systems.
+Below are selected research and class projects.
 
 ---
 

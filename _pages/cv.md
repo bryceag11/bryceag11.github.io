@@ -47,7 +47,7 @@ redirect_from:
 - Designed microcontroller fallback system to prevent ASIC and EEPROM failure-induced production halts
 
 ### Lexmark — *Electrical Engineering Intern*, 2022–2023  
-- Developed Flask apps for controlling test hardware for laser imaging systems  
+- Developed python apps for controlling test hardware for laser imaging systems  
 - Automated sensor alignment and improved test reliability for laser scanning subsystems  
 
 ---

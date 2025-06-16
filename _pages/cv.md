@@ -116,4 +116,9 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 ### MATLAB Student Ambassador – *MathWorks*, 2024–Present
   * Organized workshops, demos, and campus-wide outreach for MATLAB applications in research and industry
   * Planned and executed an ML hackathon
+### Region III Finance Chair – *NSBE*, May 2023 - May 2024
+  * Raised over $250,000 in sponsorships while orchestrating a career fair with 50+ orgs in attendance.
 
+# Honors & Awards 
+  * NSF GRFP Fellowship 
+  * University of Kentucky Dean's List: 9 semesters 

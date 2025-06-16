@@ -18,7 +18,7 @@ Refines 6D pose estimates using causal interventions and backdoor adjustments ba
 ---
 
 ### Probabilistic Digital Twin
-<a href="/images/ros_stack.png"><img src="/images/digital_twin.png" width="300"/></a>  
+<a href="/images/ros_stack.png"><img src="/images/ros_stack.png" width="300"/></a>  
 Developed a ROS2-integrated Dynamic Bayesian Network for real-time fault detection in Universal Robots. Used Unscented Kalman Filtering to track friction, damping, and wear parameters.
 
 [PDF](/files/PGM_URDT.pdf) | [Code](https://github.com/bryceag11/PGM_URDT)
@@ -26,7 +26,7 @@ Developed a ROS2-integrated Dynamic Bayesian Network for real-time fault detecti
 ---
 
 ### Diffusion Models in Robotics
-<a href="/images/no_prop_arch.png"><img src="/images/ddpm_robotics.png" width="300"/></a>  
+<a href="/images/no_prop_arch.png"><img src="/images/no_prop_arch.png" width="300"/></a>  
 Explores how Denoising Diffusion Probabilistic Models can be used to synthesize robot action policies from noise, using a NoProp training method adapted for stochastic control.
 
 [PDF](/files/DDPMs.pdf) | [Code](https://github.com/bryceag11/NoProp)

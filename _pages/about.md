@@ -11,6 +11,6 @@ I am a Ph.D. student at the [Electrical Computer and Systems Engineering Departm
 
 I am currently a research assistant in the Augmented Intelligence for Smart Manufacturing Lab (AISM), advised by Dr. Peng Wang.
 
-My research lies at the intersection of **robotic perception**, **geometry-aware learning**, and **sequential modeling**. I’m interested in building systems that reason about pose, motion, and uncertainty through geometric representations, causal inference, and generative models. I’m currently exploring semantic keypoint representations and sim2real transfer for robotic manipulation.
+My research lies at the intersection of **robotic perception**, **geometry-aware learning**, and **sequential modeling**. I’m interested in building systems that reason about pose, motion, and uncertainty through geometric representations, causal inference, and generative models applied to assembly environments. I’m currently exploring semantic keypoint representations and sim2real transfer for robotic manipulation.
 
 Email: bag100@case.edu

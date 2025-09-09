@@ -14,7 +14,12 @@ redirect_from:
 # Education
 
 - **Ph.D. in Electrical Engineering**, Case Western Reserve University — *Expected 2028* 
-- **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, with Distinction*
+- **Dual B.S. in Electrical & Computer Engineering**, University of Kentucky — *2024, Magna Cum Laude*
+## Honors & Awards 
+  * NSF GRFP Fellowship 
+  * University of Kentucky Dean's List: 9 semesters 
+  * Lexmark International Scholarship
+  * Dallas and Betty Wade Scholarship
 
 ---
 
@@ -23,12 +28,14 @@ redirect_from:
 ## Research Experience
 ### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Graduate Research Assistant*, CWRU (2024–Present)
 #### QUAN: Quaternion Approximate Networks
-- Developed the first quaternion-based object detection framework 
-- Implemented custom **forward and backward CUDA kernels** and quaternion autograd ops, achieving **SOTA performance** on COCO and DOTA with **¼ the parameters** of baseline models and comparable inference time  
+- Engineered Quaternion Approximate Networks, QUAN, a novel quaternion-based deep learning framework, to improve rotation-aware perception in robotic systems
+- Implemented custom CUDA kernels for quaternion convolution, achieving SOTA performance for quaternion networks on oriented and classical object detection while reducing model parameters by up to 75% compared to baselines
 - Researching structured optimization over the Hamilton product representations in quaternion networks to identify task-specific configurations for improved geometric learning
 
 #### SPARK: Sequential Planning via Anchored Robotic Keypoints
-- Designing an interpretable robot planning framework that represents manipulation tasks as symbolic “scores” of keypoint-anchored actions  
+- Developed Sequential Planning via Anchored Robotic Keypoints, SPARK, an interpretable planning framework for VLA models that represents tasks as symbolic "scores" of keypoint-anchored actions with explicit fallback routines
+- Evaluating the complete SPARK pipeline in ROS2 with MuJoCo simulations, through a multi-modal perception stack (SAM2, DINOv2) with a finite-state sequencer and Cartesian impedance control 
+ 
  
 ### Augmented Intelligence for Smart Manufacturing (AISM) Lab – *Undergraduate Research Assistant*, University of Kentucky (2023–2024)  
 - Collected and annotated industrial datasets; developed RGB-D oriented object detection model with CNNs and vision transformers
@@ -36,10 +43,14 @@ redirect_from:
 
 ## Industry Experience
 
+### Mercor - *Software Tooling Engineer*, June 2025 - Present
+- Automated weekly review workflows and lifecycle analytics, creating pipelines to track metrics across large-scale projects, integrated Snowflake and Airtable to enable teams to evaluate project health and improve data quality for LLM training pipelines
+- Wrote rubrics and prompts to capture domain-specific edge cases for LLM RLHF pipelines
 ### HP — *Ph.D. Machine Learning Intern*, Summer 2024
-- Designed ensemble forecasting system for cloud spend using LSTM, ARIMA, and STL decomposition  
-- Built RAG-based conversational agent using FAISS + LangChain for intelligent printer setup guidance while evaluating the performance of various LLMs, retrieval methods, text chunking, and query expansion techniques
-- Prototyped topic-aware customer support retriever system using BERT + clustering for call transcript search
+- Engineered and deployed an ensemble machine learning pipeline for hierarchical cloud cost analysis on AWS (S3, EC2), integrating LSTM/ARIMA for forecasting and STL decomposition for multi-level anomaly detection
+- Developed a RAG-based conversational agent for AI-enabled printer setup, benchmarking LLMs, retrieval methods, and query expansion techniques with LangChain and FAISS
+- Developed an AI-driven sentiment analysis engine by applying topic modeling, clustering, and dimensionality reduction to customer call data to provide product insights to R&D teams
+
 
 
 ### Honeywell — *Embedded Systems Intern*, Summer 2023
@@ -47,7 +58,7 @@ redirect_from:
 - Designed microcontroller fallback system to prevent ASIC and EEPROM failure-induced production halts
 
 ### Lexmark — *Electrical Engineering Intern*, 2022–2023  
-- Developed python apps for controlling test hardware for laser imaging systems  
+- Developed python flask apps for controlling test hardware for laser imaging systems  
 - Automated sensor alignment and improved test reliability for laser scanning subsystems  
 
 ---
@@ -67,27 +78,29 @@ redirect_from:
 - Includes theoretical grounding in Markov processes and SDEs
 
 ### PET Reconstruction with Convex Optimization - *Convex Optimization Graduate Project*, Case Western Reserve University (S. 2025)
-Reconstructed PET scan images from detector data by maximizing log-likelihood using sparse matrix operations and KKT conditions
+- Reconstructed PET scan images from detector data by maximizing log-likelihood using sparse matrix operations and KKT conditions
 - Derived and implemented Hessian gradient updates and visualized convergence
 
 ### Electrical and Computer Engineering Department - *J.A.R.V.I.S. Navigation Systems Lead*, University of Kentucky (2023)
 - Designed and implemented vision and navigation systems for a telehealth robot within a full-stack, Zoom-integrated application
-utilizing multithreaded architecture for autonomous and manual navigation, and seamless websocket communication
+utilizing multithreaded architecture for autonomous and manual navigation
 - Utilized SLAM, LiDAR sensors, and machine learning methods for object detection and mapping of the robot’s environment
 
 ---
 
 # Skills
 
-**Languages**: Assembly, Bash, C/C++, CUDA, MATLAB, Python
+**Languages**: Assembly, Bash, C, C++, CUDA, JavaScript, MATLAB, Python, SQL
 
-**Frameworks**: PyTorch, TensorFlow, ROS2, OpenCV, Open3D  
+**ML & Robotics**: LangChain, MuJoCo, OpenCV, Open3D, Pybullet, Pytorch, ROS2, TensorFlow
 
-**Tools**: Ansys, AWS EC2/S3, Docker, Flask, FAISS, Git, LangChain, MuJoCo, SolidWorks, Wireshark
+**Cloud & DevOps**: AWS (EC2, S3), Docker, Flask, Git, REST APIs, Snowflake
 
-**Concepts** Causal Inference, Computer Vision, NLP, RAG, Robotics, Self-Supervised Learning
+**Engineering Software**: Ansys Workbench, Autodesk EAGLE, SolidWorks, Wireshark 
 
-**Spoken languages**: English (Native), French (Fluent), Russian (Conversational)
+**Domains & Methodologies**: Anomaly Detection, Causal Inference, Computer Vision, DSP, ETL Pipelines, Generative AI, Hardware Acceleration, MLOps, NLP, Robotics, System Optimization
+
+**Spoken languages**: English (Native), French (Fluent), Russian (Intermediate), Portuguese (Intermediate)
 
 ---
 
@@ -119,6 +132,3 @@ utilizing multithreaded architecture for autonomous and manual navigation, and s
 ### Region III Finance Chair – *NSBE*, May 2023 - May 2024
   * Raised over $250,000 in sponsorships while orchestrating a career fair with 50+ orgs in attendance.
 
-# Honors & Awards 
-  * NSF GRFP Fellowship 
-  * University of Kentucky Dean's List: 9 semesters 

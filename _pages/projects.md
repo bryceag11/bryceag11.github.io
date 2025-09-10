@@ -10,7 +10,7 @@ Below are selected research and class projects.
 ---
 
 ### Causal PointNet
-<a href="/images/causal_pointnet.png"><img src="/images/causal_pointnet.png" width="300"/></a>  
+<a href="/images/causal_pointnet.png"><img src="/images/causal_pointnet.png" width="300" height="300"/></a>  
 Refines 6D pose estimates using causal interventions and backdoor adjustments based on structural causal models. Improves robustness to viewpoint ambiguity and symmetry.
 
 [PDF](/files/Causal_PointNet.pdf) | [Code](https://github.com/bryceag11/CausalDenseFusion)
@@ -26,13 +26,19 @@ Developed a ROS2-integrated Dynamic Bayesian Network for real-time fault detecti
 ---
 
 ### Diffusion Models in Robotics
-<a href="/images/no_prop_arch.png"><img src="/images/no_prop_arch.png" width="300"/></a>  
 Explores how Denoising Diffusion Probabilistic Models can be used to synthesize robot action policies from noise, using a NoProp training method adapted for stochastic control.
 
 [PDF](/files/DDPMs.pdf) | [Code](https://github.com/bryceag11/NoProp)
 
 ---
 
+### Just a Rather Very Intelligent System (J.A.R.V.I.S.)
+<a href="/images/no_prop_arch.png"><img src="/images/no_prop_arch.png" width="300"/></a>  
+
+J.A.R.V.I.S. is a social navigating robot designed to provide an immersive telepresence experience for remote users. As the navigation systems lead, I developed the robot's 3D SLAM, path planning, and autonomous navigation capabilities from the ground up
+
+[PDF](/files/FDR_Report.pdf) | [CODE](https://github.com/bryceag11/JARVIS.git)
+    
 <!-- ### PET Image Reconstruction
 <a href="/images/pet.png"><img src="/images/pet.png" width="300"/></a>  
 Implemented a convex optimization pipeline to reconstruct PET scans via maximum likelihood estimation. Derived full Hessian and solved using KKT conditions and sparse linear algebra.

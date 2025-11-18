@@ -1,0 +1,30 @@
+{% if include.entry %}
+<section class="photo-gallery-hero">
+  <div>
+    <p class="photo-gallery-kicker">{{ include.collection_title | default: include.entry_type | capitalize }}</p>
+    <h1>{{ include.entry.title }}</h1>
+    <p class="photo-gallery-location">{{ include.entry.location }}</p>
+    <p>{{ include.entry.description }}</p>
+    <ul class="photo-gallery-meta">
+      {% if include.entry.camera %}<li><strong>Camera</strong>: {{ include.entry.camera }}</li>{% endif %}
+      {% if include.entry.palette %}<li><strong>Palette</strong>: {{ include.entry.palette | join: ', ' }}</li>{% endif %}
+    </ul>
+  </div>
+</section>
+<div class="photo-gallery-grid">
+  {% for image in include.entry.gallery %}
+    {% assign img_src = image.src %}
+    {% if img_src %}
+      {% unless img_src contains '://' %}
+        {% assign img_src = img_src | relative_url %}
+      {% endunless %}
+    {% endif %}
+    <figure>
+      <img src="{{ img_src }}" alt="{{ image.caption | escape }}" loading="lazy" decoding="async">
+      {% if image.caption %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
+    </figure>
+  {% endfor %}
+</div>
+{% else %}
+<p>The requested gallery could not be found. Please update <code>_data/photography.yml</code>.</p>
+{% endif %}

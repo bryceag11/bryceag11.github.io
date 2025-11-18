@@ -1,0 +1,51 @@
+{% assign all_sections = site.data.home_sections %}
+{% if include.section_id and all_sections and all_sections[include.section_id] %}
+  {% assign section = all_sections[include.section_id] %}
+  <div class="home-section-header">
+    <div>
+      {% if include.kicker or section.kicker %}
+        <p class="home-section-kicker">{{ include.kicker | default: section.kicker }}</p>
+      {% endif %}
+      <h2>{{ include.title | default: section.title }}</h2>
+      {% if section.intro %}
+        <p class="home-section-intro">{{ section.intro }}</p>
+      {% endif %}
+    </div>
+    {% if include.action_url %}
+      <a class="btn" href="{{ include.action_url }}">{{ include.action_label | default: 'View all' }}</a>
+    {% endif %}
+  </div>
+  <div class="home-card-grid">
+    {% for card in section.cards %}
+      {% assign url = card.link_url %}
+      {% if url %}
+        {% unless url contains '://' %}
+          {% assign url = url | relative_url %}
+        {% endunless %}
+      {% endif %}
+      <article class="home-card">
+        <div class="home-card-body">
+          {% if card.meta %}
+            <p class="home-card-meta">{{ card.meta }}</p>
+          {% endif %}
+          <h3>{{ card.title }}</h3>
+          {% if card.description %}
+            <p>{{ card.description }}</p>
+          {% endif %}
+        </div>
+        {% if card.badges %}
+          <ul class="home-card-badges">
+            {% for badge in card.badges %}
+              <li>{{ badge }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if card.link_label and url %}
+          <div class="home-card-link">
+            <a href="{{ url }}">{{ card.link_label }} →</a>
+          </div>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+{% endif %}

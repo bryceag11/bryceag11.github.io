@@ -1,0 +1,22 @@
+service:
+  title: "Service & Projects"
+  intro: "The places where research, mentorship, and community projects overlap."
+  cards:
+    - title: "AISM Lab Workshop Series"
+      meta: "CWRU · Organizer"
+      description: "Design and run hands-on demos for visiting schools—pairing UR5 assists with explainers on manufacturing careers."
+      badges: ["Mentorship", "Outreach"]
+      link_label: "See teaching"
+      link_url: "/teaching/"
+    - title: "UR5 Assembly Coach"
+      meta: "Robotics project"
+      description: "Multi-camera UR5 stack that coaches student operators through semistructured assemblies with kinesthetic guidance."
+      badges: ["UR5", "Assistance"]
+      link_label: "Project log"
+      link_url: "/projects/"
+    - title: "Community storytelling"
+      meta: "Film + Service"
+      description: "Short-form features on apprenticeships, FIRST mentors, and fabrication labs that screen at local maker spaces."
+      badges: ["Film", "Leadership"]
+      link_label: "Watch clips"
+      link_url: "https://twitter.com/bryceagrant1"

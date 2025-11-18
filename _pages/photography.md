@@ -42,8 +42,8 @@ author_profile: false
   <div class="photography-section__header">
     <div>
       <p class="photography-section__kicker">35mm</p>
-      <h2 id="film-heading">35mm film travelogues</h2>
-      <p>Shot on Canon AE-1, Pentax K1000, Olympus XA, and Nikon FM2 cameras. Grain forward, ready for contact sheets.</p>
+      <!-- <h2 id="film-heading">35mm film</h2> -->
+      <p>Shot on Canon AE-1 & Minolta SR-T 101.</p>
     </div>
   </div>
   <div class="photo-card-grid">
@@ -72,8 +72,8 @@ author_profile: false
   <div class="photography-section__header">
     <div>
       <p class="photography-section__kicker">Digital</p>
-      <h2 id="digital-heading">Digital expeditions</h2>
-      <p>High dynamic range edits, stitched panoramas, and sensor experiments that lean into wireframes and lidar overlays.</p>
+      <!-- <h2 id="digital-heading">Digital expeditions</h2> -->
+      <p>Shot on iphone</p>
     </div>
   </div>
   <div class="photo-card-grid">

@@ -1,0 +1,32 @@
+{% assign pubs = site.data.home_publications | default: [] %}
+{% if pubs.size > 0 %}
+<div class="home-publication-stack">
+  {% for pub in pubs %}
+    <article class="home-publication-card">
+      <div class="home-publication-headline">
+        <p class="home-publication-venue">{{ pub.venue }}</p>
+        <h3>{{ pub.title }}</h3>
+        {% if pub.authors %}<p class="home-publication-authors">{{ pub.authors }}</p>{% endif %}
+      </div>
+      {% if pub.summary %}
+        <p class="home-publication-summary">{{ pub.summary }}</p>
+      {% endif %}
+      {% if pub.links %}
+        <div class="home-publication-links">
+          {% for link in pub.links %}
+            {% assign link_url = link.url %}
+            {% if link_url %}
+              {% unless link_url contains '://' %}
+                {% assign link_url = link_url | relative_url %}
+              {% endunless %}
+            {% endif %}
+            <a class="btn btn--small" href="{{ link_url }}"{% if link.new_tab %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </article>
+  {% endfor %}
+</div>
+{% else %}
+<p>Add entries to <code>_data/home_publications.yml</code> to populate this section.</p>
+{% endif %}

@@ -1,0 +1,53 @@
+{% assign highlights = site.data.home_highlights | default: [] %}
+{% if highlights.size > 0 %}
+<div class="home-highlights-grid">
+  {% for highlight in highlights %}
+    {% assign media_src = highlight.media %}
+    {% if media_src and media_src contains '://' %}
+      {% assign media_url = media_src %}
+    {% elsif media_src %}
+      {% assign media_url = media_src | relative_url %}
+    {% endif %}
+    <article class="home-highlight-card">
+      <div class="home-highlight-media">
+        {% if highlight.media_type == 'video' %}
+          <video {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline>
+            <source src="{{ media_url }}" type="video/mp4">
+          </video>
+        {% else %}
+          <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
+        {% endif %}
+      </div>
+      <div class="home-highlight-body">
+        {% if highlight.subtitle %}
+          <p class="home-highlight-subtitle">{{ highlight.subtitle }}</p>
+        {% endif %}
+        <h3 class="home-highlight-title">{{ highlight.title }}</h3>
+        {% if highlight.description %}
+          <p class="home-highlight-text">{{ highlight.description }}</p>
+        {% endif %}
+        {% if highlight.tags %}
+          <ul class="home-highlight-tags">
+            {% for tag in highlight.tags %}
+              <li>{{ tag }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if highlight.links %}
+          <div class="home-highlight-links">
+            {% for link in highlight.links %}
+              {% assign link_url = link.url %}
+              {% if link_url contains '://' or link_url contains 'mailto:' %}
+                {% assign computed_link_url = link_url %}
+              {% else %}
+                {% assign computed_link_url = link_url | relative_url %}
+              {% endif %}
+              <a class="btn btn--small" href="{{ computed_link_url }}"{% if link.new_tab %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endif %}

@@ -1,0 +1,31 @@
+- title: "Quaternion Approximate Network (QUAN)"
+  subtitle: "Rotation-aware perception"
+  description: "Quaternion convolutions packaged into a lightweight real-valued network so assembly imagery keeps spatial reasoning without bloating the model."
+  media: "images/ros_stack.png"
+  media_type: "image"
+  tags: ["IROS 2025", "Perception"]
+  links:
+    - label: "Paper"
+      url: "/files/QUAN_1.pdf"
+    - label: "Talk"
+      url: "https://cwru-aism.github.io/QUANpaper/"
+- title: "Semantic assembly keypoints"
+  subtitle: "Sim2Real UR5 stack"
+  description: "A multi-camera UR5 system that discovers semantic keypoints, predicts contact state, and shares intent between robots and human operators."
+  media: "images/no_prop_arch.png"
+  media_type: "image"
+  tags: ["UR5", "Keypoints"]
+  links:
+    - label: "Project notes"
+      url: "/projects/"
+    - label: "PDF"
+      url: "/files/PGM_URDT.pdf"
+- title: "HP RAG internship"
+  subtitle: "NLP for hardware support"
+  description: "Built retrieval-augmented generation pipelines for enterprise hardware troubleshooting, aligning documentation with on-device telemetry."
+  media: "images/homepage.png"
+  media_type: "image"
+  tags: ["RAG", "NLP"]
+  links:
+    - label: "Summary"
+      url: "/files/Bryce_Grant_CV.pdf"

@@ -1,0 +1,21 @@
+{% assign updates = site.data.home_updates | default: [] %}
+{% if updates.size > 0 %}
+<ul class="home-updates">
+  {% for update in updates %}
+    <li>
+      <p class="home-updates-date">{{ update.date }}</p>
+      <p class="home-updates-text">
+        {% assign update_url = update.url %}
+        {% if update_url %}
+          {% unless update_url contains '://' %}
+            {% assign update_url = update_url | relative_url %}
+          {% endunless %}
+          <a href="{{ update_url }}" target="_blank" rel="noopener">{{ update.text }}</a>
+        {% else %}
+          {{ update.text }}
+        {% endif %}
+      </p>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}

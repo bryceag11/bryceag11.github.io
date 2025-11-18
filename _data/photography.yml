@@ -1,0 +1,243 @@
+film:
+  - slug: fall-2019
+    title: "Fall 2019"
+    location: "Lexington, Kentucky"
+    description: "My first dedicated 35mm project—a study in grain, late harvest light, and the cables that crisscross industrial yards."
+    camera: "Canon AE-1 · Kodak Portra 400"
+    coords:
+      lat: 38.0406
+      lng: -84.5037
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#f59e0b", "#c026d3"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Switchyard lines at dusk."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Detail study in rust + glass."
+  - slug: rodchenko-inspiration
+    title: "Rodchenko Inspiration"
+    location: "Moscow, Russia"
+    description: "Pulled from my Russian Culture final project—recreating Rodchenko angles with modern architecture and brutalist stairs."
+    camera: "Pentax K1000 · Ilford HP5"
+    coords:
+      lat: 55.7558
+      lng: 37.6173
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#334155", "#94a3b8"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Subway descent shot with a 28mm lens."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Diagonal skylines inspired by Rodchenko."
+  - slug: atl
+    title: "ATL"
+    location: "Atlanta, Georgia"
+    description: "Transit pylons, MARTA shadows, and the soft neon of the BeltLine."
+    camera: "Canon AE-1 · Cinestill 800T"
+    coords:
+      lat: 33.749
+      lng: -84.388
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#fb7185", "#fcd34d"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Midtown traffic study."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Blue hour reflections."
+  - slug: maui
+    title: "Maui"
+    location: "Maui, Hawai'i"
+    description: "Salt-stained cameras, volcano hikes, and the sound of waves on 35mm."
+    camera: "Olympus XA · Kodak Ektar 100"
+    coords:
+      lat: 20.7984
+      lng: -156.3319
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#0ea5e9", "#38bdf8"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Haleakalā sunrise."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Paia surf break."
+  - slug: berlin
+    title: "Berlin"
+    location: "Berlin, Germany"
+    description: "Textures from Kreuzberg to the Brandenburg Gate, mixing Bauhaus lines with candid portraits."
+    camera: "Canon AE-1 · Kodak Gold"
+    coords:
+      lat: 52.52
+      lng: 13.405
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#2563eb", "#ef4444"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Tempelhofer Feld silhouettes."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Neukölln stairwells."
+  - slug: france
+    title: "France"
+    location: "Paris + Lyon"
+    description: "A study on cafe stillness, metro motion blur, and industrial coastlines."
+    camera: "Canon AE-1 · Fuji Pro 400H"
+    coords:
+      lat: 48.8566
+      lng: 2.3522
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#f472b6", "#c084fc"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Pont Neuf long exposure."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Lyon rail yard."
+  - slug: poland
+    title: "Poland"
+    location: "Warsaw, Poland"
+    description: "Concrete, color blocking, and everyday poetry while documenting the Vistula."
+    camera: "Pentax K1000 · Ilford Delta 400"
+    coords:
+      lat: 52.2297
+      lng: 21.0122
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#a855f7", "#6366f1"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Science Palace symmetry study."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Foggy Vistula morning."
+  - slug: ukraine
+    title: "Ukraine"
+    location: "Kyiv & Lviv"
+    description: "Documenting resilience through portrait sessions and architectural fragments."
+    camera: "Canon AE-1 · Kodak Tri-X"
+    coords:
+      lat: 50.4501
+      lng: 30.5234
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#fb923c", "#fcd34d"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Golden hour in Podil."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Opera house scaffolding."
+  - slug: pnw
+    title: "PNW"
+    location: "Pacific Northwest"
+    description: "Foggy evergreen mornings, ferries, and the color of drizzle."
+    camera: "Nikon FM2 · Kodak Ultramax"
+    coords:
+      lat: 47.6062
+      lng: -122.3321
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#0ea5e9", "#a7f3d0"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Puget Sound ferry ride."
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: "Columbia River Gorge overlook."
+
+digital:
+  - slug: us-abandoned
+    title: "US Abandoned"
+    location: "Detroit · Appalachia"
+    description: "Infrared-inspired digital set exploring abandoned manufacturing sites."
+    camera: "Sony A7 IV"
+    coords:
+      lat: 42.3314
+      lng: -83.0458
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#22d3ee", "#0f172a"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Packard plant atrium scan."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Coal tipple geometry."
+  - slug: us-national-parks
+    title: "US National Parks"
+    location: "Utah · Wyoming"
+    description: "Digital panoramas stitched from multi-row captures in Canyonlands, Yellowstone, and Arches."
+    camera: "Sony A7R III"
+    coords:
+      lat: 38.5733
+      lng: -109.5498
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#f97316", "#fde047"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Delicate Arch under lightning."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Grand Prismatic steam study."
+  - slug: china
+    title: "China"
+    location: "Shanghai & Shenzhen"
+    description: "Architecture, street food vendors, and ferry commutes captured during robotics exchange trips."
+    camera: "Fujifilm X-Pro3"
+    coords:
+      lat: 31.2304
+      lng: 121.4737
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#14b8a6", "#115e59"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Bund skyline reflection."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Shenzhen manufacturing floors."
+  - slug: japan
+    title: "Japan"
+    location: "Tokyo & Kyoto"
+    description: "A mix of neon alleys, Shinkansen pans, and quiet temples."
+    camera: "Fujifilm X100V"
+    coords:
+      lat: 35.6762
+      lng: 139.6503
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#f472b6", "#d946ef"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Shibuya crossing long exposure."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Arashiyama bamboo groove."
+  - slug: morocco
+    title: "Morocco"
+    location: "Marrakesh & Sahara"
+    description: "Dust storms, Atlas mountain roads, and sunrise dunes in rich desert palettes."
+    camera: "Sony A7 III"
+    coords:
+      lat: 31.6295
+      lng: -7.9811
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#f97316", "#ea580c"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Djemaa el-Fna rooftop."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Merzouga dunes at dawn."
+  - slug: western-europe
+    title: "Western Europe"
+    location: "Amsterdam · Zurich"
+    description: "Digital medium-format stitches dedicated to reflections, trains, and living with water."
+    camera: "GFX 50R"
+    coords:
+      lat: 52.3676
+      lng: 4.9041
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#7dd3fc", "#1d4ed8"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Canal mirror lines."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Zurich Hauptbahnhof frame."
+  - slug: central-eastern-europe
+    title: "Central & Eastern Europe"
+    location: "Prague · Budapest · Kraków"
+    description: "Night walks with a wireframe aesthetic—mixing lidar captures with still photography."
+    camera: "Sony A7S III"
+    coords:
+      lat: 50.0755
+      lng: 14.4378
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#06b6d4", "#0f172a"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Charles Bridge lidar overlay."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Budapest tram streak."

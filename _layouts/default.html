@@ -14,7 +14,9 @@ layout: compress
   <body>
 
     {% include browser-upgrade.html %}
-    {% include masthead.html %}
+    {% if site.show_masthead != false and page.hide_masthead != true %}
+      {% include masthead.html %}
+    {% endif %}
 
     {{ content }}
 

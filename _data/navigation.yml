@@ -21,6 +21,8 @@ main:
   #   url: /portfolio/
   - title: "Projects"
     url: /projects/     
+  - title: "Photography"
+    url: /photography/
   # - title: "Blog Posts"
   #   url: /year-archive/
     

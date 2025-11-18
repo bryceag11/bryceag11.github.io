@@ -149,14 +149,14 @@
 
 .photo-card {
   background: #fff;
-  border-radius: 1.25rem;
+  border-radius: 1.15rem;
   overflow: hidden;
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .photo-card--digital {
-  border: 1px solid rgba(20, 184, 166, 0.3);
+  border: 1px solid rgba(20, 184, 166, 0.25);
 }
 
 .photo-card a {
@@ -168,34 +168,27 @@
 }
 
 .photo-card-image {
-  padding-top: 62%;
+  padding-top: 56%;
   background-size: cover;
   background-position: center;
 }
 
 .photo-card-body {
-  padding: 1.1rem 1.25rem 1.5rem;
+  padding: 0.9rem 1rem 1.1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-}
-
-.photo-card-meta {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
+  gap: 0.25rem;
 }
 
 .photo-card-location {
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   font-weight: 600;
   color: #475569;
 }
 
 .photo-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
 }
 
 .photography-section {

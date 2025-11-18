@@ -3,8 +3,9 @@
 <ul class="home-updates">
   {% for update in updates %}
     <li>
-      <p class="home-updates-date">{{ update.date }}</p>
-      <p class="home-updates-text">
+      <p class="home-update-line">
+        <span class="home-updates-emoji">{{ update.emoji | default: '•' }}</span>
+        <strong>{{ update.date }}</strong>
         {% assign update_url = update.url %}
         {% if update_url %}
           {% unless update_url contains '://' %}

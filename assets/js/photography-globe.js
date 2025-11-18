@@ -21,15 +21,27 @@
     container.innerHTML = `<p class="photo-globe__fallback">${message}</p>`;
   }
 
-  function initGlobe() {
+  function bootGlobe() {
     const container = document.getElementById('photo-globe');
     if (!container || !window.PHOTOGRAPHY_DATA) return;
 
-    if (typeof window.THREE === 'undefined' || !supportsWebGL()) {
-      showFallback(container, 'The interactive globe needs WebGL (browser graphics). The full photo list is still available below.');
-      return;
+    const maxRetries = 30;
+    function waitForThree(tries) {
+      if (typeof window.THREE !== 'undefined' && supportsWebGL()) {
+        initGlobe(container);
+      } else if (tries > 0) {
+        setTimeout(() => waitForThree(tries - 1), 120);
+      } else if (!supportsWebGL()) {
+        showFallback(container, 'The interactive globe needs WebGL (browser graphics). The full photo list is still available below.');
+      } else {
+        showFallback(container, 'Loading graphics support failed. Please refresh the page.');
+      }
     }
 
+    waitForThree(maxRetries);
+  }
+
+  function initGlobe(container) {
     const THREE = window.THREE;
     const tooltip = document.getElementById('photo-globe-tooltip');
     const dims = getDimensions(container);
@@ -271,8 +283,8 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGlobe);
+    document.addEventListener('DOMContentLoaded', bootGlobe);
   } else {
-    initGlobe();
+    bootGlobe();
   }
 })();

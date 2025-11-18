@@ -28,6 +28,9 @@
           {% if card.meta %}
             <p class="home-card-meta">{{ card.meta }}</p>
           {% endif %}
+          {% if card.date %}
+            <p class="home-card-date">{{ card.date }}</p>
+          {% endif %}
           <h3>{{ card.title }}</h3>
           {% if card.description %}
             <p>{{ card.description }}</p>

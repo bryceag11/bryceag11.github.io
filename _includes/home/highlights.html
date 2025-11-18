@@ -1,15 +1,29 @@
 {% assign highlights = site.data.home_highlights | default: [] %}
 {% if highlights.size > 0 %}
-<div class="home-highlights-grid">
+<div class="home-highlight-gifs">
   {% for highlight in highlights %}
     {% assign media_src = highlight.media %}
-    {% if media_src and media_src contains '://' %}
-      {% assign media_url = media_src %}
-    {% elsif media_src %}
-      {% assign media_url = media_src | relative_url %}
+    {% if media_src %}
+      {% if media_src contains '://' %}
+        {% assign media_url = media_src %}
+      {% else %}
+        {% assign media_url = media_src | relative_url %}
+      {% endif %}
     {% endif %}
-    <article class="home-highlight-card">
-      <div class="home-highlight-media">
+    <div class="home-highlight-gif">
+      {% assign first_link = highlight.links | first %}
+      {% assign highlight_link = nil %}
+      {% if first_link %}
+        {% assign highlight_link = first_link.url %}
+        {% unless highlight_link contains '://' %}
+          {% assign highlight_link = highlight_link | relative_url %}
+        {% endunless %}
+      {% endif %}
+      {% if highlight_link %}
+        <a class="home-highlight-gif__media" href="{{ highlight_link }}" target="_blank" rel="noopener">
+      {% else %}
+        <div class="home-highlight-gif__media">
+      {% endif %}
         {% if highlight.media_type == 'video' %}
           <video {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline>
             <source src="{{ media_url }}" type="video/mp4">
@@ -17,37 +31,18 @@
         {% else %}
           <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
         {% endif %}
-      </div>
-      <div class="home-highlight-body">
-        {% if highlight.subtitle %}
-          <p class="home-highlight-subtitle">{{ highlight.subtitle }}</p>
-        {% endif %}
-        <h3 class="home-highlight-title">{{ highlight.title }}</h3>
+      {% if highlight_link %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+      <div class="home-highlight-gif__text">
+        <h3>{{ highlight.title }}</h3>
         {% if highlight.description %}
-          <p class="home-highlight-text">{{ highlight.description }}</p>
-        {% endif %}
-        {% if highlight.tags %}
-          <ul class="home-highlight-tags">
-            {% for tag in highlight.tags %}
-              <li>{{ tag }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-        {% if highlight.links %}
-          <div class="home-highlight-links">
-            {% for link in highlight.links %}
-              {% assign link_url = link.url %}
-              {% if link_url contains '://' or link_url contains 'mailto:' %}
-                {% assign computed_link_url = link_url %}
-              {% else %}
-                {% assign computed_link_url = link_url | relative_url %}
-              {% endif %}
-              <a class="btn btn--small" href="{{ computed_link_url }}"{% if link.new_tab %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
-            {% endfor %}
-          </div>
+          <p>{{ highlight.description }}</p>
         {% endif %}
       </div>
-    </article>
+    </div>
   {% endfor %}
 </div>
 {% endif %}

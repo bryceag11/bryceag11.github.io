@@ -10,17 +10,12 @@ author_profile: false
 
 <div class="photography-hero">
   <div>
-    <p class="photography-hero__eyebrow">35mm · Digital · Field notes</p>
-    <h1>Travel snapshots that trail the research.</h1>
-    <p>Outside the lab I keep a running log of 35mm and digital sets from residencies, conferences, and field visits. Toggle between film and digital to see where each series was captured, then jump into the galleries for context.</p>
+    <p class="photography-hero__eyebrow">35mm & Digital Photography</p>
+    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured.</p>
     <div class="photography-cta">
       <a class="btn" href="#film-stories">35mm Stories</a>
       <a class="btn btn--outline" href="#digital-stories">Digital Series</a>
     </div>
-  </div>
-  <div class="photography-hero__note">
-    <p>Film colors = textured earth.<br>Digital sets = wireframe earth.</p>
-    <p>Each pin opens into a gallery page with notes, gear, and location callouts.</p>
   </div>
 </div>
 
@@ -63,7 +58,6 @@ author_profile: false
         <a href="{{ '/photography/film/' | append: entry.slug | append: '/' | relative_url }}">
           <div class="photo-card-image" style="background-image: url('{{ cover }}');"></div>
           <div class="photo-card-body">
-            <p class="photo-card-meta">{{ entry.camera }}</p>
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.description }}</p>
             <p class="photo-card-location">{{ entry.location }}</p>
@@ -94,7 +88,6 @@ author_profile: false
         <a href="{{ '/photography/digital/' | append: entry.slug | append: '/' | relative_url }}">
           <div class="photo-card-image" style="background-image: url('{{ cover }}');"></div>
           <div class="photo-card-body">
-            <p class="photo-card-meta">{{ entry.camera }}</p>
             <h3>{{ entry.title }}</h3>
             <p>{{ entry.description }}</p>
             <p class="photo-card-location">{{ entry.location }}</p>

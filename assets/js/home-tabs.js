@@ -19,9 +19,7 @@
   }
 
   controls.forEach((control) => {
-    control.addEventListener('click', () => {
-      setActive(control.dataset.homeTab);
-    });
+    control.addEventListener('click', () => setActive(control.dataset.homeTab));
     control.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();

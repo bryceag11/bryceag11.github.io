@@ -26,26 +26,12 @@ author_profile: false
 
 <div class="photography-globe">
   <div id="photo-globe" aria-live="polite"></div>
-  <div class="photography-globe__legend">
-    <h3>Interactive globe</h3>
-    <p>Tap + drag to spin. Pins animate in with the selected catalog. Selecting a card below also highlights the corresponding pin.</p>
-    <ul>
-      <li><span class="legend-dot legend-dot--film"></span>Film locations (full-color earth)</li>
-      <li><span class="legend-dot legend-dot--digital"></span>Digital sets (wireframe earth)</li>
-    </ul>
-    <p class="photography-globe__note">The rotating globe uses WebGL; if your browser blocks it, you’ll still see every album below.</p>
-  </div>
+  <!-- Globe legend removed for cleaner display -->
   <div id="photo-globe-tooltip" class="photo-globe-tooltip" hidden></div>
 </div>
 
 <section id="film-stories" class="photography-section" aria-labelledby="film-heading">
-  <div class="photography-section__header">
-    <div>
-      <p class="photography-section__kicker">35mm</p>
-      <!-- <h2 id="film-heading">35mm film</h2> -->
-      <p>Shot on Canon AE-1 & Minolta SR-T 101.</p>
-    </div>
-  </div>
+  <!-- Film section header removed for cleaner display -->
   <div class="photo-card-grid">
     {% for entry in photo.film %}
       {% assign cover = entry.cover %}
@@ -69,13 +55,7 @@ author_profile: false
 </section>
 
 <section id="digital-stories" class="photography-section" aria-labelledby="digital-heading">
-  <div class="photography-section__header">
-    <div>
-      <p class="photography-section__kicker">Digital</p>
-      <!-- <h2 id="digital-heading">Digital expeditions</h2> -->
-      <p>Shot on iphone</p>
-    </div>
-  </div>
+  <!-- Digital section header removed for cleaner display -->
   <div class="photo-card-grid">
     {% for entry in photo.digital %}
       {% assign cover = entry.cover %}
@@ -101,5 +81,14 @@ author_profile: false
 <script>
   window.PHOTOGRAPHY_DATA = {{ photo | jsonify }};
 </script>
-<script defer src="{{ '/assets/js/vendor/three.min.js' | relative_url }}"></script>
-<script defer src="{{ '/assets/js/photography-globe.js' | relative_url }}"></script>
+<!-- Load Three.js from CDN with local fallback -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>
+<script>
+  // Fallback to local if CDN fails
+  if (typeof THREE === 'undefined') {
+    var script = document.createElement('script');
+    script.src = '{{ "/assets/js/vendor/three.min.js" | relative_url }}';
+    document.head.appendChild(script);
+  }
+</script>
+<script src="{{ '/assets/js/photography-globe.js' | relative_url }}"></script>

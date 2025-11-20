@@ -11,7 +11,7 @@ author_profile: false
 <div class="photography-hero">
   <div>
     <p class="photography-hero__eyebrow">35mm & Digital Photography</p>
-    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured.</p>
+    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured. UNDER CONSTRUCTION</p>
     <div class="photography-cta">
       <a class="btn" href="#film-stories">35mm Stories</a>
       <a class="btn btn--outline" href="#digital-stories">Digital Series</a>

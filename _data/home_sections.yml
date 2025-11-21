@@ -1,0 +1,38 @@
+projects:
+  title: "Projects"
+  intro: "Selected research and class projects."
+  cards:
+    - title: "Causal DenseFusion"
+      image: "/images/causal_pointnet.png"
+      meta: "Computer Vision · Causal Inference"
+      date: "2024"
+      description: "Refines 6D pose estimates using causal interventions and backdoor adjustments based on structural causal models. Improves robustness to viewpoint ambiguity and symmetry."
+      badges: ["PointNet", "Causal ML"]
+      links:
+        - label: "PDF"
+          url: "/files/Causal_PointNet.pdf"
+        - label: "Code"
+          url: "https://github.com/bryceag11/CausalDenseFusion"
+    - title: "Probabilistic Digital Twin"
+      image: "/images/ros_stack.png"
+      meta: "Robotics · Probabilistic Modeling"
+      date: "2024"
+      description: "ROS2-integrated Dynamic Bayesian Network for real-time fault detection in Universal Robots using Unscented Kalman Filtering to track friction, damping, and wear parameters."
+      badges: ["ROS2", "UKF", "DBN"]
+      links:
+        - label: "PDF"
+          url: "/files/PGM_URDT.pdf"
+        - label: "Code"
+          url: "https://github.com/bryceag11/JARVIS"
+    - title: "Obstructive Sleep Apnea Detection"
+      image: "/images/500x300.png"
+      meta: "Machine Learning · Healthcare"
+      date: "2024"
+      description: "Machine learning system for detecting obstructive sleep apnea events using physiological signal processing and deep learning techniques for real-time classification of respiratory disturbances."
+      badges: ["Deep Learning", "Signal Processing"]
+      links:
+        - label: "Code"
+          url: "https://github.com/bryceag11/OSA"
+  footer_link:
+    label: "Older Projects"
+    url: "/projects/"

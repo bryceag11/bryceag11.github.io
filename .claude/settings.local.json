@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl echo \"Hello from WSL\")",
+      "Bash(wsl sudo apt install:*)",
+      "Bash(wsl bundle config set:*)",
+      "Bash(wsl bundle install:*)",
+      "Bash(wsl bundle exec jekyll:*)",
+      "Bash(wsl pwd:*)",
+      "Bash(wsl ls:*)",
+      "Bash(ruby --version:*)",
+      "Bash(powershell.exe -Command \"ruby --version\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

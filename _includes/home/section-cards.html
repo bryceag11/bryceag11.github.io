@@ -1,6 +1,101 @@
 {% assign all_sections = site.data.home_sections %}
 {% if include.section_id and all_sections and all_sections[include.section_id] %}
   {% assign section = all_sections[include.section_id] %}
+  <style>
+  .home-card {
+    padding: 0 !important;
+    overflow: hidden;
+    gap: 0 !important;
+  }
+
+  .home-card-image {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+  }
+
+  .home-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-card-body {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-card-body h3 {
+    margin: 0;
+    padding: 1rem;
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+  }
+
+  .home-card-body .home-card-meta,
+  .home-card-body .home-card-date,
+  .home-card-body > p {
+    padding: 0 1rem;
+  }
+
+  .home-card-body .home-card-meta {
+    padding-top: 0.75rem;
+  }
+
+  .home-card-body > p {
+    display: none;
+  }
+
+  .home-card-badges {
+    display: none !important;
+  }
+
+  .home-card-links {
+    padding: 0 1rem 1rem;
+    margin-top: auto;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .home-card-links a {
+    color: #1a237e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .home-card-links a:hover {
+    text-decoration: underline;
+  }
+
+  .home-section-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .home-section-footer-link {
+    color: #1a237e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+  }
+
+  .home-section-footer-link:hover {
+    color: #283593;
+    text-decoration: underline;
+  }
+  </style>
   <div class="home-section-header">
     <div>
       {% if include.kicker or section.kicker %}
@@ -24,6 +119,11 @@
         {% endunless %}
       {% endif %}
       <article class="home-card">
+        {% if card.image %}
+          <div class="home-card-image">
+            <img src="{{ card.image | relative_url }}" alt="{{ card.title }}" loading="lazy">
+          </div>
+        {% endif %}
         <div class="home-card-body">
           {% if card.meta %}
             <p class="home-card-meta">{{ card.meta }}</p>
@@ -43,12 +143,23 @@
             {% endfor %}
           </ul>
         {% endif %}
-        {% if card.link_label and url %}
-          <div class="home-card-link">
-            <a href="{{ url }}">{{ card.link_label }} →</a>
+        {% if card.links %}
+          <div class="home-card-links">
+            {% for link in card.links %}
+              {% assign link_url = link.url %}
+              {% unless link_url contains '://' %}
+                {% assign link_url = link_url | relative_url %}
+              {% endunless %}
+              <a href="{{ link_url }}">{{ link.label }} →</a>
+            {% endfor %}
           </div>
         {% endif %}
       </article>
     {% endfor %}
   </div>
+  {% if section.footer_link %}
+    <div class="home-section-footer">
+      <a href="{{ section.footer_link.url | relative_url }}" class="home-section-footer-link">{{ section.footer_link.label }} →</a>
+    </div>
+  {% endif %}
 {% endif %}

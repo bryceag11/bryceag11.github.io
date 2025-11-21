@@ -11,7 +11,8 @@
   function getDimensions(container) {
     const parentWidth = container.clientWidth || container.parentElement?.clientWidth || 1000;
     const parentHeight = container.clientHeight;
-    const computedHeight = parentHeight && parentHeight > 0 ? parentHeight : Math.round(parentWidth * 0.55); // More horizontal
+    // Make globe much larger - use 100% of width for height
+    const computedHeight = parentHeight && parentHeight > 0 ? parentHeight : Math.round(parentWidth * 1.0);
     return { width: parentWidth, height: computedHeight };
   }
 
@@ -89,9 +90,37 @@
     renderer.setSize(dims.width, dims.height);
     container.appendChild(renderer.domElement);
 
+    // Add controls UI - white text only, no background
+    const controlsDiv = document.createElement('div');
+    controlsDiv.style.cssText = 'position:absolute;top:10px;left:10px;z-index:10;display:flex;gap:10px;pointer-events:auto;';
+
+    const pauseButton = document.createElement('button');
+    pauseButton.textContent = 'Pause';
+    pauseButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:14px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+
+    const zoomInButton = document.createElement('button');
+    zoomInButton.textContent = '+';
+    zoomInButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+
+    const zoomOutButton = document.createElement('button');
+    zoomOutButton.textContent = '−';
+    zoomOutButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+
+    controlsDiv.appendChild(pauseButton);
+    controlsDiv.appendChild(zoomInButton);
+    controlsDiv.appendChild(zoomOutButton);
+    container.appendChild(controlsDiv);
+
+    // Add clock display - bottom right inside globe viewport, white text only
+    const clockDiv = document.createElement('div');
+    // Position relative to the actual rendered area with more padding from edges
+    clockDiv.style.cssText = `position:absolute;bottom:${dims.height - 80}px;left:${dims.width - 150}px;z-index:10;background:none;color:white;padding:0;border:none;font-family:monospace;font-size:14px;pointer-events:none;text-shadow:1px 1px 2px rgba(0,0,0,0.5);text-align:right;width:140px;`;
+    clockDiv.innerHTML = '<div id="utc-time"></div><div id="utc-date" style="font-size:12px;margin-top:4px;opacity:0.9;"></div>';
+    container.appendChild(clockDiv);
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, dims.width / dims.height, 0.1, 100);
-    camera.position.z = 3.2;
+    camera.position.z = 3.5; // More zoomed out initially
 
     // Different lighting for each mode
     const filmAmbient = new THREE.AmbientLight(0xffffff, 0.5); // Normal white light
@@ -304,6 +333,31 @@
     const globe = new THREE.Mesh(globeGeometry, filmShaderMaterial);
     scene.add(globe);
 
+    // Add time zone longitude lines (every 15 degrees = 1 hour)
+    const timeZoneLinesGroup = new THREE.Group();
+    for (let hour = 0; hour < 24; hour++) {
+      const longitude = (hour * 15 - 180) * (Math.PI / 180); // Convert to radians
+      const points = [];
+      for (let lat = -90; lat <= 90; lat += 5) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = longitude + Math.PI;
+        const radius = 1.005; // Slightly above globe surface
+        const x = -(radius * Math.sin(phi) * Math.cos(theta));
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+        const y = radius * Math.cos(phi);
+        points.push(new THREE.Vector3(x, y, z));
+      }
+      const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
+      const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.15
+      });
+      const line = new THREE.Line(lineGeometry, lineMaterial);
+      timeZoneLinesGroup.add(line);
+    }
+    scene.add(timeZoneLinesGroup);
+
     // Add initial film lighting
     scene.add(filmAmbient, filmDirectional);
 
@@ -362,8 +416,8 @@
       pinGroup.add(markerHead);
       pinGroup.add(markerStem);
 
-      // Position pin so it's mostly inserted
-      pinGroup.position.y = -0.035; // Push pin down into globe (inserted position)
+      // Position pin so it's fully inserted - only red ball visible
+      pinGroup.position.y = -0.06; // Push pin deep into globe so only head shows
 
       // Add pin group to container
       containerGroup.add(pinGroup);
@@ -382,8 +436,8 @@
         type,
         head: markerHead,
         pinGroup: pinGroup,
-        defaultY: -0.035,  // Inserted position
-        hoveredY: 0.01     // Pulled out position
+        defaultY: -0.06,  // Fully inserted - only ball visible
+        hoveredY: 0.02     // Pulled out position when hovered
       };
 
       markersGroup.add(containerGroup);
@@ -434,16 +488,55 @@
     let isDragging = false;
     let lastX = 0;
     let lastY = 0;
+    let isPaused = false;
+
+    // Zoom control functionality
+    zoomInButton.addEventListener('click', () => {
+      camera.position.z = Math.max(1.5, camera.position.z - 0.3);
+    });
+
+    zoomOutButton.addEventListener('click', () => {
+      camera.position.z = Math.min(5, camera.position.z + 0.3);
+    });
+
+    // Pause/resume functionality
+    pauseButton.addEventListener('click', () => {
+      isPaused = !isPaused;
+      if (isPaused) {
+        pauseButton.textContent = 'Play';
+        autoRotate = 0;
+      } else {
+        pauseButton.textContent = 'Pause';
+        autoRotate = 0.0015;
+      }
+    });
+
+    // Update clock function with date
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getUTCHours()).padStart(2, '0');
+      const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+      const year = now.getUTCFullYear();
+      const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(now.getUTCDate()).padStart(2, '0');
+      document.getElementById('utc-time').textContent = `${hours}:${minutes}:${seconds} UTC`;
+      document.getElementById('utc-date').textContent = `${year}-${month}-${day}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
     function animate() {
       requestAnimationFrame(animate);
-      if (!isDragging) {
+      if (!isDragging && !isPaused) {
         rotationY += autoRotate;
       }
       markersGroup.rotation.y = rotationY;
       markersGroup.rotation.x = rotationX;
       globe.rotation.y = rotationY;
       globe.rotation.x = rotationX;
+      timeZoneLinesGroup.rotation.y = rotationY;
+      timeZoneLinesGroup.rotation.x = rotationX;
       renderer.render(scene, camera);
     }
 
@@ -537,7 +630,7 @@
 
       tooltip.style.left = `${x}px`;
       tooltip.style.top = `${y}px`;
-      tooltip.style.transform = `translate(-50%, -120%)`;
+      tooltip.style.transform = `translate(-50%, 20%)`; // Below the pin
 
       // Enhanced tooltip with photo preview
       const userData = marker.userData;

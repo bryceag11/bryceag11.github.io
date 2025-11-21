@@ -8,10 +8,14 @@ author_profile: false
 
 {% assign photo = site.data.photography %}
 
+<div style="margin-bottom: 1rem;">
+  <a href="/" style="color: #1a237e; text-decoration: none; font-weight: 600; font-size: 0.95rem;">← Back to Main Page</a>
+</div>
+
 <div class="photography-hero">
   <div>
     <p class="photography-hero__eyebrow">35mm & Digital Photography</p>
-    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured. UNDER CONSTRUCTION</p>
+    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured</p>
     <div class="photography-cta">
       <a class="btn" href="#film-stories">35mm Stories</a>
       <a class="btn btn--outline" href="#digital-stories">Digital Series</a>

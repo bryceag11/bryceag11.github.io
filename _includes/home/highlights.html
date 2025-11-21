@@ -1,0 +1,48 @@
+{% assign highlights = site.data.home_highlights | default: [] %}
+{% if highlights.size > 0 %}
+<div class="home-highlight-gifs">
+  {% for highlight in highlights %}
+    {% assign media_src = highlight.media %}
+    {% if media_src %}
+      {% if media_src contains '://' %}
+        {% assign media_url = media_src %}
+      {% else %}
+        {% assign media_url = media_src | relative_url %}
+      {% endif %}
+    {% endif %}
+    <div class="home-highlight-gif">
+      {% assign first_link = highlight.links | first %}
+      {% assign highlight_link = nil %}
+      {% if first_link %}
+        {% assign highlight_link = first_link.url %}
+        {% unless highlight_link contains '://' %}
+          {% assign highlight_link = highlight_link | relative_url %}
+        {% endunless %}
+      {% endif %}
+      {% if highlight_link %}
+        <a class="home-highlight-gif__media" href="{{ highlight_link }}" target="_blank" rel="noopener">
+      {% else %}
+        <div class="home-highlight-gif__media">
+      {% endif %}
+        {% if highlight.media_type == 'video' %}
+          <video {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline>
+            <source src="{{ media_url }}" type="video/mp4">
+          </video>
+        {% else %}
+          <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
+        {% endif %}
+      {% if highlight_link %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+      <div class="home-highlight-gif__text">
+        <h3>{{ highlight.title }}</h3>
+        {% if highlight.description %}
+          <p>{{ highlight.description }}</p>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endif %}

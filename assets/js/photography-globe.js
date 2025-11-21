@@ -109,97 +109,117 @@
     const loader = new THREE.TextureLoader();
     loader.crossOrigin = 'anonymous';
 
-    // Use a public domain Earth texture
-    const earthTextureUrl = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg';
+    // Load day and night Earth textures
+    const earthDayUrl = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg';
+    const earthNightUrl = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_lights_2048.png';
+
     const earthTexture = loader.load(
-      earthTextureUrl,
-      () => console.log('Earth texture loaded'),
+      earthDayUrl,
+      () => console.log('Earth day texture loaded'),
       undefined,
       () => {
         console.log('Failed to load online texture, using procedural fallback');
-        // Fallback to procedural Earth
         createProceduralEarth();
       }
     );
 
-    // Film material with real Earth texture
-    const filmMaterial = new THREE.MeshStandardMaterial({
-      map: earthTexture,
-      color: 0xffffff,
-      roughness: 0.7,
-      metalness: 0.1,
-    });
+    const nightTexture = loader.load(
+      earthNightUrl,
+      () => console.log('Earth night lights texture loaded'),
+      undefined,
+      () => {
+        console.log('Failed to load night lights texture');
+      }
+    );
 
-    // Create day/night shader for digital mode
+    // Create day/night shader for both modes
     const vertexShader = `
       varying vec2 vUv;
-      varying vec3 vNormal;
-      varying vec3 vPosition;
 
       void main() {
         vUv = uv;
-        vNormal = normalize(normalMatrix * normal);
-        vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
     `;
 
     const fragmentShader = `
-      uniform sampler2D map;
-      uniform vec3 sunDirection;
-      uniform float time;
+      uniform sampler2D dayMap;
+      uniform sampler2D nightMap;
+      uniform float sunLongitude; // Sun's current longitude based on UTC time
+      uniform float sepiaAmount; // 0.0 = no sepia, 1.0 = full sepia
 
       varying vec2 vUv;
-      varying vec3 vNormal;
-      varying vec3 vPosition;
+
+      vec3 applySepia(vec3 color, float amount) {
+        // Sepia tone matrix
+        vec3 sepia;
+        sepia.r = dot(color, vec3(0.393, 0.769, 0.189));
+        sepia.g = dot(color, vec3(0.349, 0.686, 0.168));
+        sepia.b = dot(color, vec3(0.272, 0.534, 0.131));
+        return mix(color, sepia, amount);
+      }
 
       void main() {
-        vec4 texColor = texture2D(map, vUv);
-        vec3 normal = normalize(vNormal);
+        // Convert UV to longitude (-PI to PI)
+        // UV.x goes from 0 to 1, representing -180° to 180°
+        float longitude = (vUv.x - 0.5) * 2.0 * 3.14159265359;
 
-        // Calculate sun angle
-        float sunAngle = dot(normal, sunDirection);
+        // Calculate angular difference from sun position
+        float angleDiff = longitude - sunLongitude;
 
-        // Create smooth day/night transition
-        float dayAmount = smoothstep(-0.3, 0.3, sunAngle);
+        // Normalize angle difference to -PI to PI range
+        angleDiff = mod(angleDiff + 3.14159265359, 2.0 * 3.14159265359) - 3.14159265359;
 
-        // Day colors
-        vec3 dayColor = texColor.rgb;
+        // Day when angular difference is within ±90° of sun position
+        float halfPi = 3.14159265359 / 2.0;
+        float dayAmount = smoothstep(halfPi + 0.3, halfPi - 0.3, abs(angleDiff));
 
-        // Night colors (darker with city lights glow)
-        vec3 nightColor = texColor.rgb * 0.1;
-        nightColor += vec3(0.1, 0.08, 0.05) * (1.0 - dayAmount) * 0.5; // City lights
+        // Sample both textures
+        vec3 dayColor = texture2D(dayMap, vUv).rgb;
+        vec3 nightColor = texture2D(nightMap, vUv).rgb;
 
-        // Mix day and night
+        // Mix based on sun position
         vec3 finalColor = mix(nightColor, dayColor, dayAmount);
 
-        // Add atmosphere glow at terminator
-        float terminator = 1.0 - abs(sunAngle);
-        terminator = pow(terminator, 3.0);
-        finalColor += vec3(1.0, 0.6, 0.2) * terminator * 0.2;
+        // Apply sepia if requested
+        finalColor = applySepia(finalColor, sepiaAmount);
 
         gl_FragColor = vec4(finalColor, 1.0);
       }
     `;
 
-    // Calculate real-time sun position based on time
-    function getSunDirection() {
+    // Calculate sun's longitude based on current UTC time
+    // At UTC noon (12:00), sun is at Prime Meridian (0° longitude)
+    // At UTC midnight (0:00), sun is at antimeridian (180° or -180° longitude)
+    function getSunLongitude() {
       const now = new Date();
       const hours = now.getUTCHours() + now.getUTCMinutes() / 60;
-      const angle = (hours / 24) * Math.PI * 2 - Math.PI / 2;
-
-      return new THREE.Vector3(
-        Math.cos(angle),
-        0,
-        Math.sin(angle)
-      );
+      // Sun moves 360° in 24 hours = 15° per hour
+      // At hour 0 (midnight UTC) -> 180° (PI radians)
+      // At hour 12 (noon UTC) -> 0° (0 radians)
+      const longitude = ((12 - hours) / 12) * Math.PI;
+      return longitude;
     }
 
+    // Film material with sepia shader
+    const filmShaderMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        dayMap: { value: earthTexture },
+        nightMap: { value: nightTexture },
+        sunLongitude: { value: getSunLongitude() },
+        sepiaAmount: { value: 0.6 } // Light sepia for film
+      },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader
+    });
+
+    // Digital material without sepia
     const digitalMaterial = new THREE.ShaderMaterial({
       uniforms: {
-        map: { value: earthTexture },
-        sunDirection: { value: getSunDirection() },
-        time: { value: 0 }
+        dayMap: { value: earthTexture },
+        nightMap: { value: nightTexture },
+        sunLongitude: { value: getSunLongitude() },
+        sepiaAmount: { value: 0.0 } // No sepia for digital
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader
@@ -207,10 +227,12 @@
 
     // Update sun position every hour for realistic day/night cycle
     setInterval(() => {
-      if (digitalMaterial.uniforms) {
-        digitalMaterial.uniforms.sunDirection.value = getSunDirection();
+      if (filmShaderMaterial.uniforms && digitalMaterial.uniforms) {
+        const newLongitude = getSunLongitude();
+        filmShaderMaterial.uniforms.sunLongitude.value = newLongitude;
+        digitalMaterial.uniforms.sunLongitude.value = newLongitude;
       }
-    }, 3600000); // 1 hour
+    }, 120000); // 2 minutes for testing, change to 3600000 for 1 hour
 
     // Fallback procedural Earth function
     function createProceduralEarth() {
@@ -273,11 +295,13 @@
       ctx.fill();
 
       const fallbackTexture = new THREE.CanvasTexture(canvas);
-      filmMaterial.map = fallbackTexture;
-      filmMaterial.needsUpdate = true;
+      filmShaderMaterial.uniforms.dayMap.value = fallbackTexture;
+      filmShaderMaterial.uniforms.nightMap.value = fallbackTexture;
+      digitalMaterial.uniforms.dayMap.value = fallbackTexture;
+      digitalMaterial.uniforms.nightMap.value = fallbackTexture;
     }
 
-    const globe = new THREE.Mesh(globeGeometry, filmMaterial);
+    const globe = new THREE.Mesh(globeGeometry, filmShaderMaterial);
     scene.add(globe);
 
     // Add initial film lighting
@@ -349,8 +373,8 @@
       const position = latLngToVector3(coords.lat, coords.lng, 1.0); // On surface
       containerGroup.position.copy(position);
 
-      // Make the container face outward from globe center
-      containerGroup.lookAt(position.x * 2, position.y * 2, position.z * 2);
+      // Make the container face toward the Earth's core (origin)
+      containerGroup.lookAt(0, 0, 0);
 
       // Store data including the pin group for animation
       containerGroup.userData = {
@@ -373,24 +397,18 @@
     let currentMode = 'film';
     function setMode(mode) {
       currentMode = mode;
-      globe.material = mode === 'film' ? filmMaterial : digitalMaterial;
+      globe.material = mode === 'film' ? filmShaderMaterial : digitalMaterial;
 
       // Switch lighting and background based on mode
       if (mode === 'film') {
         scene.remove(digitalAmbient, digitalDirectional);
         scene.add(filmAmbient, filmDirectional);
         renderer.setClearColor(0x0a0a0a, 1.0); // Dark background
-
-        // Apply sepia filter overlay to the whole canvas
-        renderer.domElement.style.filter = 'sepia(0.8) contrast(1.2) brightness(0.9)';
       } else {
         // Digital mode - real-time day/night Earth
         scene.remove(filmAmbient, filmDirectional);
         scene.add(digitalAmbient, digitalDirectional);
         renderer.setClearColor(0x000000, 1.0); // Black space
-
-        // No filter for digital - let the shader handle it
-        renderer.domElement.style.filter = 'none';
       }
 
       markers.film.forEach((marker) => (marker.visible = mode === 'film'));

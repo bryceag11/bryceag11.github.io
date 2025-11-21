@@ -151,21 +151,141 @@ digital:
         caption: "Packard plant atrium scan."
       - src: "/assets/images/photography/digital-placeholder.svg"
         caption: "Coal tipple geometry."
-  - slug: us-national-parks
-    title: "US National Parks"
-    location: "Utah · Wyoming"
-    description: "Digital panoramas stitched from multi-row captures in Canyonlands, Yellowstone, and Arches."
+  - slug: haleakala
+    title: "Haleakalā National Park"
+    location: "Maui, Hawai'i"
+    description: "Volcanic crater sunrises and otherworldly landscapes above the clouds."
     camera: "Sony A7R III"
     coords:
-      lat: 38.5733
-      lng: -109.5498
+      lat: 20.7097
+      lng: -156.1720
     cover: "/assets/images/photography/digital-placeholder.svg"
     palette: ["#f97316", "#fde047"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Delicate Arch under lightning."
+        caption: "Crater rim at dawn."
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Grand Prismatic steam study."
+        caption: "Silversword plants."
+  - slug: mount-rainier
+    title: "Mount Rainier National Park"
+    location: "Washington"
+    description: "Alpine meadows and glacial peaks in the Pacific Northwest."
+    camera: "Sony A7R III"
+    coords:
+      lat: 46.8800
+      lng: -121.7269
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#60a5fa", "#e0f2fe"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Paradise meadows wildflowers."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Nisqually Glacier study."
+  - slug: crater-lake
+    title: "Crater Lake National Park"
+    location: "Oregon"
+    description: "The deepest lake in the US, ringed by volcanic cliffs and pristine blue waters."
+    camera: "Sony A7R III"
+    coords:
+      lat: 42.8684
+      lng: -122.1685
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#3b82f6", "#1e40af"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Wizard Island reflection."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Rim drive panorama."
+  - slug: olympic
+    title: "Olympic National Park"
+    location: "Washington"
+    description: "Temperate rainforests, rugged coastline, and mountain wilderness."
+    camera: "Sony A7R III"
+    coords:
+      lat: 47.8021
+      lng: -123.6044
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#10b981", "#065f46"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Hoh Rainforest moss."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Ruby Beach sea stacks."
+  - slug: banff
+    title: "Banff National Park"
+    location: "Alberta, Canada"
+    description: "Turquoise lakes, jagged peaks, and Canadian Rockies grandeur."
+    camera: "Sony A7R III"
+    coords:
+      lat: 51.4968
+      lng: -115.9281
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#06b6d4", "#0e7490"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Moraine Lake blue hour."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Peyto Lake overlook."
+  - slug: glacier-np
+    title: "Glacier National Park"
+    location: "Montana"
+    description: "Crown of the Continent with alpine lakes and Going-to-the-Sun Road."
+    camera: "Sony A7R III"
+    coords:
+      lat: 48.7596
+      lng: -113.7870
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#7dd3fc", "#0c4a6e"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Hidden Lake overlook."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Many Glacier sunrise."
+  - slug: sequoia
+    title: "Sequoia National Park"
+    location: "California"
+    description: "Giant sequoias and the largest trees on Earth towering in the Sierra Nevada."
+    camera: "Sony A7R III"
+    coords:
+      lat: 36.4864
+      lng: -118.5658
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#92400e", "#44403c"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "General Sherman Tree."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Giant Forest canopy."
+  - slug: redwood
+    title: "Redwood National Park"
+    location: "California"
+    description: "Ancient coastal redwoods and fog-draped forest cathedrals."
+    camera: "Sony A7R III"
+    coords:
+      lat: 41.2132
+      lng: -124.0046
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#14532d", "#15803d"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Fern Canyon walls."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Tall Trees Grove."
+  - slug: rocky-mountain
+    title: "Rocky Mountain National Park"
+    location: "Colorado"
+    description: "High alpine tundra, elk herds, and continental divide vistas."
+    camera: "Sony A7R III"
+    coords:
+      lat: 40.3428
+      lng: -105.6836
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#818cf8", "#4f46e5"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Bear Lake reflection."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Trail Ridge Road summit."
   - slug: china
     title: "China"
     location: "Shanghai & Shenzhen"
@@ -211,10 +331,55 @@ digital:
         caption: "Djemaa el-Fna rooftop."
       - src: "/assets/images/photography/digital-placeholder.svg"
         caption: "Merzouga dunes at dawn."
+  - slug: portugal
+    title: "Portugal"
+    location: "Lisbon & Porto"
+    description: "Azulejo tiles, tram lines, and golden hour over the Douro River."
+    camera: "Sony A7 IV"
+    coords:
+      lat: 38.7223
+      lng: -9.1393
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#0ea5e9", "#f59e0b"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Lisbon tram 28 study."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Porto riverside sunset."
+  - slug: costa-rica-panama
+    title: "Costa Rica & Panama"
+    location: "San José · Panama City"
+    description: "Cloud forests, canal locks, and vibrant street markets between two oceans."
+    camera: "Fujifilm X-T4"
+    coords:
+      lat: 9.7489
+      lng: -83.7534
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#10b981", "#059669"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Monteverde canopy walk."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Panama Canal transit."
+  - slug: belize-guatemala
+    title: "Belize & Guatemala"
+    location: "Belize City · Antigua"
+    description: "Mayan ruins, Caribbean coastlines, and volcanic landscapes in Central America."
+    camera: "Sony A7 III"
+    coords:
+      lat: 15.7835
+      lng: -90.2308
+    cover: "/assets/images/photography/digital-placeholder.svg"
+    palette: ["#14b8a6", "#0d9488"]
+    gallery:
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Tikal sunrise through fog."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Belize barrier reef."
   - slug: western-europe
     title: "Western Europe"
-    location: "Amsterdam · Zurich"
-    description: "Digital medium-format stitches dedicated to reflections, trains, and living with water."
+    location: "Amsterdam · Paris · Geneva · Berlin"
+    description: "Digital medium-format stitches dedicated to reflections, trains, and living with water across Europe's cultural capitals."
     camera: "GFX 50R"
     coords:
       lat: 52.3676
@@ -225,11 +390,13 @@ digital:
       - src: "/assets/images/photography/digital-placeholder.svg"
         caption: "Canal mirror lines."
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Zurich Hauptbahnhof frame."
+        caption: "Eiffel Tower dawn."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Geneva lake symmetry."
   - slug: central-eastern-europe
     title: "Central & Eastern Europe"
-    location: "Prague · Budapest · Kraków"
-    description: "Night walks with a wireframe aesthetic—mixing lidar captures with still photography."
+    location: "Prague · Kraków · Zakopane · Lviv · Kyiv · Rivne"
+    description: "Night walks with a wireframe aesthetic—mixing lidar captures with still photography across historic cities and mountain towns."
     camera: "Sony A7S III"
     coords:
       lat: 50.0755
@@ -240,4 +407,6 @@ digital:
       - src: "/assets/images/photography/digital-placeholder.svg"
         caption: "Charles Bridge lidar overlay."
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Budapest tram streak."
+        caption: "Tatra Mountains twilight."
+      - src: "/assets/images/photography/digital-placeholder.svg"
+        caption: "Kyiv golden domes."

@@ -630,7 +630,7 @@
 
       tooltip.style.left = `${x}px`;
       tooltip.style.top = `${y}px`;
-      tooltip.style.transform = `translate(-50%, 20%)`; // Below the pin
+      tooltip.style.transform = `translate(20px, -50%)`; // To the right of the pin
 
       // Enhanced tooltip with photo preview
       const userData = marker.userData;

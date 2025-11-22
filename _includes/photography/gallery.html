@@ -11,19 +11,44 @@
     </ul>
   </div>
 </section>
+
+{% comment %}
+If gallery array exists in YAML, use it.
+Otherwise, auto-discover images from folder: /assets/images/photography/{type}/{slug}/
+Folder should contain images like: 001.jpg, 002.jpg, etc.
+{% endcomment %}
+
 <div class="photo-gallery-grid">
-  {% for image in include.entry.gallery %}
-    {% assign img_src = image.src %}
-    {% if img_src %}
-      {% unless img_src contains '://' %}
-        {% assign img_src = img_src | relative_url %}
-      {% endunless %}
+  {% if include.entry.gallery and include.entry.gallery.size > 0 %}
+    {% comment %} Use gallery array from YAML {% endcomment %}
+    {% for image in include.entry.gallery %}
+      {% assign img_src = image.src %}
+      {% if img_src %}
+        {% unless img_src contains '://' %}
+          {% assign img_src = img_src | relative_url %}
+        {% endunless %}
+      {% endif %}
+      <figure>
+        <img src="{{ img_src }}" alt="{{ image.caption | escape }}" loading="lazy" decoding="async">
+        {% if image.caption and image.caption != "" %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
+      </figure>
+    {% endfor %}
+  {% else %}
+    {% comment %} Auto-discover images from folder {% endcomment %}
+    {% assign gallery_path = "/assets/images/photography/" | append: include.entry_type | append: "/" | append: include.entry.slug | append: "/" %}
+    {% assign static_files = site.static_files | where_exp: "file", "file.path contains gallery_path" %}
+    {% assign image_files = static_files | where_exp: "file", "file.extname == '.jpg' or file.extname == '.jpeg' or file.extname == '.png' or file.extname == '.webp'" | sort: "path" %}
+
+    {% if image_files.size > 0 %}
+      {% for image in image_files %}
+        <figure>
+          <img src="{{ image.path | relative_url }}" alt="{{ include.entry.title }}" loading="lazy" decoding="async">
+        </figure>
+      {% endfor %}
+    {% else %}
+      <p style="padding:2rem;text-align:center;color:#666;">No images found. Add images to <code>{{ gallery_path }}</code> or define gallery array in <code>_data/photography.yml</code></p>
     {% endif %}
-    <figure>
-      <img src="{{ img_src }}" alt="{{ image.caption | escape }}" loading="lazy" decoding="async">
-      {% if image.caption %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
-    </figure>
-  {% endfor %}
+  {% endif %}
 </div>
 {% else %}
 <p>The requested gallery could not be found. Please update <code>_data/photography.yml</code>.</p>

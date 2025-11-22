@@ -9,7 +9,11 @@
       "Bash(wsl pwd:*)",
       "Bash(wsl ls:*)",
       "Bash(ruby --version:*)",
-      "Bash(powershell.exe -Command \"ruby --version\")"
+      "Bash(powershell.exe -Command \"ruby --version\")",
+      "Bash(cat:*)",
+      "Bash(sed:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

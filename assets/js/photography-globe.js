@@ -131,20 +131,26 @@
     const digitalDirectional = new THREE.DirectionalLight(0x88aaff, 0.5); // Brighter moonlight
     digitalDirectional.position.set(-5, 3, 5);
 
-    // Create Earth globe with better geometry
-    const globeGeometry = new THREE.SphereGeometry(1, 128, 64);
+    // Create Earth globe with high-quality geometry
+    const globeGeometry = new THREE.SphereGeometry(1, 256, 128);
 
     // Load Earth texture from online source
     const loader = new THREE.TextureLoader();
     loader.crossOrigin = 'anonymous';
 
-    // Load day and night Earth textures
+    // Load high-quality day and night Earth textures
     const earthDayUrl = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg';
     const earthNightUrl = 'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_lights_2048.png';
 
     const earthTexture = loader.load(
       earthDayUrl,
-      () => console.log('Earth day texture loaded'),
+      (texture) => {
+        console.log('Earth day texture loaded');
+        // Improve texture quality
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+      },
       undefined,
       () => {
         console.log('Failed to load online texture, using procedural fallback');
@@ -154,7 +160,13 @@
 
     const nightTexture = loader.load(
       earthNightUrl,
-      () => console.log('Earth night lights texture loaded'),
+      (texture) => {
+        console.log('Earth night lights texture loaded');
+        // Improve texture quality
+        texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+      },
       undefined,
       () => {
         console.log('Failed to load night lights texture');
@@ -367,6 +379,8 @@
     // Create pin geometry (bright red ball head with silver stem)
     const markerHeadGeometry = new THREE.SphereGeometry(0.018, 16, 16);
     const markerStemGeometry = new THREE.CylinderGeometry(0.002, 0.003, 0.06, 8);
+    // Larger invisible hitbox for easier clicking
+    const hitboxGeometry = new THREE.SphereGeometry(0.035, 16, 16);
 
     // Materials for pins - bright red head, silver stem
     const markerHeadMaterial = new THREE.MeshStandardMaterial({
@@ -383,6 +397,13 @@
       emissiveIntensity: 0.1,
       metalness: 0.95,
       roughness: 0.05
+    });
+
+    // Invisible material for hitbox
+    const hitboxMaterial = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0,
+      depthWrite: false
     });
 
     const markerMap = new Map();
@@ -406,18 +427,26 @@
 
       // Create marker head (red sphere at TOP of pin)
       const markerHead = new THREE.Mesh(markerHeadGeometry.clone(), markerHeadMaterial.clone());
-      markerHead.position.y = 0; // Head at origin of pin
+      markerHead.position.set(0, 0, 0); // Head at origin of pin
+
+      // Create invisible hitbox for easier interaction
+      const hitbox = new THREE.Mesh(hitboxGeometry.clone(), hitboxMaterial.clone());
+      hitbox.position.set(0, 0, 0); // Same position as head
 
       // Create marker stem (silver cylinder going into Earth)
       const markerStem = new THREE.Mesh(markerStemGeometry.clone(), markerStemMaterial.clone());
-      markerStem.position.y = -0.03; // Half the stem height
+      markerStem.position.set(0, 0, -0.03); // Half the stem length along -Z (toward globe)
 
-      // Add both to the pin group
+      // Rotate stem to point along -Z axis (into globe)
+      markerStem.rotation.x = Math.PI / 2;
+
+      // Add all to the pin group
       pinGroup.add(markerHead);
+      pinGroup.add(hitbox);
       pinGroup.add(markerStem);
 
-      // Position pin so it's fully inserted - only red ball visible
-      pinGroup.position.y = -0.06; // Push pin deep into globe so only head shows
+      // Position pin so red ball is visible on surface, stem hidden inside
+      pinGroup.position.set(0, 0, 0); // Red ball on surface
 
       // Add pin group to container
       containerGroup.add(pinGroup);
@@ -427,8 +456,10 @@
       const position = latLngToVector3(coords.lat, coords.lng, 1.0); // On surface
       containerGroup.position.copy(position);
 
-      // Make the container face toward the Earth's core (origin)
-      containerGroup.lookAt(0, 0, 0);
+      // Make the container face AWAY from Earth's core (pin points inward)
+      // We need the +Z axis to point outward from globe
+      const outward = position.clone().normalize();
+      containerGroup.lookAt(outward.multiplyScalar(2).add(position));
 
       // Store data including the pin group for animation
       containerGroup.userData = {
@@ -436,8 +467,8 @@
         type,
         head: markerHead,
         pinGroup: pinGroup,
-        defaultY: -0.06,  // Fully inserted - only ball visible
-        hoveredY: 0.02     // Pulled out position when hovered
+        defaultZ: 0,      // Red ball visible on surface, stem hidden
+        hoveredZ: 0.08    // Pull out when hovered to show stem
       };
 
       markersGroup.add(containerGroup);
@@ -587,9 +618,9 @@
       if (!isDragging) {
         autoRotate = 0.0015;
         if (hoveredMarker) {
-          // Animate pin back down
+          // Animate pin back in
           if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.y = hoveredMarker.userData.defaultY;
+            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
           }
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
@@ -630,7 +661,19 @@
 
       tooltip.style.left = `${x}px`;
       tooltip.style.top = `${y}px`;
-      tooltip.style.transform = `translate(20px, -50%)`; // To the right of the pin
+
+      // Smart positioning - prefer right, but check if there's room
+      const tooltipWidth = 170; // Approximate tooltip width
+      const pinXInViewport = ((vector.x + 1) / 2) * rect.width;
+      const spaceOnRight = rect.width - pinXInViewport;
+
+      // If there's enough space on the right (prefer this), show to the right
+      // Otherwise, show to the left
+      if (spaceOnRight > tooltipWidth + 30) {
+        tooltip.style.transform = `translate(20px, -50%)`; // To the right of the pin
+      } else {
+        tooltip.style.transform = `translate(calc(-100% - 20px), -50%)`; // To the left of the pin
+      }
 
       // Enhanced tooltip with photo preview
       const userData = marker.userData;
@@ -676,7 +719,7 @@
         if (hoveredMarker && hoveredMarker !== pinGroup) {
           // Reset previous marker
           if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.y = hoveredMarker.userData.defaultY;
+            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
           }
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
@@ -687,7 +730,7 @@
 
         // Animate pin pulling out
         if (hoveredMarker.userData.pinGroup) {
-          hoveredMarker.userData.pinGroup.position.y = hoveredMarker.userData.hoveredY;
+          hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.hoveredZ;
         }
 
         // Make the head glow more when hovered
@@ -699,9 +742,9 @@
         updateTooltip(hoveredMarker);
       } else if (!isDragging) {
         if (hoveredMarker) {
-          // Animate pin back down
+          // Animate pin back in
           if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.y = hoveredMarker.userData.defaultY;
+            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
           }
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;

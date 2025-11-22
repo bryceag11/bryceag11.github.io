@@ -2,8 +2,8 @@ film:
   - slug: fall-2019
     title: "Fall 2019"
     location: "Lexington, Kentucky"
-    description: "My first dedicated 35mm project—a study in grain, late harvest light, and the cables that crisscross industrial yards."
-    camera: "Canon AE-1 · Kodak Portra 400"
+    description: "Adventures from freshman year"
+    camera: "Minolta SRT 101"
     coords:
       lat: 38.0406
       lng: -84.5037
@@ -11,14 +11,14 @@ film:
     palette: ["#f59e0b", "#c026d3"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Switchyard lines at dusk."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Detail study in rust + glass."
+        caption: ""
   - slug: rodchenko-inspiration
     title: "Rodchenko Inspiration"
     location: "Moscow, Russia"
-    description: "Pulled from my Russian Culture final project—recreating Rodchenko angles with modern architecture and brutalist stairs."
-    camera: "Pentax K1000 · Ilford HP5"
+    description: "Pulled from my Russian Culture final project: recreating Rodchenko photography bru"
+    camera: "Minolta SRT 101 · Ilford HP5"
     coords:
       lat: 55.7558
       lng: 37.6173
@@ -26,14 +26,14 @@ film:
     palette: ["#334155", "#94a3b8"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Subway descent shot with a 28mm lens."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Diagonal skylines inspired by Rodchenko."
+        caption: ""
   - slug: atl
     title: "ATL"
     location: "Atlanta, Georgia"
     description: "Transit pylons, MARTA shadows, and the soft neon of the BeltLine."
-    camera: "Canon AE-1 · Cinestill 800T"
+    camera: "Minolta SRT 101 · Cinestill 800T"
     coords:
       lat: 33.749
       lng: -84.388
@@ -41,14 +41,14 @@ film:
     palette: ["#fb7185", "#fcd34d"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Midtown traffic study."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Blue hour reflections."
+        caption: ""
   - slug: maui
     title: "Maui"
     location: "Maui, Hawai'i"
     description: "Salt-stained cameras, volcano hikes, and the sound of waves on 35mm."
-    camera: "Olympus XA · Kodak Ektar 100"
+    camera: "Minolta SRT 101 · Kodak Ektar 100"
     coords:
       lat: 20.7984
       lng: -156.3319
@@ -56,14 +56,14 @@ film:
     palette: ["#0ea5e9", "#38bdf8"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Haleakalā sunrise."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Paia surf break."
+        caption: ""
   - slug: berlin
     title: "Berlin"
     location: "Berlin, Germany"
     description: "Textures from Kreuzberg to the Brandenburg Gate, mixing Bauhaus lines with candid portraits."
-    camera: "Canon AE-1 · Kodak Gold"
+    camera: "Minolta SRT 101 · Kodak Gold"
     coords:
       lat: 52.52
       lng: 13.405
@@ -71,14 +71,14 @@ film:
     palette: ["#2563eb", "#ef4444"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Tempelhofer Feld silhouettes."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Neukölln stairwells."
+        caption: ""
   - slug: france
     title: "France"
     location: "Paris + Lyon"
     description: "A study on cafe stillness, metro motion blur, and industrial coastlines."
-    camera: "Canon AE-1 · Fuji Pro 400H"
+    camera: "Minolta SRT 101 · Fuji Pro 400H"
     coords:
       lat: 48.8566
       lng: 2.3522
@@ -86,14 +86,14 @@ film:
     palette: ["#f472b6", "#c084fc"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Pont Neuf long exposure."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Lyon rail yard."
+        caption: ""
   - slug: poland
     title: "Poland"
     location: "Warsaw, Poland"
     description: "Concrete, color blocking, and everyday poetry while documenting the Vistula."
-    camera: "Pentax K1000 · Ilford Delta 400"
+    camera: "Minolta SRT 101 · Ilford Delta 400"
     coords:
       lat: 52.2297
       lng: 21.0122
@@ -101,14 +101,14 @@ film:
     palette: ["#a855f7", "#6366f1"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Science Palace symmetry study."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Foggy Vistula morning."
+        caption: ""
   - slug: ukraine
     title: "Ukraine"
     location: "Kyiv & Lviv"
     description: "Documenting resilience through portrait sessions and architectural fragments."
-    camera: "Canon AE-1 · Kodak Tri-X"
+    camera: "Minolta SRT 101 · Kodak Tri-X"
     coords:
       lat: 50.4501
       lng: 30.5234
@@ -116,14 +116,14 @@ film:
     palette: ["#fb923c", "#fcd34d"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Golden hour in Podil."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Opera house scaffolding."
+        caption: ""
   - slug: pnw
     title: "PNW"
     location: "Pacific Northwest"
     description: "Foggy evergreen mornings, ferries, and the color of drizzle."
-    camera: "Nikon FM2 · Kodak Ultramax"
+    camera: "Minolta SRT 101 · Kodak Ultramax"
     coords:
       lat: 47.6062
       lng: -122.3321
@@ -131,16 +131,61 @@ film:
     palette: ["#0ea5e9", "#a7f3d0"]
     gallery:
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Puget Sound ferry ride."
+        caption: ""
       - src: "/assets/images/photography/film-placeholder.svg"
-        caption: "Columbia River Gorge overlook."
+        caption: ""
+  - slug: mount-rainier-film
+    title: "Mount Rainier"
+    location: "Washington"
+    description: "Alpine wildflowers and marmots"
+    # camera: "Canon AE1 · Kodak Portra 160"
+    coords:
+      lat: 46.8800
+      lng: -121.7269
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#60a5fa", "#e0f2fe"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
+  - slug: banff-film
+    title: "Banff"
+    location: "Alberta, Canada"
+    description: "Canadian Rockies captured on film—turquoise lakes and towering peaks."
+    camera: "Minolta SRT 101 · Kodak Ektar 100"
+    coords:
+      lat: 51.4968
+      lng: -115.9281
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#06b6d4", "#0e7490"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
+  - slug: glacier-film
+    title: "Glacier"
+    location: "Montana"
+    description: "Going-to-the-Sun Road and alpine lakes on film stock."
+    camera: "Minolta SRT 101 · Fuji Provia 100F"
+    coords:
+      lat: 48.7596
+      lng: -113.7870
+    cover: "/assets/images/photography/film-placeholder.svg"
+    palette: ["#7dd3fc", "#0c4a6e"]
+    gallery:
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
+      - src: "/assets/images/photography/film-placeholder.svg"
+        caption: ""
 
 digital:
   - slug: us-abandoned
     title: "US Abandoned"
-    location: "Detroit · Appalachia"
-    description: "Infrared-inspired digital set exploring abandoned manufacturing sites."
-    camera: "Sony A7 IV"
+    location: "All over"
+    description: "Urbex"
+    camera: "iPhone"
     coords:
       lat: 42.3314
       lng: -83.0458
@@ -148,14 +193,14 @@ digital:
     palette: ["#22d3ee", "#0f172a"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Packard plant atrium scan."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Coal tipple geometry."
+        caption: ""
   - slug: haleakala
     title: "Haleakalā National Park"
     location: "Maui, Hawai'i"
     description: "Volcanic crater sunrises and otherworldly landscapes above the clouds."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 20.7097
       lng: -156.1720
@@ -163,14 +208,14 @@ digital:
     palette: ["#f97316", "#fde047"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Crater rim at dawn."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Silversword plants."
+        caption: ""
   - slug: mount-rainier
     title: "Mount Rainier National Park"
     location: "Washington"
     description: "Alpine meadows and glacial peaks in the Pacific Northwest."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 46.8800
       lng: -121.7269
@@ -178,14 +223,14 @@ digital:
     palette: ["#60a5fa", "#e0f2fe"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Paradise meadows wildflowers."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Nisqually Glacier study."
+        caption: ""
   - slug: crater-lake
     title: "Crater Lake National Park"
     location: "Oregon"
     description: "The deepest lake in the US, ringed by volcanic cliffs and pristine blue waters."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 42.8684
       lng: -122.1685
@@ -193,14 +238,14 @@ digital:
     palette: ["#3b82f6", "#1e40af"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Wizard Island reflection."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Rim drive panorama."
+        caption: ""
   - slug: olympic
     title: "Olympic National Park"
     location: "Washington"
     description: "Temperate rainforests, rugged coastline, and mountain wilderness."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 47.8021
       lng: -123.6044
@@ -208,14 +253,14 @@ digital:
     palette: ["#10b981", "#065f46"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Hoh Rainforest moss."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Ruby Beach sea stacks."
+        caption: ""
   - slug: banff
     title: "Banff National Park"
     location: "Alberta, Canada"
     description: "Turquoise lakes, jagged peaks, and Canadian Rockies grandeur."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 51.4968
       lng: -115.9281
@@ -223,14 +268,14 @@ digital:
     palette: ["#06b6d4", "#0e7490"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Moraine Lake blue hour."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Peyto Lake overlook."
+        caption: ""
   - slug: glacier-np
     title: "Glacier National Park"
     location: "Montana"
     description: "Crown of the Continent with alpine lakes and Going-to-the-Sun Road."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 48.7596
       lng: -113.7870
@@ -238,14 +283,14 @@ digital:
     palette: ["#7dd3fc", "#0c4a6e"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Hidden Lake overlook."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Many Glacier sunrise."
+        caption: ""
   - slug: sequoia
     title: "Sequoia National Park"
     location: "California"
     description: "Giant sequoias and the largest trees on Earth towering in the Sierra Nevada."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 36.4864
       lng: -118.5658
@@ -253,14 +298,14 @@ digital:
     palette: ["#92400e", "#44403c"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "General Sherman Tree."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Giant Forest canopy."
+        caption: ""
   - slug: redwood
     title: "Redwood National Park"
     location: "California"
     description: "Ancient coastal redwoods and fog-draped forest cathedrals."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 41.2132
       lng: -124.0046
@@ -268,14 +313,14 @@ digital:
     palette: ["#14532d", "#15803d"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Fern Canyon walls."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Tall Trees Grove."
+        caption: ""
   - slug: rocky-mountain
     title: "Rocky Mountain National Park"
     location: "Colorado"
     description: "High alpine tundra, elk herds, and continental divide vistas."
-    camera: "Sony A7R III"
+    camera: "iPhone"
     coords:
       lat: 40.3428
       lng: -105.6836
@@ -283,14 +328,14 @@ digital:
     palette: ["#818cf8", "#4f46e5"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Bear Lake reflection."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Trail Ridge Road summit."
+        caption: ""
   - slug: china
     title: "China"
     location: "Shanghai & Shenzhen"
     description: "Architecture, street food vendors, and ferry commutes captured during robotics exchange trips."
-    camera: "Fujifilm X-Pro3"
+    camera: "iPhone"
     coords:
       lat: 31.2304
       lng: 121.4737
@@ -298,14 +343,14 @@ digital:
     palette: ["#14b8a6", "#115e59"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Bund skyline reflection."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Shenzhen manufacturing floors."
+        caption: ""
   - slug: japan
     title: "Japan"
     location: "Tokyo & Kyoto"
     description: "A mix of neon alleys, Shinkansen pans, and quiet temples."
-    camera: "Fujifilm X100V"
+    camera: "iPhone"
     coords:
       lat: 35.6762
       lng: 139.6503
@@ -313,14 +358,14 @@ digital:
     palette: ["#f472b6", "#d946ef"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Shibuya crossing long exposure."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Arashiyama bamboo groove."
+        caption: ""
   - slug: morocco
     title: "Morocco"
     location: "Marrakesh & Sahara"
     description: "Dust storms, Atlas mountain roads, and sunrise dunes in rich desert palettes."
-    camera: "Sony A7 III"
+    camera: "iPhone"
     coords:
       lat: 31.6295
       lng: -7.9811
@@ -328,14 +373,14 @@ digital:
     palette: ["#f97316", "#ea580c"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Djemaa el-Fna rooftop."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Merzouga dunes at dawn."
+        caption: ""
   - slug: portugal
     title: "Portugal"
     location: "Lisbon & Porto"
     description: "Azulejo tiles, tram lines, and golden hour over the Douro River."
-    camera: "Sony A7 IV"
+    camera: "iPhone"
     coords:
       lat: 38.7223
       lng: -9.1393
@@ -343,14 +388,14 @@ digital:
     palette: ["#0ea5e9", "#f59e0b"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Lisbon tram 28 study."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Porto riverside sunset."
+        caption: ""
   - slug: costa-rica-panama
     title: "Costa Rica & Panama"
     location: "San José · Panama City"
     description: "Cloud forests, canal locks, and vibrant street markets between two oceans."
-    camera: "Fujifilm X-T4"
+    camera: "iPhone"
     coords:
       lat: 9.7489
       lng: -83.7534
@@ -358,14 +403,14 @@ digital:
     palette: ["#10b981", "#059669"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Monteverde canopy walk."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Panama Canal transit."
+        caption: ""
   - slug: belize-guatemala
     title: "Belize & Guatemala"
     location: "Belize City · Antigua"
     description: "Mayan ruins, Caribbean coastlines, and volcanic landscapes in Central America."
-    camera: "Sony A7 III"
+    camera: "iPhone"
     coords:
       lat: 15.7835
       lng: -90.2308
@@ -373,14 +418,14 @@ digital:
     palette: ["#14b8a6", "#0d9488"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Tikal sunrise through fog."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Belize barrier reef."
+        caption: ""
   - slug: western-europe
     title: "Western Europe"
     location: "Amsterdam · Paris · Geneva · Berlin"
     description: "Digital medium-format stitches dedicated to reflections, trains, and living with water across Europe's cultural capitals."
-    camera: "GFX 50R"
+    camera: "iPhone"
     coords:
       lat: 52.3676
       lng: 4.9041
@@ -388,16 +433,16 @@ digital:
     palette: ["#7dd3fc", "#1d4ed8"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Canal mirror lines."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Eiffel Tower dawn."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Geneva lake symmetry."
+        caption: ""
   - slug: central-eastern-europe
     title: "Central & Eastern Europe"
     location: "Prague · Kraków · Zakopane · Lviv · Kyiv · Rivne"
     description: "Night walks with a wireframe aesthetic—mixing lidar captures with still photography across historic cities and mountain towns."
-    camera: "Sony A7S III"
+    camera: "iPhone"
     coords:
       lat: 50.0755
       lng: 14.4378
@@ -405,8 +450,8 @@ digital:
     palette: ["#06b6d4", "#0f172a"]
     gallery:
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Charles Bridge lidar overlay."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Tatra Mountains twilight."
+        caption: ""
       - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: "Kyiv golden domes."
+        caption: ""

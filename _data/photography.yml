@@ -62,78 +62,53 @@ film:
   - slug: berlin
     title: "Berlin"
     location: "Berlin, Germany"
-    description: "Textures from Kreuzberg to the Brandenburg Gate, mixing Bauhaus lines with candid portraits."
+    description: "Kreuzberg & Brutalist Architecture"
     camera: "Minolta SRT 101 · Kodak Gold"
     coords:
       lat: 52.52
       lng: 13.405
-    cover: "/assets/images/photography/film-placeholder.svg"
+    cover: "assets/images/photography/film/berlin/4332-14.jpg"
     palette: ["#2563eb", "#ef4444"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
   - slug: france
     title: "France"
-    location: "Paris + Lyon"
-    description: "A study on cafe stillness, metro motion blur, and industrial coastlines."
+    location: "Paris + Versaille"
+    description: "Winter in Paris"
     camera: "Minolta SRT 101 · Fuji Pro 400H"
     coords:
       lat: 48.8566
       lng: 2.3522
-    cover: "/assets/images/photography/film-placeholder.svg"
+    cover: "assets/images/photography/film/france/4334-06.jpg"
     palette: ["#f472b6", "#c084fc"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
   - slug: poland
     title: "Poland"
-    location: "Warsaw, Poland"
-    description: "Concrete, color blocking, and everyday poetry while documenting the Vistula."
+    location: "Krakow, Poland"
+    description: "Krakow."
     camera: "Minolta SRT 101 · Ilford Delta 400"
     coords:
       lat: 52.2297
       lng: 21.0122
-    cover: "/assets/images/photography/film-placeholder.svg"
+    cover: "assets/images/photography/film/poland/IMG_4152.jpg"
     palette: ["#a855f7", "#6366f1"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
   - slug: ukraine
     title: "Ukraine"
     location: "Kyiv & Lviv"
-    description: "Documenting resilience through portrait sessions and architectural fragments."
+    description: "Epicenter of brutalist urbex"
     camera: "Minolta SRT 101 · Kodak Tri-X"
     coords:
       lat: 50.4501
       lng: 30.5234
-    cover: "/assets/images/photography/film-placeholder.svg"
+    cover: "assets/images/photography/film/ukraine/Scape.jpg"
     palette: ["#fb923c", "#fcd34d"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
   - slug: pnw
     title: "PNW"
     location: "Pacific Northwest"
-    description: "Foggy evergreen mornings, ferries, and the color of drizzle."
+    description: "PNW love letter"
     camera: "Minolta SRT 101 · Kodak Ultramax"
     coords:
       lat: 47.6062
       lng: -122.3321
-    cover: "/assets/images/photography/film-placeholder.svg"
+    cover: "assets/images/photography/film/pnw/17.jpg"
     palette: ["#0ea5e9", "#a7f3d0"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
   - slug: mount-rainier-film
     title: "Mount Rainier"
     location: "Washington"
@@ -152,7 +127,7 @@ film:
   - slug: banff-film
     title: "Banff"
     location: "Alberta, Canada"
-    description: "Canadian Rockies captured on film—turquoise lakes and towering peaks."
+    description: "Banff & Yoho"
     camera: "Minolta SRT 101 · Kodak Ektar 100"
     coords:
       lat: 51.4968
@@ -167,7 +142,7 @@ film:
   - slug: glacier-film
     title: "Glacier"
     location: "Montana"
-    description: "Going-to-the-Sun Road and alpine lakes on film stock."
+    description: "Going-to-the-Sun Road and alpine lakes"
     camera: "Minolta SRT 101 · Fuji Provia 100F"
     coords:
       lat: 48.7596

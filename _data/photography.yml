@@ -1,432 +1,209 @@
 film:
-  - slug: fall-2019
-    title: "Fall 2019"
-    location: "Lexington, Kentucky"
-    description: "Adventures from freshman year"
-    camera: "Minolta SRT 101"
-    coords:
-      lat: 38.0406
-      lng: -84.5037
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#f59e0b", "#c026d3"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: rodchenko-inspiration
-    title: "Rodchenko Inspiration"
-    location: "Moscow, Russia"
-    description: "Pulled from my Russian Culture final project: recreating Rodchenko photography bru"
-    camera: "Minolta SRT 101 · Ilford HP5"
-    coords:
-      lat: 55.7558
-      lng: 37.6173
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#334155", "#94a3b8"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: atl
-    title: "ATL"
-    location: "Atlanta, Georgia"
-    description: "Transit pylons, MARTA shadows, and the soft neon of the BeltLine."
-    camera: "Minolta SRT 101 · Cinestill 800T"
-    coords:
-      lat: 33.749
-      lng: -84.388
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#fb7185", "#fcd34d"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: maui
-    title: "Maui"
-    location: "Maui, Hawai'i"
-    description: "Salt-stained cameras, volcano hikes, and the sound of waves on 35mm."
-    camera: "Minolta SRT 101 · Kodak Ektar 100"
-    coords:
-      lat: 20.7984
-      lng: -156.3319
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#0ea5e9", "#38bdf8"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: berlin
-    title: "Berlin"
-    location: "Berlin, Germany"
-    description: "Kreuzberg & Brutalist Architecture"
-    camera: "Minolta SRT 101 · Kodak Gold"
-    coords:
-      lat: 52.52
-      lng: 13.405
-    cover: "assets/images/photography/film/berlin/4332-14.jpg"
-    palette: ["#2563eb", "#ef4444"]
-  - slug: france
-    title: "France"
-    location: "Paris + Versaille"
-    description: "Winter in Paris"
-    camera: "Minolta SRT 101 · Fuji Pro 400H"
-    coords:
-      lat: 48.8566
-      lng: 2.3522
-    cover: "assets/images/photography/film/france/4334-06.jpg"
-    palette: ["#f472b6", "#c084fc"]
-  - slug: poland
-    title: "Poland"
-    location: "Krakow, Poland"
-    description: "Krakow."
-    camera: "Minolta SRT 101 · Ilford Delta 400"
-    coords:
-      lat: 52.2297
-      lng: 21.0122
-    cover: "assets/images/photography/film/poland/IMG_4152.jpg"
-    palette: ["#a855f7", "#6366f1"]
-  - slug: ukraine
-    title: "Ukraine"
-    location: "Kyiv & Lviv"
-    description: "Epicenter of brutalist urbex"
-    camera: "Minolta SRT 101 · Kodak Tri-X"
-    coords:
-      lat: 50.4501
-      lng: 30.5234
-    cover: "assets/images/photography/film/ukraine/Scape.jpg"
-    palette: ["#fb923c", "#fcd34d"]
   - slug: pnw
     title: "PNW"
     location: "Pacific Northwest"
     description: "PNW love letter"
-    camera: "Minolta SRT 101 · Kodak Ultramax"
+    camera: "Minolta SRT 101"
     coords:
       lat: 47.6062
       lng: -122.3321
     cover: "assets/images/photography/film/pnw/17.jpg"
     palette: ["#0ea5e9", "#a7f3d0"]
-  - slug: mount-rainier-film
-    title: "Mount Rainier"
-    location: "Washington"
-    description: "Alpine wildflowers and marmots"
-    # camera: "Canon AE1 · Kodak Portra 160"
+  - slug: home
+    title: "Home"
+    location: "Kentucky"
+    description: "Adventures from home"
+    camera: "Minolta SRT 101"
     coords:
-      lat: 46.8800
-      lng: -121.7269
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#60a5fa", "#e0f2fe"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: banff-film
-    title: "Banff"
-    location: "Alberta, Canada"
-    description: "Banff & Yoho"
-    camera: "Minolta SRT 101 · Kodak Ektar 100"
+      lat: 38.0406
+      lng: -84.5037
+    cover: "assets/images/photography/film/home/20200511_030244505_iOS.jpg"
+    palette: ["#f59e0b", "#c026d3"]
+  - slug: atl
+    title: "ATL"
+    location: "Atlanta, Georgia"
+    description: "Southernplayalisticadillacmuzik"
+    camera: "Minolta SRT 101"
     coords:
-      lat: 51.4968
-      lng: -115.9281
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#06b6d4", "#0e7490"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-  - slug: glacier-film
-    title: "Glacier"
-    location: "Montana"
-    description: "Going-to-the-Sun Road and alpine lakes"
-    camera: "Minolta SRT 101 · Fuji Provia 100F"
+      lat: 33.749
+      lng: -84.388
+    cover: "assets/images/photography/film/atl/28-8086-03_Original.JPG"
+    palette: ["#fb7185", "#fcd34d"]
+  - slug: hawaii-film
+    title: "Hawaii"
+    location: "Maui, Kauai"
+    description: "Humuhumunukunukuapua'a"
+    camera: "Minolta SRT 101"
     coords:
-      lat: 48.7596
-      lng: -113.7870
-    cover: "/assets/images/photography/film-placeholder.svg"
-    palette: ["#7dd3fc", "#0c4a6e"]
-    gallery:
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/film-placeholder.svg"
-        caption: ""
+      lat: 20.7984
+      lng: -156.3319
+    cover: "assets/images/photography/film/hawaii-film/20201228_201731000_iOS.jpg"
+    palette: ["#0ea5e9", "#38bdf8"]
+  - slug: france
+    title: "France"
+    location: "Paris, Versailles"
+    description: "Winter in Paris"
+    camera: "Minolta SRT 101 · Fuji Pro 400H"
+    coords:
+      lat: 48.8566
+      lng: 2.3522
+    cover: "assets/images/photography/film/france/20240204_141834000_iOS.jpg"
+    palette: ["#f472b6", "#c084fc"]
+  - slug: germany
+    title: "Germany"
+    location: "Berlin"
+    description: "King of Kreuzberg"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 52.52
+      lng: 13.405
+    cover: "assets/images/photography/film/germany/20240126_024944096_iOS.jpg"
+    palette: ["#2563eb", "#ef4444"]
+  - slug: ukraine
+    title: "Ukraine"
+    location: "Lviv, Kyiv, Rivne"
+    description: "Brutalism at its finest"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 50.4501
+      lng: 30.5234
+    cover: "assets/images/photography/film/ukraine/20190902_021759521_iOS.jpg"
+    palette: ["#fb923c", "#fcd34d"]
+  - slug: poland
+    title: "Poland"
+    location: "Tatras, Krakow"
+    description: "Wok!"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 50.0614
+      lng: 19.9372
+    cover: "assets/images/photography/film/poland/20190902_021835234_iOS.jpg"
+    palette: ["#a855f7", "#6366f1"]
 
 digital:
-  - slug: us-abandoned
-    title: "US Abandoned"
-    location: "All over"
-    description: "Urbex"
-    camera: "iPhone"
+  - slug: washington
+    title: "Washington"
+    location: "PNW + Natl. Parks"
+    description: "Rainier + Olympic"
     coords:
-      lat: 42.3314
-      lng: -83.0458
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#22d3ee", "#0f172a"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: haleakala
-    title: "Haleakalā National Park"
-    location: "Maui, Hawai'i"
-    description: "Volcanic crater sunrises and otherworldly landscapes above the clouds."
-    camera: "iPhone"
-    coords:
-      lat: 20.7097
-      lng: -156.1720
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#f97316", "#fde047"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: mount-rainier
-    title: "Mount Rainier National Park"
-    location: "Washington"
-    description: "Alpine meadows and glacial peaks in the Pacific Northwest."
-    camera: "iPhone"
-    coords:
-      lat: 46.8800
-      lng: -121.7269
-    cover: "/assets/images/photography/digital-placeholder.svg"
+      lat: 47.6062
+      lng: -122.3321
+    cover: "assets/images/photography/digital/washington/20240713_194412495_iOS.jpg"
     palette: ["#60a5fa", "#e0f2fe"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: crater-lake
-    title: "Crater Lake National Park"
-    location: "Oregon"
-    description: "The deepest lake in the US, ringed by volcanic cliffs and pristine blue waters."
-    camera: "iPhone"
+  - slug: oregon
+    title: "Oregon"
+    location: "PNW + Natl. Parks"
+    description: "Crater Lake + PCH +  Portland"
     coords:
-      lat: 42.8684
-      lng: -122.1685
-    cover: "/assets/images/photography/digital-placeholder.svg"
+      lat: 45.5152
+      lng: -122.6784
+    cover: "assets/images/photography/digital/oregon/20060701_041431000_iOS.jpg"
     palette: ["#3b82f6", "#1e40af"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: olympic
-    title: "Olympic National Park"
-    location: "Washington"
-    description: "Temperate rainforests, rugged coastline, and mountain wilderness."
-    camera: "iPhone"
+  - slug: california
+    title: "California"
+    location: "PCH + Natl. Parks"
+    description: "PCH + Sequoia + Redwood."
     coords:
-      lat: 47.8021
-      lng: -123.6044
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#10b981", "#065f46"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: banff
-    title: "Banff National Park"
-    location: "Alberta, Canada"
-    description: "Turquoise lakes, jagged peaks, and Canadian Rockies grandeur."
-    camera: "iPhone"
-    coords:
-      lat: 51.4968
-      lng: -115.9281
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#06b6d4", "#0e7490"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: glacier-np
-    title: "Glacier National Park"
-    location: "Montana"
-    description: "Crown of the Continent with alpine lakes and Going-to-the-Sun Road."
-    camera: "iPhone"
-    coords:
-      lat: 48.7596
-      lng: -113.7870
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#7dd3fc", "#0c4a6e"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: sequoia
-    title: "Sequoia National Park"
-    location: "California"
-    description: "Giant sequoias and the largest trees on Earth towering in the Sierra Nevada."
-    camera: "iPhone"
-    coords:
-      lat: 36.4864
-      lng: -118.5658
-    cover: "/assets/images/photography/digital-placeholder.svg"
+      lat: 36.2704
+      lng: -121.8081
+    cover: "assets/images/photography/digital/california/20231001_011220418_iOS.jpg"
     palette: ["#92400e", "#44403c"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: redwood
-    title: "Redwood National Park"
-    location: "California"
-    description: "Ancient coastal redwoods and fog-draped forest cathedrals."
-    camera: "iPhone"
+  - slug: hawaii
+    title: "Hawaii"
+    location: "Kauai, Maui"
+    description: "Na Pali + Haleakala"
     coords:
-      lat: 41.2132
-      lng: -124.0046
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#14532d", "#15803d"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: rocky-mountain
-    title: "Rocky Mountain National Park"
-    location: "Colorado"
-    description: "High alpine tundra, elk herds, and continental divide vistas."
-    camera: "iPhone"
-    coords:
-      lat: 40.3428
-      lng: -105.6836
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#818cf8", "#4f46e5"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: china
-    title: "China"
-    location: "Shanghai & Shenzhen"
-    description: "Architecture, street food vendors, and ferry commutes captured during robotics exchange trips."
-    camera: "iPhone"
-    coords:
-      lat: 31.2304
-      lng: 121.4737
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#14b8a6", "#115e59"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
+      lat: 20.7984
+      lng: -156.3319
+    cover: "assets/images/photography/digital/hawaii/20201209_211122000_iOS.jpg"
+    palette: ["#f97316", "#fde047"]
   - slug: japan
     title: "Japan"
-    location: "Tokyo & Kyoto"
-    description: "A mix of neon alleys, Shinkansen pans, and quiet temples."
-    camera: "iPhone"
+    location: "Tokyo, Kyoto, Osaka"
+    description: "kirby train kirby train kirby train"
     coords:
       lat: 35.6762
       lng: 139.6503
-    cover: "/assets/images/photography/digital-placeholder.svg"
+    cover: "assets/images/photography/digital/japan/20251026_032526548_iOS.jpg"
     palette: ["#f472b6", "#d946ef"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: morocco
-    title: "Morocco"
-    location: "Marrakesh & Sahara"
-    description: "Dust storms, Atlas mountain roads, and sunrise dunes in rich desert palettes."
-    camera: "iPhone"
+  - slug: china
+    title: "China"
+    location: "Hangzhou, Shanghai"
+    description: "SKAI ISYOURGOD"
     coords:
-      lat: 31.6295
-      lng: -7.9811
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#f97316", "#ea580c"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: portugal
-    title: "Portugal"
-    location: "Lisbon & Porto"
-    description: "Azulejo tiles, tram lines, and golden hour over the Douro River."
-    camera: "iPhone"
+      lat: 30.2741
+      lng: 120.1551
+    cover: "assets/images/photography/digital/china/20251019_052322461_iOS.jpg"
+    palette: ["#14b8a6", "#115e59"]
+  - slug: atlantic-ocean
+    title: "Atlantic Ocean"
+    location: "🇵🇹 Madeira, Azores"
+    description: "Octopus"
     coords:
-      lat: 38.7223
-      lng: -9.1393
-    cover: "/assets/images/photography/digital-placeholder.svg"
+      lat: 32.6669
+      lng: -16.9241
+    cover: "assets/images/photography/digital/atlantic-ocean/20240309_031713423_iOS.jpg"
     palette: ["#0ea5e9", "#f59e0b"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: costa-rica-panama
-    title: "Costa Rica & Panama"
-    location: "San José · Panama City"
-    description: "Cloud forests, canal locks, and vibrant street markets between two oceans."
-    camera: "iPhone"
-    coords:
-      lat: 9.7489
-      lng: -83.7534
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#10b981", "#059669"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: belize-guatemala
-    title: "Belize & Guatemala"
-    location: "Belize City · Antigua"
-    description: "Mayan ruins, Caribbean coastlines, and volcanic landscapes in Central America."
-    camera: "iPhone"
-    coords:
-      lat: 15.7835
-      lng: -90.2308
-    cover: "/assets/images/photography/digital-placeholder.svg"
-    palette: ["#14b8a6", "#0d9488"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
   - slug: western-europe
     title: "Western Europe"
-    location: "Amsterdam · Paris · Geneva · Berlin"
-    description: "Digital medium-format stitches dedicated to reflections, trains, and living with water across Europe's cultural capitals."
-    camera: "iPhone"
+    location: "🇵🇹🇪🇸🇩🇪🇫🇷🇨🇭🇳🇱"
+    description: "'I need to find myself in Europe'"
     coords:
       lat: 52.3676
       lng: 4.9041
-    cover: "/assets/images/photography/digital-placeholder.svg"
+    cover: "assets/images/photography/digital/western-europe/20231227_163606044_iOS.jpg"
     palette: ["#7dd3fc", "#1d4ed8"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-  - slug: central-eastern-europe
-    title: "Central & Eastern Europe"
-    location: "Prague · Kraków · Zakopane · Lviv · Kyiv · Rivne"
-    description: "Night walks with a wireframe aesthetic—mixing lidar captures with still photography across historic cities and mountain towns."
-    camera: "iPhone"
+  - slug: central-europe
+    title: "Central Europe"
+    location: "🇨🇿🇵🇱🇸🇰🇺🇦"
+    description: "Mid food"
     coords:
       lat: 50.0755
       lng: 14.4378
-    cover: "/assets/images/photography/digital-placeholder.svg"
+    cover: "assets/images/photography/digital/central-europe/20240313_125450505_iOS.jpg"
     palette: ["#06b6d4", "#0f172a"]
-    gallery:
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
-      - src: "/assets/images/photography/digital-placeholder.svg"
-        caption: ""
+  - slug: central-america
+    title: "Central America"
+    location: "🇬🇹🇧🇿🇨🇷🇵🇦"
+    description: "Boom boom"
+    coords:
+      lat: 14.6349
+      lng: -90.5069
+    cover: "assets/images/photography/digital/central-america/20240128_190052654_iOS.jpg"
+    palette: ["#10b981", "#059669"]
+  - slug: canada
+    title: "Canada"
+    location: "🇨🇦 Banff, Yoho, Vancouver/Sea-to-Sky, Quebec"
+    description: "US Lite"
+    coords:
+      lat: 51.4968
+      lng: -115.9281
+    cover: "assets/images/photography/digital/canada/20240814_041343605_iOS.jpg"
+    palette: ["#06b6d4", "#0e7490"]
+  - slug: glacier
+    title: "Glacier"
+    location: "Montana"
+    description: "Best NP"
+    coords:
+      lat: 48.7596
+      lng: -113.7870
+    cover: "assets/images/photography/digital/glacier/20240817_220904268_iOS.jpg"
+    palette: ["#7dd3fc", "#0c4a6e"]
+  - slug: morocco
+    title: "Morocco"
+    location: "Marrakesh"
+    description: "Didn't shower for days"
+    coords:
+      lat: 31.6295
+      lng: -7.9811
+    cover: "assets/images/photography/digital/morocco/20240317_120632330_iOS.jpg"
+    palette: ["#f97316", "#ea580c"]
+  - slug: misc-abandoned
+    title: "Misc / Abandoned"
+    location: "All over"
+    description: "Urbex mostly"
+    coords:
+      lat: 41.4993
+      lng: -81.6944
+    cover: "assets/images/photography/digital/misc-abandoned/20220305_201854541_iOS.jpg"
+    palette: ["#22d3ee", "#0f172a"]

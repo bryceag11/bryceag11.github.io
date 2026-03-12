@@ -1,59 +1,169 @@
 {% if include.entry %}
+<div style="margin-bottom: 1rem;">
+  <a href="/photography/" style="color: var(--global-link-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">&larr; Back to Adventures</a>
+</div>
 <section class="photo-gallery-hero">
   <div>
-    <p class="photo-gallery-kicker">{{ include.collection_title | default: include.entry_type | capitalize }}</p>
-    <h1>{{ include.entry.title }}</h1>
-    <p class="photo-gallery-location">{{ include.entry.location }}</p>
+    <h1>{{ include.collection_title }} · {{ include.entry.title }} <span style="font-weight: 400; font-size: 0.6em; color: var(--global-text-color-light);">({{ include.entry.location }})</span></h1>
     <p>{{ include.entry.description }}</p>
-    <ul class="photo-gallery-meta">
-      {% if include.entry.camera %}<li><strong>Camera</strong>: {{ include.entry.camera }}</li>{% endif %}
-      {% if include.entry.palette %}<li><strong>Palette</strong>: {{ include.entry.palette | join: ', ' }}</li>{% endif %}
-    </ul>
   </div>
 </section>
 
-{% comment %}
-If gallery array exists in YAML, use it.
-Otherwise, auto-discover images from folder: /assets/images/photography/{type}/{slug}/
-Folder should contain images like: 001.jpg, 002.jpg, etc.
-{% endcomment %}
-
-<div class="photo-gallery-grid">
-  {% if include.entry.gallery and include.entry.gallery.size > 0 %}
-    {% comment %} Use gallery array from YAML {% endcomment %}
-    {% for image in include.entry.gallery %}
-      {% assign img_src = image.src %}
-      {% if img_src %}
-        {% unless img_src contains '://' %}
-          {% assign img_src = img_src | relative_url %}
-        {% endunless %}
-      {% endif %}
-      <figure>
-        <img src="{{ img_src }}" alt="{{ image.caption | escape }}" loading="lazy" decoding="async">
-        {% if image.caption and image.caption != "" %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
-      </figure>
-    {% endfor %}
-  {% else %}
-    {% comment %} Auto-discover images from folder {% endcomment %}
-    {% assign gallery_path = "/assets/images/photography/" | append: include.entry_type | append: "/" | append: include.entry.slug | append: "/" %}
-    {% assign all_files = site.static_files | where_exp: "file", "file.path contains gallery_path" %}
-    {% assign image_files = all_files | where: "extname", ".jpg" %}
-    {% assign jpeg_files = all_files | where: "extname", ".jpeg" %}
-    {% assign png_files = all_files | where: "extname", ".png" %}
-    {% assign webp_files = all_files | where: "extname", ".webp" %}
-    {% assign image_files = image_files | concat: jpeg_files | concat: png_files | concat: webp_files | sort: "path" %}
-
-    {% if image_files.size > 0 %}
-      {% for image in image_files %}
-        <figure>
-          <img src="{{ image.path | relative_url }}" alt="{{ include.entry.title }}" loading="lazy" decoding="async">
-        </figure>
-      {% endfor %}
-    {% else %}
-      <p style="padding:2rem;text-align:center;color:#666;">No images found. Add images to <code>{{ gallery_path }}</code> or define gallery array in <code>_data/photography.yml</code></p>
-    {% endif %}
-  {% endif %}
-</div>
+{% comment %} Collect all images into an array {% endcomment %}
+{% assign gallery_images = "" | split: "" %}
+{% if include.entry.gallery and include.entry.gallery.size > 0 %}
+  {% for image in include.entry.gallery %}
+    {% assign img_src = image.src %}
+    {% unless img_src contains '://' %}{% assign img_src = img_src | relative_url %}{% endunless %}
+    {% assign gallery_images = gallery_images | push: img_src %}
+  {% endfor %}
 {% else %}
-<p>The requested gallery could not be found. Please update <code>_data/photography.yml</code>.</p>
+  {% assign gallery_path = "/assets/images/photography/" | append: include.entry_type | append: "/" | append: include.entry.slug | append: "/" %}
+  {% assign all_files = site.static_files | where_exp: "file", "file.path contains gallery_path" %}
+  {% assign image_files = all_files | where: "extname", ".jpg" %}
+  {% assign jpgU = all_files | where: "extname", ".JPG" %}
+  {% assign jpeg_files = all_files | where: "extname", ".jpeg" %}
+  {% assign jpegU = all_files | where: "extname", ".JPEG" %}
+  {% assign png_files = all_files | where: "extname", ".png" %}
+  {% assign pngU = all_files | where: "extname", ".PNG" %}
+  {% assign webp_files = all_files | where: "extname", ".webp" %}
+  {% assign image_files = image_files | concat: jpgU | concat: jpeg_files | concat: jpegU | concat: png_files | concat: pngU | concat: webp_files | sort: "path" %}
+  {% for image in image_files %}
+    {% assign gallery_images = gallery_images | push: image.path %}
+  {% endfor %}
+{% endif %}
+
+{% if gallery_images.size > 0 %}
+<style>
+.gallery-viewer {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  user-select: none;
+}
+.gallery-viewer__img-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  max-height: 75vh;
+}
+.gallery-viewer__img-wrap img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+.gallery-viewer__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+.gallery-viewer__arrow:hover {
+  background: rgba(255,255,255,0.3);
+}
+.gallery-viewer__arrow--prev { left: 12px; }
+.gallery-viewer__arrow--next { right: 12px; }
+.gallery-viewer__counter {
+  text-align: center;
+  padding: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  background: #000;
+}
+.gallery-thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.75rem 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.gallery-thumbs img {
+  width: 72px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s, outline 0.2s;
+  flex-shrink: 0;
+}
+.gallery-thumbs img.is-active {
+  opacity: 1;
+  outline: 2px solid var(--global-link-color);
+  outline-offset: 2px;
+}
+</style>
+
+<div class="gallery-viewer" id="gallery-viewer">
+  <div class="gallery-viewer__img-wrap">
+    <button class="gallery-viewer__arrow gallery-viewer__arrow--prev" id="gal-prev">&#8249;</button>
+    <img id="gal-main" src="{{ gallery_images[0] }}" alt="{{ include.entry.title }}">
+    <button class="gallery-viewer__arrow gallery-viewer__arrow--next" id="gal-next">&#8250;</button>
+  </div>
+  <div class="gallery-viewer__counter" id="gal-counter">1 / {{ gallery_images.size }}</div>
+</div>
+<div class="gallery-thumbs" id="gal-thumbs">
+  {% for img in gallery_images %}
+    <img src="{{ img }}" data-idx="{{ forloop.index0 }}" alt="Thumbnail" class="{% if forloop.first %}is-active{% endif %}">
+  {% endfor %}
+</div>
+
+<script>
+(function() {
+  var images = [{% for img in gallery_images %}"{{ img }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+  var idx = 0;
+  var main = document.getElementById('gal-main');
+  var counter = document.getElementById('gal-counter');
+  var thumbs = document.querySelectorAll('#gal-thumbs img');
+
+  function show(i) {
+    idx = (i + images.length) % images.length;
+    main.src = images[idx];
+    counter.textContent = (idx + 1) + ' / ' + images.length;
+    thumbs.forEach(function(t, ti) {
+      t.classList.toggle('is-active', ti === idx);
+    });
+    // scroll active thumb into view
+    if (thumbs[idx]) thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  document.getElementById('gal-prev').addEventListener('click', function() { show(idx - 1); });
+  document.getElementById('gal-next').addEventListener('click', function() { show(idx + 1); });
+  thumbs.forEach(function(t) {
+    t.addEventListener('click', function() { show(parseInt(t.dataset.idx)); });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') show(idx - 1);
+    if (e.key === 'ArrowRight') show(idx + 1);
+  });
+})();
+</script>
+{% else %}
+<p style="padding:2rem;text-align:center;color:#666;">No images found.</p>
+{% endif %}
+{% else %}
+<p>The requested gallery could not be found.</p>
 {% endif %}

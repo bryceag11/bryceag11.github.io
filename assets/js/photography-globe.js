@@ -10,9 +10,8 @@
 
   function getDimensions(container) {
     const parentWidth = container.clientWidth || container.parentElement?.clientWidth || 1000;
-    const parentHeight = container.clientHeight;
-    // Make globe much larger - use 100% of width for height
-    const computedHeight = parentHeight && parentHeight > 0 ? parentHeight : Math.round(parentWidth * 1.0);
+    // Fixed 600px height keeps globe same size; wide canvas shows edge pins
+    const computedHeight = Math.min(600, Math.round(window.innerHeight * 0.7));
     return { width: parentWidth, height: computedHeight };
   }
 
@@ -85,7 +84,9 @@
     const dims = getDimensions(container);
     container.style.minHeight = `${dims.height}px`;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, premultipliedAlpha: false });
+    renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.background = 'transparent';
     renderer.setPixelRatio(window.devicePixelRatio || 1);
     renderer.setSize(dims.width, dims.height);
     container.appendChild(renderer.domElement);
@@ -96,15 +97,15 @@
 
     const pauseButton = document.createElement('button');
     pauseButton.textContent = 'Pause';
-    pauseButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:14px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+    pauseButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:14px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
 
     const zoomInButton = document.createElement('button');
     zoomInButton.textContent = '+';
-    zoomInButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+    zoomInButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
 
     const zoomOutButton = document.createElement('button');
     zoomOutButton.textContent = '−';
-    zoomOutButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 2px rgba(0,0,0,0.5);';
+    zoomOutButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
 
     controlsDiv.appendChild(pauseButton);
     controlsDiv.appendChild(zoomInButton);
@@ -114,13 +115,14 @@
     // Add clock display - bottom right inside globe viewport, white text only
     const clockDiv = document.createElement('div');
     // Position relative to the actual rendered area with more padding from edges
-    clockDiv.style.cssText = `position:absolute;bottom:${dims.height - 80}px;left:${dims.width - 150}px;z-index:10;background:none;color:white;padding:0;border:none;font-family:monospace;font-size:14px;pointer-events:none;text-shadow:1px 1px 2px rgba(0,0,0,0.5);text-align:right;width:140px;`;
+    clockDiv.style.cssText = 'position:absolute;top:10px;right:10px;z-index:10;background:none;color:white;padding:0;border:none;font-family:monospace;font-size:14px;pointer-events:none;text-shadow:1px 1px 3px rgba(0,0,0,0.7);text-align:right;width:140px;';
     clockDiv.innerHTML = '<div id="utc-time"></div><div id="utc-date" style="font-size:12px;margin-top:4px;opacity:0.9;"></div>';
     container.appendChild(clockDiv);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, dims.width / dims.height, 0.1, 100);
-    camera.position.z = 3.5; // More zoomed out initially
+    scene.background = null; // Transparent — blends with page
+    const camera = new THREE.PerspectiveCamera(50, dims.width / dims.height, 0.1, 100);
+    camera.position.z = 3.2; // Wider FOV + closer = same globe size, more peripheral room
 
     // Different lighting for each mode
     const filmAmbient = new THREE.AmbientLight(0xffffff, 0.5); // Normal white light
@@ -377,10 +379,10 @@
     scene.add(markersGroup);
 
     // Create pin geometry (bright red ball head with silver stem)
-    const markerHeadGeometry = new THREE.SphereGeometry(0.018, 16, 16);
-    const markerStemGeometry = new THREE.CylinderGeometry(0.002, 0.003, 0.06, 8);
+    const markerHeadGeometry = new THREE.SphereGeometry(0.022, 16, 16);
+    const markerStemGeometry = new THREE.CylinderGeometry(0.0025, 0.0035, 0.08, 8);
     // Larger invisible hitbox for easier clicking
-    const hitboxGeometry = new THREE.SphereGeometry(0.035, 16, 16);
+    const hitboxGeometry = new THREE.SphereGeometry(0.04, 16, 16);
 
     // Materials for pins - bright red head, silver stem
     const markerHeadMaterial = new THREE.MeshStandardMaterial({
@@ -408,6 +410,86 @@
 
     const markerMap = new Map();
     const markers = { film: [], digital: [] };
+    const textureCache = new Map();
+    const photoLoader = new THREE.TextureLoader();
+    photoLoader.crossOrigin = 'anonymous';
+
+    function fixImgPath(p) {
+      if (!p) return p;
+      if (p.indexOf('://') !== -1) return p;
+      return p.charAt(0) === '/' ? p : '/' + p;
+    }
+
+    function createOrbitingPhotos(marker) {
+      removeOrbitingPhotos(marker);
+      const userData = marker.userData;
+
+      // Pull images from auto-discovered filesystem paths
+      var fsImages = (window.PHOTOGRAPHY_IMAGES && window.PHOTOGRAPHY_IMAGES[userData.slug]) || [];
+      var images = fsImages.map(fixImgPath);
+
+      // Fallback to cover + gallery from YAML
+      if (images.length === 0) {
+        if (userData.cover) images.push(fixImgPath(userData.cover));
+        if (userData.gallery && Array.isArray(userData.gallery)) {
+          userData.gallery.forEach(function(item) {
+            var src = fixImgPath(item.src || item);
+            if (src && images.indexOf(src) === -1) images.push(src);
+          });
+        }
+      }
+
+      var photos = images.slice(0, 5);
+      if (photos.length === 0) return;
+
+      var orbitGroup = new THREE.Group();
+      var count = photos.length;
+      var orbitRadius = 0.22;
+
+      photos.forEach(function(src, i) {
+        var angle = (i / count) * Math.PI * 2;
+
+        function addBall(tex) {
+          if (!tex) return;
+          // Maximize texture quality on the lens ball
+          tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          tex.minFilter = THREE.LinearMipMapLinearFilter;
+          tex.magFilter = THREE.LinearFilter;
+          tex.generateMipmaps = true;
+          var geo = new THREE.SphereGeometry(0.07, 64, 64);
+          var mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.95 });
+          var mesh = new THREE.Mesh(geo, mat);
+          mesh.position.set(
+            Math.cos(angle) * orbitRadius,
+            Math.sin(angle) * orbitRadius,
+            0.04
+          );
+          orbitGroup.add(mesh);
+        }
+
+        if (textureCache.has(src)) {
+          addBall(textureCache.get(src));
+        } else {
+          photoLoader.load(src, function(tex) {
+            textureCache.set(src, tex);
+            addBall(tex);
+          }, undefined, function() {});
+        }
+      });
+
+      marker.userData.pinGroup.add(orbitGroup);
+      marker.userData.orbitGroup = orbitGroup;
+    }
+
+    function removeOrbitingPhotos(marker) {
+      if (marker.userData.orbitGroup) {
+        marker.userData.pinGroup.remove(marker.userData.orbitGroup);
+        marker.userData.orbitGroup.traverse(function(child) {
+          if (child.material) child.material.dispose();
+        });
+        marker.userData.orbitGroup = null;
+      }
+    }
 
     function latLngToVector3(lat, lng, radius = 1.01) {
       const phi = (90 - lat) * (Math.PI / 180);
@@ -435,7 +517,7 @@
 
       // Create marker stem (silver cylinder going into Earth)
       const markerStem = new THREE.Mesh(markerStemGeometry.clone(), markerStemMaterial.clone());
-      markerStem.position.set(0, 0, -0.03); // Half the stem length along -Z (toward globe)
+      markerStem.position.set(0, 0, -0.04); // Half the stem length along -Z (toward globe)
 
       // Rotate stem to point along -Z axis (into globe)
       markerStem.rotation.x = Math.PI / 2;
@@ -468,7 +550,7 @@
         head: markerHead,
         pinGroup: pinGroup,
         defaultZ: 0,      // Red ball visible on surface, stem hidden
-        hoveredZ: 0.08    // Pull out when hovered to show stem
+        hoveredZ: 0.30    // Pull way out into atmosphere when hovered
       };
 
       markersGroup.add(containerGroup);
@@ -488,12 +570,9 @@
       if (mode === 'film') {
         scene.remove(digitalAmbient, digitalDirectional);
         scene.add(filmAmbient, filmDirectional);
-        renderer.setClearColor(0x0a0a0a, 1.0); // Dark background
       } else {
-        // Digital mode - real-time day/night Earth
         scene.remove(filmAmbient, filmDirectional);
         scene.add(digitalAmbient, digitalDirectional);
-        renderer.setClearColor(0x000000, 1.0); // Black space
       }
 
       markers.film.forEach((marker) => (marker.visible = mode === 'film'));
@@ -568,6 +647,12 @@
       globe.rotation.x = rotationX;
       timeZoneLinesGroup.rotation.y = rotationY;
       timeZoneLinesGroup.rotation.x = rotationX;
+      // Animate orbiting photos
+      markers[currentMode].forEach(function(m) {
+        if (m.userData.orbitGroup) {
+          m.userData.orbitGroup.rotation.z += 0.012;
+        }
+      });
       renderer.render(scene, camera);
     }
 
@@ -618,13 +703,14 @@
       if (!isDragging) {
         autoRotate = 0.0015;
         if (hoveredMarker) {
-          // Animate pin back in
           if (hoveredMarker.userData.pinGroup) {
             hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
           }
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
           }
+          hoveredMarker.scale.set(1, 1, 1);
+          removeOrbitingPhotos(hoveredMarker);
           hoveredMarker = null;
         }
         clearTooltip();
@@ -652,43 +738,42 @@
       vector.project(camera);
       const rect = renderer.domElement.getBoundingClientRect();
 
-      // Account for scroll position
       const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      const x = ((vector.x + 1) / 2) * rect.width + rect.left + scrollX;
-      const y = ((-vector.y + 1) / 2) * rect.height + rect.top + scrollY;
+      let x = ((vector.x + 1) / 2) * rect.width + rect.left + scrollX;
+      let y = ((-vector.y + 1) / 2) * rect.height + rect.top + scrollY;
+
+      // Clamp vertically within globe bounds
+      const tooltipH = 200;
+      const minY = rect.top + scrollY + tooltipH / 2 + 10;
+      const maxY = rect.bottom + scrollY - tooltipH / 2 - 10;
+      if (y < minY) y = minY;
+      if (y > maxY) y = maxY;
 
       tooltip.style.left = `${x}px`;
       tooltip.style.top = `${y}px`;
 
-      // Smart positioning - prefer right, but check if there's room
-      const tooltipWidth = 170; // Approximate tooltip width
+      // Smart horizontal positioning
+      const tooltipWidth = 200;
       const pinXInViewport = ((vector.x + 1) / 2) * rect.width;
       const spaceOnRight = rect.width - pinXInViewport;
 
-      // If there's enough space on the right (prefer this), show to the right
-      // Otherwise, show to the left
       if (spaceOnRight > tooltipWidth + 30) {
-        tooltip.style.transform = `translate(20px, -50%)`; // To the right of the pin
+        tooltip.style.transform = `translate(20px, -50%)`;
       } else {
-        tooltip.style.transform = `translate(calc(-100% - 20px), -50%)`; // To the left of the pin
+        tooltip.style.transform = `translate(calc(-100% - 20px), -50%)`;
       }
 
-      // Enhanced tooltip with photo preview
       const userData = marker.userData;
-      const coverImage = userData.cover ? `<img src="${userData.cover}" alt="${userData.title}" style="width:100px;height:60px;object-fit:cover;border-radius:4px;margin-bottom:8px;">` : '';
-      const cameraInfo = userData.camera ? `<small style="opacity:0.8">${userData.camera}</small><br>` : '';
 
-      tooltip.innerHTML = `
-        <div style="text-align:center;max-width:150px;">
-          ${coverImage}
-          <strong>${userData.title}</strong><br>
-          <span style="font-size:0.9em;">${userData.location}</span><br>
-          ${cameraInfo}
-          <small style="opacity:0.7;font-style:italic;">Click to view album</small>
-        </div>
-      `;
+      tooltip.innerHTML =
+        '<div style="text-align:center;">' +
+          '<strong>' + userData.title + '</strong><br>' +
+          '<span style="font-size:0.9em;">' + userData.location + '</span><br>' +
+          '<small style="opacity:0.7;font-style:italic;">Click to view album</small>' +
+        '</div>';
+
       tooltip.style.cursor = 'pointer';
       tooltip.hidden = false;
     }
@@ -716,6 +801,24 @@
           pinGroup = pinGroup.parent;
         }
 
+        // Only interact with pins on the visible hemisphere (facing camera)
+        var markerWorldPos = new THREE.Vector3();
+        pinGroup.getWorldPosition(markerWorldPos);
+        var dot = camera.position.clone().normalize().dot(markerWorldPos.clone().normalize());
+        if (dot < 0.05) {
+          // Pin is on the far side — treat as no hit
+          if (hoveredMarker) {
+            if (hoveredMarker.userData.pinGroup) hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
+            if (hoveredMarker.userData.head) hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
+            hoveredMarker.scale.set(1, 1, 1);
+            removeOrbitingPhotos(hoveredMarker);
+            hoveredMarker = null;
+          }
+          autoRotate = 0.0015;
+          clearTooltip();
+          return;
+        }
+
         if (hoveredMarker && hoveredMarker !== pinGroup) {
           // Reset previous marker
           if (hoveredMarker.userData.pinGroup) {
@@ -724,31 +827,36 @@
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
           }
+          hoveredMarker.scale.set(1, 1, 1);
+          removeOrbitingPhotos(hoveredMarker);
         }
 
         hoveredMarker = pinGroup;
 
-        // Animate pin pulling out
+        // Animate pin pulling way out and scaling up
         if (hoveredMarker.userData.pinGroup) {
           hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.hoveredZ;
         }
+        hoveredMarker.scale.set(2.0, 2.0, 2.0);
 
         // Make the head glow more when hovered
         if (hoveredMarker.userData.head) {
           hoveredMarker.userData.head.material.emissiveIntensity = 0.8;
         }
 
+        createOrbitingPhotos(hoveredMarker);
         autoRotate = 0;
         updateTooltip(hoveredMarker);
       } else if (!isDragging) {
         if (hoveredMarker) {
-          // Animate pin back in
           if (hoveredMarker.userData.pinGroup) {
             hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
           }
           if (hoveredMarker.userData.head) {
             hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
           }
+          hoveredMarker.scale.set(1, 1, 1);
+          removeOrbitingPhotos(hoveredMarker);
           hoveredMarker = null;
         }
         autoRotate = 0.0015;
@@ -779,6 +887,7 @@
         if (hoveredMarker.userData.head) {
           hoveredMarker.userData.head.material.emissiveIntensity = 0.3;
         }
+        removeOrbitingPhotos(hoveredMarker);
       }
 
       hoveredMarker = marker;
@@ -786,6 +895,7 @@
       if (marker.userData.head) {
         marker.userData.head.material.emissiveIntensity = 0.6;
       }
+      createOrbitingPhotos(marker);
       autoRotate = 0;
       updateTooltip(marker);
     }
@@ -797,6 +907,7 @@
         if (hoveredMarker.userData.head) {
           hoveredMarker.userData.head.material.emissiveIntensity = 0.3;
         }
+        removeOrbitingPhotos(hoveredMarker);
         hoveredMarker = null;
         clearTooltip();
         autoRotate = 0.0015;

@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Photography"
+title: "Adventures"
 permalink: /photography/
 classes: photography
 author_profile: false
@@ -9,17 +9,13 @@ author_profile: false
 {% assign photo = site.data.photography %}
 
 <div style="margin-bottom: 1rem;">
-  <a href="/" style="color: #1a237e; text-decoration: none; font-weight: 600; font-size: 0.95rem;">← Back to Main Page</a>
+  <a href="/" style="color: var(--global-link-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← Back to Main Page</a>
 </div>
 
 <div class="photography-hero">
   <div>
-    <p class="photography-hero__eyebrow">35mm & Digital Photography</p>
-    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore this to see what I've captured</p>
-    <div class="photography-cta">
-      <a class="btn" href="#film-stories">35mm Stories</a>
-      <a class="btn btn--outline" href="#digital-stories">Digital Series</a>
-    </div>
+    <p class="photography-hero__eyebrow">35mm & Digital Adventures</p>
+    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore to see what I've captured.</p>
   </div>
 </div>
 
@@ -84,6 +80,34 @@ author_profile: false
 
 <script>
   window.PHOTOGRAPHY_DATA = {{ photo | jsonify }};
+  window.PHOTOGRAPHY_IMAGES = {
+    {% for entry in photo.film %}
+      {% assign gp = "/assets/images/photography/film/" | append: entry.slug | append: "/" %}
+      {% assign af = site.static_files | where_exp: "f", "f.path contains gp" %}
+      {% assign jpg = af | where: "extname", ".jpg" %}
+      {% assign jpgU = af | where: "extname", ".JPG" %}
+      {% assign jpeg = af | where: "extname", ".jpeg" %}
+      {% assign jpegU = af | where: "extname", ".JPEG" %}
+      {% assign png = af | where: "extname", ".png" %}
+      {% assign pngU = af | where: "extname", ".PNG" %}
+      {% assign webp = af | where: "extname", ".webp" %}
+      {% assign imgs = jpg | concat: jpgU | concat: jpeg | concat: jpegU | concat: png | concat: pngU | concat: webp | sort: "path" %}
+      "{{ entry.slug }}": [{% for img in imgs %}"{{ img.path }}"{% unless forloop.last %},{% endunless %}{% endfor %}]{% unless forloop.last %},{% endunless %}
+    {% endfor %},
+    {% for entry in photo.digital %}
+      {% assign gp = "/assets/images/photography/digital/" | append: entry.slug | append: "/" %}
+      {% assign af = site.static_files | where_exp: "f", "f.path contains gp" %}
+      {% assign jpg = af | where: "extname", ".jpg" %}
+      {% assign jpgU = af | where: "extname", ".JPG" %}
+      {% assign jpeg = af | where: "extname", ".jpeg" %}
+      {% assign jpegU = af | where: "extname", ".JPEG" %}
+      {% assign png = af | where: "extname", ".png" %}
+      {% assign pngU = af | where: "extname", ".PNG" %}
+      {% assign webp = af | where: "extname", ".webp" %}
+      {% assign imgs = jpg | concat: jpgU | concat: jpeg | concat: jpegU | concat: png | concat: pngU | concat: webp | sort: "path" %}
+      "{{ entry.slug }}": [{% for img in imgs %}"{{ img.path }}"{% unless forloop.last %},{% endunless %}{% endfor %}]{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  };
 </script>
 <!-- Load Three.js from CDN with local fallback -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.150.0/build/three.min.js"></script>

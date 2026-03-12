@@ -1,7 +1,43 @@
+- title: "Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models"
+  authors: "Bryce Grant*, Xijia Zhao*, Peng Wang"
+  venue: "Under Review | Presenting @ ICLR 2026 MM Intelligence Workshop"
+  image: "/assets/media/highlights/quan.mp4"
+
+  summary: "A mechanistic interpretability study revealing how different features contribute unequally to robotic action prediction in vision-language-action models."
+  links:
+    - label: "Paper"
+      url: "https://openreview.net/forum?id=w8Mw9zJt1y"
+    - label: "Project Page"
+      url: "https://cwru-aism.github.io/vla-interp-page/"
+    - label: "Action Atlas"
+      url: "https://action-atlas.com"
+
+- title: "TrianguLang: Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
+  authors: "Bryce Grant, Aryeh Rothenberg, Atri Banerjee, Peng Wang"
+  venue: "Under Review"
+  image: "/assets/media/highlights/quan.mp4"
+
+  summary: "A geometry-aware approach to 3D localization that achieves semantic consensus without requiring camera pose information."
+  links:
+    - label: "Paper"
+      url: "https://arxiv.org/abs/2603.08096"
+    - label: "Project Page"
+      url: "https://cwru-aism.github.io/triangulang/"
+
+- title: "Gluing Local Contexts into Global Meaning"
+  authors: "Bryce Grant, Peng Wang"
+  venue: "Presenting @ ICLR 2026 UCLR Workshop"
+  image: "/assets/media/highlights/ThickGradientSheafFix.mp4"
+  summary: "A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning."
+  links:
+    - label: "Paper"
+      url: "https://openreview.net/pdf?id=eub5YrhExo"
+
 - title: "Quaternion Approximation Networks for Enhanced Image Classification and Oriented Object Detection"
   authors: "Bryce Grant, Peng Wang"
-  venue: "IROS 2025 · Oral"
+  venue: "IROS 2025 | Oral"
   image: "/assets/media/highlights/quan.mp4"
+
   summary: "Rotation-aware perception layers composed with quaternion algebra so we keep spatial intuition while training compact real-valued networks"
   links:
     - label: "Paper"
@@ -10,25 +46,3 @@
       url: "https://cwru-aism.github.io/QUANpaper/"
     - label: "Code"
       url: "https://github.com/bryceag11/QUAN_ultralytics"
-# - title: "Causal PointNet for Fixtures"
-#   authors: "Bryce Grant, Peng Wang"
-#   venue: "IROS Workshop 2023"
-#   summary: "Counterfactual interventions on point clouds to predict when fixtures fail and to stage new grasping strategies before cutting tooling."
-#   links:
-#     - label: "Paper"
-#       url: "/files/Causal_PointNet.pdf"
-#     - label: "Project"
-#       url: "/projects/"
-#     - label: "Code"
-#       url: "https://github.com/bryceag11"
-# - title: "UR5 Assembly Coach"
-#   authors: "Bryce Grant, AISM Lab"
-#   venue: "In progress"
-#   summary: "A multimodal coach that narrates assembly steps and pushes haptic cues to the robot as students learn manufacturing tasks."
-#   links:
-#     - label: "Summary"
-#       url: "/portfolio/"
-#     - label: "Project"
-#       url: "/projects/"
-#     - label: "Code"
-#       url: "https://github.com/bryceag11"

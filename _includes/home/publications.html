@@ -5,16 +5,17 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
-  background: white;
+  background: var(--home-card-bg, #fff);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  max-height: 160px;
+  height: 160px;
 }
 
 .home-publication-media {
   flex: 0 0 160px;
-  background: #f5f5f5;
+  min-height: 100%;
+  background: var(--home-badge-bg, #f5f5f5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,8 +25,13 @@
 .home-publication-media img,
 .home-publication-media video {
   width: 100%;
-  height: 100%;
+  height: 160px;
   object-fit: cover;
+  display: block;
+}
+
+.home-publication-media video {
+  cursor: pointer;
 }
 
 .home-publication-content {
@@ -34,26 +40,40 @@
   flex-direction: column;
   padding: 0.75rem 1rem;
   gap: 0.35rem;
+  overflow: hidden;
 }
 
-.home-publication-content h3 {
+.home-publication-title-wrap {
+  border-bottom: 2px solid var(--global-link-color, #1a237e);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.1rem;
+}
+
+.home-publication-title-wrap h3 {
   margin: 0;
   font-size: 0.95rem;
-  color: #0f172a;
+  color: var(--global-text-color);
   font-weight: 600;
-  border-bottom: 2px solid #1a237e;
-  padding-bottom: 0.35rem;
   line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .home-publication-authors {
-  color: #555;
+  color: var(--global-text-color-light);
   font-size: 0.8rem;
   margin: 0;
 }
 
+.home-publication-authors u {
+  text-decoration: underline !important;
+  border-bottom: none !important;
+}
+
 .home-publication-venue {
-  color: #0f172a;
+  color: var(--global-text-color);
   font-weight: 600;
   font-size: 0.85rem;
   margin: 0;
@@ -67,7 +87,7 @@
 }
 
 .home-publication-links a {
-  background: #1a237e;
+  background: var(--global-link-color, #1a237e);
   color: white;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
@@ -78,13 +98,19 @@
 }
 
 .home-publication-links a:hover {
-  background: #283593;
+  background: var(--global-link-color-hover, #283593);
+}
+
+.home-publication-note {
+  font-size: 0.8rem;
+  color: var(--global-text-color-light);
+  margin-bottom: 0.75rem;
 }
 
 @media (max-width: 768px) {
   .home-publication-card-new {
     flex-direction: column;
-    max-height: none;
+    height: auto;
   }
 
   .home-publication-media {
@@ -93,13 +119,14 @@
 }
 </style>
 
+<p class="home-publication-note">* denotes equal contribution</p>
 <div class="home-publication-stack">
   {% for pub in pubs %}
     <article class="home-publication-card-new">
       {% if pub.image %}
         <div class="home-publication-media">
           {% if pub.image contains '.mp4' or pub.image contains '.webm' or pub.image contains '.mov' %}
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline preload="auto"{% if pub.poster %} poster="{{ pub.poster | relative_url }}" data-poster="true"{% endif %}>
               <source src="{{ pub.image | relative_url }}" type="video/mp4">
             </video>
           {% else %}
@@ -108,9 +135,11 @@
         </div>
       {% endif %}
       <div class="home-publication-content">
-        <h3>{{ pub.title }}</h3>
+        <div class="home-publication-title-wrap">
+          <h3>{{ pub.title }}</h3>
+        </div>
         {% if pub.authors %}
-          <p class="home-publication-authors">{{ pub.authors }}</p>
+          <p class="home-publication-authors">{{ pub.authors | replace: "Bryce Grant", "<u>Bryce Grant</u>" }}</p>
         {% endif %}
         {% if pub.venue %}
           <p class="home-publication-venue">{{ pub.venue }}</p>
@@ -132,6 +161,35 @@
     </article>
   {% endfor %}
 </div>
+<script>
+document.querySelectorAll('.home-publication-media').forEach(function(media) {
+  var video = media.querySelector('video');
+  if (!video) return;
+  var midpoint = 0;
+
+  function seekToMid() {
+    if (video.duration) {
+      midpoint = video.duration / 2;
+      video.currentTime = midpoint;
+    }
+  }
+
+  if (video.readyState >= 1) {
+    seekToMid();
+  } else {
+    video.addEventListener('loadedmetadata', seekToMid);
+  }
+
+  media.addEventListener('mouseenter', function() {
+    video.currentTime = 0;
+    video.play().catch(function(){});
+  });
+  media.addEventListener('mouseleave', function() {
+    video.pause();
+    video.currentTime = midpoint;
+  });
+});
+</script>
 {% else %}
 <p>Add entries to <code>_data/home_publications.yml</code> to populate this section.</p>
 {% endif %}

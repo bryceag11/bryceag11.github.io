@@ -4,7 +4,6 @@ permalink: /
 title: "Bryce Grant"
 author_profile: false
 classes: home
-hide_masthead: true
 redirect_from:
   - /about/
   - /about.html
@@ -14,11 +13,11 @@ redirect_from:
   <div class="home-hero__text">
     <h1>Bryce Grant</h1>
     <div class="home-hero__titles">
-      <p>Electrical Engineering PhD Student</p>
+      <p>Electrical Engineering PhD Candidate</p>
       <p> <a href="https://case.edu/">Case Western Reserve University</a></p>
     </div>
-    <p>I am a 2nd year Ph.D. student at <a href="https://case.edu/">Case Western Reserve University</a> where I’m advised by Prof. <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng “Edward” Wang</a>. I received my dual B.S. in EE & CPE (Electrical and Computer Engineering) from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024. I’m currently funded by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>.</p>     
-    <p>I’m interested in building robotic systems that reason about pose, motion, and uncertainty through geometric-aware learning, causal inference, and sequential modeling.</p>
+    <p>I am a 2nd year Ph.D. student at <a href="https://case.edu/">Case Western Reserve University</a> where I’m advised by Prof. <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng “Edward” Wang</a>. I received my dual B.S. in Electrical and Computer Engineering from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024. I’m currently funded by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>.</p>     
+    <p>I’m interested in building robotic systems that reason about pose, motion, and uncertainty through geometric structures and causal inference.</p>
     <p>I’m currently working on semantic affordances and topology-informed interpretability for VLAs.</p>
     <div class="home-contact-links">
       <a href="mailto:bag100@case.edu">Email</a>
@@ -45,7 +44,7 @@ redirect_from:
   <button id="panel-highlights-button" class="home-menu__item is-active" role="tab" aria-selected="true" aria-controls="panel-highlights" data-home-tab="highlights">Highlights</button>
   <button id="panel-publications-button" class="home-menu__item" role="tab" aria-selected="false" aria-controls="panel-publications" data-home-tab="publications">Publications</button>
   <button id="panel-projects-button" class="home-menu__item" role="tab" aria-selected="false" aria-controls="panel-projects" data-home-tab="projects">Projects</button>
-  <a class="home-menu__item home-menu__item--link" href="{{ '/photography/' | relative_url }}">Photography</a>
+  <a class="home-menu__item home-menu__item--link" href="{{ '/photography/' | relative_url }}">Adventures</a>
 </div>
 
 <div class="home-panels">

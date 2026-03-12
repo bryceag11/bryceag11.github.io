@@ -51,4 +51,7 @@ html[data-theme="dark"] {
     --global-text-color                 : #{$text};
     --global-text-color-light           : #{$light-gray};
     --global-thead-color                : #{$background-lighter};
+    --home-card-bg                      : #3a3a3a;
+    --home-badge-bg                     : #555;
+    --home-kicker-color                 : #{$light-gray};
 }

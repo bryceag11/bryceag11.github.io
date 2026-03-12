@@ -19,22 +19,28 @@
           {% assign highlight_link = highlight_link | relative_url %}
         {% endunless %}
       {% endif %}
-      {% if highlight_link %}
-        <a class="home-highlight-gif__media" href="{{ highlight_link }}" target="_blank" rel="noopener">
-      {% else %}
-        <div class="home-highlight-gif__media">
-      {% endif %}
-        {% if highlight.media_type == 'video' %}
-          <video {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline>
-            <source src="{{ media_url }}" type="video/mp4">
-          </video>
+      {% if media_src %}
+        {% if highlight_link %}
+          <a class="home-highlight-gif__media" href="{{ highlight_link }}" target="_blank" rel="noopener">
         {% else %}
-          <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
+          <div class="home-highlight-gif__media">
         {% endif %}
-      {% if highlight_link %}
+          {% if highlight.media_type == 'video' %}
+            <video {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline>
+              <source src="{{ media_url }}" type="video/mp4">
+            </video>
+          {% else %}
+            <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
+          {% endif %}
+        {% if highlight_link %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% elsif highlight_link %}
+        <a class="home-highlight-gif__media home-highlight-gif__media--placeholder" href="{{ highlight_link }}" target="_blank" rel="noopener">
+          <span>{{ highlight.title }}</span>
         </a>
-      {% else %}
-        </div>
       {% endif %}
       <div class="home-highlight-gif__text">
         <h3>{{ highlight.title }}</h3>

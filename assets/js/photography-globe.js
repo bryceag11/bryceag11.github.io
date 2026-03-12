@@ -97,15 +97,15 @@
 
     const pauseButton = document.createElement('button');
     pauseButton.textContent = 'Pause';
-    pauseButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:14px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
+    pauseButton.style.cssText = 'padding:6px 10px;background:none;color:var(--global-text-color, #333);border:none;cursor:pointer;font-size:14px;font-weight:500;';
 
     const zoomInButton = document.createElement('button');
     zoomInButton.textContent = '+';
-    zoomInButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
+    zoomInButton.style.cssText = 'padding:6px 10px;background:none;color:var(--global-text-color, #333);border:none;cursor:pointer;font-size:16px;font-weight:500;';
 
     const zoomOutButton = document.createElement('button');
     zoomOutButton.textContent = '−';
-    zoomOutButton.style.cssText = 'padding:6px 10px;background:none;color:white;border:none;cursor:pointer;font-size:16px;font-weight:500;text-shadow:1px 1px 3px rgba(0,0,0,0.7);';
+    zoomOutButton.style.cssText = 'padding:6px 10px;background:none;color:var(--global-text-color, #333);border:none;cursor:pointer;font-size:16px;font-weight:500;';
 
     controlsDiv.appendChild(pauseButton);
     controlsDiv.appendChild(zoomInButton);
@@ -115,7 +115,7 @@
     // Add clock display - bottom right inside globe viewport, white text only
     const clockDiv = document.createElement('div');
     // Position relative to the actual rendered area with more padding from edges
-    clockDiv.style.cssText = 'position:absolute;top:10px;right:10px;z-index:10;background:none;color:white;padding:0;border:none;font-family:monospace;font-size:14px;pointer-events:none;text-shadow:1px 1px 3px rgba(0,0,0,0.7);text-align:right;width:140px;';
+    clockDiv.style.cssText = 'position:absolute;top:10px;right:10px;z-index:10;background:none;color:var(--global-text-color, #333);padding:0;border:none;font-family:monospace;font-size:14px;pointer-events:none;text-align:right;width:140px;';
     clockDiv.innerHTML = '<div id="utc-time"></div><div id="utc-date" style="font-size:12px;margin-top:4px;opacity:0.9;"></div>';
     container.appendChild(clockDiv);
 
@@ -692,8 +692,11 @@
         const slug = hoveredMarker.userData.slug;
         const type = hoveredMarker.userData.type;
         if (slug) {
-          const url = `/photography/${type}/${slug}/`;
-          window.location.href = url;
+          if (typeof PhotoModal !== 'undefined') {
+            PhotoModal.open(slug, type);
+          } else {
+            window.location.href = `/photography/${type}/${slug}/`;
+          }
         }
       }
     }

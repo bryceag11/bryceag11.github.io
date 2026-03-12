@@ -15,7 +15,7 @@ author_profile: false
 <div class="photography-hero">
   <div>
     <p class="photography-hero__eyebrow">35mm & Digital Adventures</p>
-    <p>Outside of my research, I love urbex, adrenaline, and film photography. Explore to see what I've captured.</p>
+    <p>In my free time, I enjoy urbex, birding, climbing and film photography. Explore to see what I've captured.</p>
   </div>
 </div>
 

@@ -132,12 +132,16 @@
 </div>
 
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   var images = [{% for img in gallery_images %}"{{ img }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
   var idx = 0;
   var main = document.getElementById('gal-main');
   var counter = document.getElementById('gal-counter');
   var thumbs = document.querySelectorAll('#gal-thumbs img');
+  var prevBtn = document.getElementById('gal-prev');
+  var nextBtn = document.getElementById('gal-next');
+
+  if (!main || !prevBtn || !nextBtn) return;
 
   function show(i) {
     idx = (i + images.length) % images.length;
@@ -146,20 +150,43 @@
     thumbs.forEach(function(t, ti) {
       t.classList.toggle('is-active', ti === idx);
     });
-    // scroll active thumb into view
     if (thumbs[idx]) thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
 
-  document.getElementById('gal-prev').addEventListener('click', function() { show(idx - 1); });
-  document.getElementById('gal-next').addEventListener('click', function() { show(idx + 1); });
+  prevBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); show(idx - 1); });
+  nextBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); show(idx + 1); });
+
   thumbs.forEach(function(t) {
-    t.addEventListener('click', function() { show(parseInt(t.dataset.idx)); });
+    t.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      show(parseInt(t.dataset.idx));
+    });
   });
+
+  // Prevent Magnific Popup from hijacking gallery images
+  main.addEventListener('click', function(e) { e.stopPropagation(); });
+
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowLeft') show(idx - 1);
     if (e.key === 'ArrowRight') show(idx + 1);
   });
-})();
+
+  // If jQuery + Magnific Popup loaded, remove any popup bindings on gallery images
+  if (window.jQuery) {
+    jQuery('#gallery-viewer img, #gal-thumbs img').off('click').removeClass('image-popup');
+    jQuery('#gallery-viewer a.image-popup, #gal-thumbs a.image-popup').each(function() {
+      var img = jQuery(this).find('img');
+      jQuery(this).replaceWith(img);
+    });
+    // Re-bind our handlers after jQuery cleanup
+    jQuery('#gal-thumbs img').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      show(parseInt(this.dataset.idx));
+    });
+  }
+});
 </script>
 {% else %}
 <p style="padding:2rem;text-align:center;color:#666;">No images found.</p>

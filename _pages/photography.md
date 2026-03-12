@@ -120,3 +120,4 @@ author_profile: false
   }
 </script>
 <script src="{{ '/assets/js/photography-globe.js' | relative_url }}"></script>
+<script src="{{ '/assets/js/photography-modal.js' | relative_url }}"></script>

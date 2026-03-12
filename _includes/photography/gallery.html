@@ -35,161 +35,118 @@
 
 {% if gallery_images.size > 0 %}
 <style>
-.gallery-viewer {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  background: #000;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  user-select: none;
-}
-.gallery-viewer__img-wrap {
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  max-height: 75vh;
-}
-.gallery-viewer__img-wrap img {
-  max-width: 100%;
-  max-height: 75vh;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto;
-}
-.gallery-viewer__arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255,255,255,0.15);
-  border: none;
-  color: #fff;
-  font-size: 2rem;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  transition: background 0.2s;
-}
-.gallery-viewer__arrow:hover {
-  background: rgba(255,255,255,0.3);
-}
-.gallery-viewer__arrow--prev { left: 12px; }
-.gallery-viewer__arrow--next { right: 12px; }
-.gallery-viewer__counter {
-  text-align: center;
-  padding: 0.5rem;
-  color: #94a3b8;
-  font-size: 0.85rem;
-  background: #000;
-}
-.gallery-thumbs {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding: 0.75rem 0;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.gallery-thumbs img {
-  width: 72px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.2s, outline 0.2s;
-  flex-shrink: 0;
-}
-.gallery-thumbs img.is-active {
-  opacity: 1;
-  outline: 2px solid var(--global-link-color);
-  outline-offset: 2px;
+/* ── Gallery Viewer ── */
+.gv { position: relative; width: 100%; max-width: 960px; margin: 0 auto 0.5rem; border-radius: 12px; overflow: hidden; background: #0a0a0a; }
+.gv-stage { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 420px; max-height: 78vh; overflow: hidden; }
+.gv-stage img { max-width: 100%; max-height: 78vh; object-fit: contain; display: block; transition: opacity 0.25s ease; }
+.gv-stage img.gv-loading { opacity: 0.4; }
+
+/* Arrows */
+.gv-arr { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #fff; font-size: 1.4rem; cursor: pointer; z-index: 5; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; line-height: 1; padding: 0; }
+.gv-arr:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
+.gv-arr--l { left: 14px; }
+.gv-arr--r { right: 14px; }
+
+/* Counter */
+.gv-count { text-align: center; padding: 0.6rem 0; font-size: 0.8rem; color: rgba(255,255,255,0.5); background: #0a0a0a; font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+
+/* Thumbnail strip */
+.gv-thumbs { display: flex; gap: 6px; overflow-x: auto; padding: 0.5rem 0 1rem; max-width: 960px; margin: 0 auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.15) transparent; }
+.gv-thumbs::-webkit-scrollbar { height: 4px; }
+.gv-thumbs::-webkit-scrollbar-track { background: transparent; }
+.gv-thumbs::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+.gv-th { width: 80px; height: 54px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.4; transition: all 0.2s ease; flex-shrink: 0; border: 2px solid transparent; }
+.gv-th:hover { opacity: 0.75; }
+.gv-th.on { opacity: 1; border-color: var(--global-link-color, #5b8def); }
+
+@media (max-width: 640px) {
+  .gv-stage { min-height: 260px; }
+  .gv-arr { width: 36px; height: 36px; font-size: 1.1rem; }
+  .gv-arr--l { left: 8px; }
+  .gv-arr--r { right: 8px; }
+  .gv-th { width: 60px; height: 40px; }
 }
 </style>
 
-<div class="gallery-viewer" id="gallery-viewer">
-  <div class="gallery-viewer__img-wrap">
-    <button class="gallery-viewer__arrow gallery-viewer__arrow--prev" id="gal-prev">&#8249;</button>
-    <img id="gal-main" src="{{ gallery_images[0] }}" alt="{{ include.entry.title }}">
-    <button class="gallery-viewer__arrow gallery-viewer__arrow--next" id="gal-next">&#8250;</button>
+<div class="gv" id="gv">
+  <div class="gv-stage">
+    <button class="gv-arr gv-arr--l" onclick="G.prev(event)" type="button" aria-label="Previous">&lsaquo;</button>
+    <img id="gv-img" src="{{ gallery_images[0] }}" alt="{{ include.entry.title }}" draggable="false">
+    <button class="gv-arr gv-arr--r" onclick="G.next(event)" type="button" aria-label="Next">&rsaquo;</button>
   </div>
-  <div class="gallery-viewer__counter" id="gal-counter">1 / {{ gallery_images.size }}</div>
+  <div class="gv-count" id="gv-count">1 / {{ gallery_images.size }}</div>
 </div>
-<div class="gallery-thumbs" id="gal-thumbs">
+<div class="gv-thumbs" id="gv-thumbs">
   {% for img in gallery_images %}
-    <img src="{{ img }}" data-idx="{{ forloop.index0 }}" alt="Thumbnail" class="{% if forloop.first %}is-active{% endif %}">
+    <img class="gv-th{% if forloop.first %} on{% endif %}" src="{{ img }}" onclick="G.go({{ forloop.index0 }},event)" alt="Thumbnail {{ forloop.index }}" draggable="false">
   {% endfor %}
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var images = [{% for img in gallery_images %}"{{ img }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
-  var idx = 0;
-  var main = document.getElementById('gal-main');
-  var counter = document.getElementById('gal-counter');
-  var thumbs = document.querySelectorAll('#gal-thumbs img');
-  var prevBtn = document.getElementById('gal-prev');
-  var nextBtn = document.getElementById('gal-next');
+/* Gallery controller — uses inline onclick so no library can intercept */
+var G = (function() {
+  var imgs = [{% for img in gallery_images %}"{{ img }}"{% unless forloop.last %},{% endunless %}{% endfor %}];
+  var cur = 0;
+  var el, counter, thumbs;
 
-  if (!main || !prevBtn || !nextBtn) return;
+  function init() {
+    el = document.getElementById('gv-img');
+    counter = document.getElementById('gv-count');
+    thumbs = document.getElementById('gv-thumbs');
+  }
 
   function show(i) {
-    idx = (i + images.length) % images.length;
-    main.src = images[idx];
-    counter.textContent = (idx + 1) + ' / ' + images.length;
-    thumbs.forEach(function(t, ti) {
-      t.classList.toggle('is-active', ti === idx);
-    });
-    if (thumbs[idx]) thumbs[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    if (!el) init();
+    cur = ((i % imgs.length) + imgs.length) % imgs.length;
+    el.classList.add('gv-loading');
+    el.onload = function() { el.classList.remove('gv-loading'); };
+    el.src = imgs[cur];
+    counter.textContent = (cur + 1) + ' / ' + imgs.length;
+    var all = thumbs.children;
+    for (var j = 0; j < all.length; j++) {
+      if (j === cur) { all[j].classList.add('on'); all[j].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+      else { all[j].classList.remove('on'); }
+    }
   }
 
-  prevBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); show(idx - 1); });
-  nextBtn.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); show(idx + 1); });
+  function stop(e) { if (e) { e.preventDefault(); e.stopPropagation(); } }
 
-  thumbs.forEach(function(t) {
-    t.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      show(parseInt(t.dataset.idx));
+  /* Touch / swipe support */
+  var tx = 0;
+  document.addEventListener('DOMContentLoaded', function() {
+    init();
+    var stage = document.querySelector('.gv-stage');
+    if (!stage) return;
+    stage.addEventListener('touchstart', function(e) { tx = e.changedTouches[0].screenX; }, { passive: true });
+    stage.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].screenX - tx;
+      if (Math.abs(dx) > 40) { dx > 0 ? show(cur - 1) : show(cur + 1); }
     });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') { stop(e); show(cur - 1); }
+      if (e.key === 'ArrowRight') { stop(e); show(cur + 1); }
+    });
+
+    /* Nuke Magnific Popup bindings after it initializes */
+    setTimeout(function() {
+      if (window.jQuery) {
+        jQuery('#gv, #gv-thumbs').find('img').off('.mfp').off('click.mfp');
+        jQuery('#gv a.image-popup, #gv-thumbs a.image-popup').each(function() {
+          jQuery(this).replaceWith(jQuery(this).children());
+        });
+      }
+    }, 500);
   });
 
-  // Prevent Magnific Popup from hijacking gallery images
-  main.addEventListener('click', function(e) { e.stopPropagation(); });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowLeft') show(idx - 1);
-    if (e.key === 'ArrowRight') show(idx + 1);
-  });
-
-  // If jQuery + Magnific Popup loaded, remove any popup bindings on gallery images
-  if (window.jQuery) {
-    jQuery('#gallery-viewer img, #gal-thumbs img').off('click').removeClass('image-popup');
-    jQuery('#gallery-viewer a.image-popup, #gal-thumbs a.image-popup').each(function() {
-      var img = jQuery(this).find('img');
-      jQuery(this).replaceWith(img);
-    });
-    // Re-bind our handlers after jQuery cleanup
-    jQuery('#gal-thumbs img').on('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      show(parseInt(this.dataset.idx));
-    });
-  }
-});
+  return {
+    go: function(i, e) { stop(e); show(i); },
+    next: function(e) { stop(e); show(cur + 1); },
+    prev: function(e) { stop(e); show(cur - 1); }
+  };
+})();
 </script>
 {% else %}
-<p style="padding:2rem;text-align:center;color:#666;">No images found.</p>
+<p style="padding:2rem;text-align:center;color:var(--global-text-color-light);">No images found.</p>
 {% endif %}
 {% else %}
 <p>The requested gallery could not be found.</p>

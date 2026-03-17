@@ -1,13 +1,13 @@
 - title: "Not All Features Are Created Equal"
   description: "A Mechanistic Study of Vision-Language-Action Models"
-  media: "/assets/media/highlights/quan.mp4"
+  media: "/assets/media/highlights/vla_highlight_grid.mp4"
   media_type: "video"
   links:
     - label: "Explore"
       url: "https://action-atlas.com"
 - title: "TrianguLang"
   description: "Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
-  media: "/assets/media/highlights/quan.mp4"
+  media: "/assets/media/highlights/triangulang.mp4"
   media_type: "video"
   links:
     - label: "Project"
@@ -16,11 +16,3 @@
   description: "Gluing Local Contexts into Global Meaning via Sheaf Cohomology"
   media: "/assets/media/highlights/ThickGradientSheafFix.mp4"
   media_type: "video"
-- title: "Quat Viz"
-  description: "Quaternion Visualizations"
-  media: "/assets/media/highlights/quan.mp4"
-  poster: "/assets/media/highlights/quan.png"
-  media_type: "video"
-  links:
-    - label: "Demo"
-      url: "https://cwru-aism.github.io/QUANpaper/"

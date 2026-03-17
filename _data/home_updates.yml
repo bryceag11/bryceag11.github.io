@@ -1,7 +1,6 @@
 - date: "Apr 2026"
   emoji: "🇧🇷"
-  text: "Attending ICLR in Rio to present ActionAtlas and Sheaf Interpretability"
-  url: "https://iclr.cc/"
+  text: 'Attending ICLR in Rio to present <a href="https://action-atlas.com" target="_blank" rel="noopener">Action Atlas</a> and <a href="#" target="_blank" rel="noopener">Sheaf Interpretability</a>'
 - date: "Dec 2025"
   emoji: "👁️"
   text: "Awarded a NVIDIA Academic Grant for our Neuro-symbolic SPARK protocol"

@@ -1,7 +1,7 @@
 - title: "Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models"
   authors: "Bryce Grant*, Xijia Zhao*, Peng Wang"
   venue: "Under Review | Presenting @ ICLR 2026 MM Intelligence Workshop"
-  image: "/assets/media/highlights/quan.mp4"
+  image: "/assets/media/highlights/vla_highlight_grid.mp4"
 
   summary: "A mechanistic interpretability study revealing how different features contribute unequally to robotic action prediction in vision-language-action models."
   links:
@@ -15,7 +15,7 @@
 - title: "TrianguLang: Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
   authors: "Bryce Grant, Aryeh Rothenberg, Atri Banerjee, Peng Wang"
   venue: "Under Review"
-  image: "/assets/media/highlights/quan.mp4"
+  image: "/assets/media/highlights/triangulang.mp4"
 
   summary: "A geometry-aware approach to 3D localization that achieves semantic consensus without requiring camera pose information."
   links:

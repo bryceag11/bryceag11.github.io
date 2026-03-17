@@ -9,4 +9,4 @@ redirect_from:
 
 {% include base_path %}
 
-<embed src="/files/Bryce_Grant_CV.pdf" type="application/pdf" width="100%" height="1000px" />
+<embed src="/files/CV.pdf" type="application/pdf" width="100%" height="1000px" />

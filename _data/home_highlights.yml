@@ -4,7 +4,7 @@
   media_type: "video"
   links:
     - label: "Explore"
-      url: "https://action-atlas.com"
+      url: "https://cwru-aism.github.io/vla-interp-page/"
 - title: "TrianguLang"
   description: "Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
   media: "/assets/media/highlights/triangulang.mp4"
@@ -16,3 +16,6 @@
   description: "Gluing Local Contexts into Global Meaning via Sheaf Cohomology"
   media: "/assets/media/highlights/ThickGradientSheafFix.mp4"
   media_type: "video"
+  links:
+    - label: "Paper"
+      url: "/files/sheaf_paper.pdf"

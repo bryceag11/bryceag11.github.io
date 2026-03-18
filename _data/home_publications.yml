@@ -6,7 +6,7 @@
   summary: "A mechanistic interpretability study revealing how different features contribute unequally to robotic action prediction in vision-language-action models."
   links:
     - label: "Paper"
-      url: "https://openreview.net/forum?id=w8Mw9zJt1y"
+      url: "https://cwru-aism.github.io/vla-interp-page/static/paper.pdf"
     - label: "Project Page"
       url: "https://cwru-aism.github.io/vla-interp-page/"
     - label: "Action Atlas"
@@ -31,7 +31,7 @@
   summary: "A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning."
   links:
     - label: "Paper"
-      url: "https://openreview.net/pdf?id=eub5YrhExo"
+      url: "/files/sheaf_paper.pdf"
 
 - title: "Quaternion Approximation Networks for Enhanced Image Classification and Oriented Object Detection"
   authors: "Bryce Grant, Peng Wang"

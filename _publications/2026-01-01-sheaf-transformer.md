@@ -6,6 +6,6 @@ permalink: /publication/2026-sheaf-transformer
 excerpt: 'A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning.'
 date: 2026-03-12
 venue: 'Presenting @ ICLR 2026 UCLR Workshop'
-paperurl: 'https://openreview.net/pdf?id=eub5YrhExo'
+paperurl: '/files/sheaf_paper.pdf'
 authors: 'Bryce Grant, Peng Wang'
 ---

@@ -381,8 +381,8 @@
     // Create pin geometry (bright red ball head with silver stem)
     const markerHeadGeometry = new THREE.SphereGeometry(0.022, 16, 16);
     const markerStemGeometry = new THREE.CylinderGeometry(0.0025, 0.0035, 0.08, 8);
-    // Larger invisible hitbox for easier clicking
-    const hitboxGeometry = new THREE.SphereGeometry(0.04, 16, 16);
+    // Larger invisible hitbox for easier clicking (extra large for mobile)
+    const hitboxGeometry = new THREE.SphereGeometry(0.09, 16, 16);
 
     // Materials for pins - bright red head, silver stem
     const markerHeadMaterial = new THREE.MeshStandardMaterial({
@@ -410,6 +410,7 @@
 
     const markerMap = new Map();
     const markers = { film: [], digital: [] };
+    const hitboxes = []; // Separate list of just hitbox meshes for raycasting
     const textureCache = new Map();
     const photoLoader = new THREE.TextureLoader();
     photoLoader.crossOrigin = 'anonymous';
@@ -550,8 +551,14 @@
         head: markerHead,
         pinGroup: pinGroup,
         defaultZ: 0,      // Red ball visible on surface, stem hidden
-        hoveredZ: 0.30    // Pull way out into atmosphere when hovered
+        hoveredZ: 0.30,   // Pull way out into atmosphere when hovered
+        targetZ: 0,       // Lerp target for smooth animation
+        targetScale: 1    // Lerp target for smooth scale
       };
+
+      // Tag hitbox so raycaster can find the container directly
+      hitbox.userData.container = containerGroup;
+      hitboxes.push(hitbox);
 
       markersGroup.add(containerGroup);
       markers[type].push(containerGroup);
@@ -647,11 +654,22 @@
       globe.rotation.x = rotationX;
       timeZoneLinesGroup.rotation.y = rotationY;
       timeZoneLinesGroup.rotation.x = rotationX;
-      // Animate orbiting photos
+      // Smoothly lerp pin positions and scales to avoid flicker
       markers[currentMode].forEach(function(m) {
         if (m.userData.orbitGroup) {
           m.userData.orbitGroup.rotation.z += 0.012;
         }
+        // Smooth z position
+        var pGroup = m.userData.pinGroup;
+        if (pGroup) {
+          var tZ = m.userData.targetZ;
+          pGroup.position.z += (tZ - pGroup.position.z) * 0.18;
+        }
+        // Smooth scale
+        var tS = m.userData.targetScale;
+        var curS = m.scale.x;
+        var newS = curS + (tS - curS) * 0.18;
+        m.scale.set(newS, newS, newS);
       });
       renderer.render(scene, camera);
     }
@@ -687,7 +705,7 @@
 
       // Check if this was a click (not a drag)
       const clickDuration = Date.now() - clickStartTime;
-      if (clickDuration < 200 && clickStartMarker && clickStartMarker === hoveredMarker) {
+      if (clickDuration < 400 && clickStartMarker && clickStartMarker === hoveredMarker) {
         // Navigate to the photo album
         const slug = hoveredMarker.userData.slug;
         const type = hoveredMarker.userData.type;
@@ -701,21 +719,17 @@
       }
     }
 
+    // Improve touch interaction on mobile
+    renderer.domElement.style.touchAction = 'none';
     renderer.domElement.addEventListener('pointerdown', onPointerDown);
     renderer.domElement.addEventListener('pointerleave', () => {
       if (!isDragging) {
-        autoRotate = 0.0015;
         if (hoveredMarker) {
-          if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
-          }
-          if (hoveredMarker.userData.head) {
-            hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
-          }
-          hoveredMarker.scale.set(1, 1, 1);
-          removeOrbitingPhotos(hoveredMarker);
+          disengageMarkerImmediate(hoveredMarker);
           hoveredMarker = null;
         }
+        if (hoverGraceTimer) { clearTimeout(hoverGraceTimer); hoverGraceTimer = null; }
+        autoRotate = 0.0015;
         clearTooltip();
       }
     });
@@ -787,83 +801,90 @@
       }
     }
 
+    // Sticky-hover: track when the cursor last left the current pin so we
+    // can add a short grace period before un-hovering (prevents flicker).
+    let hoverGraceTimer = null;
+
+    function engageMarker(marker) {
+      if (hoverGraceTimer) { clearTimeout(hoverGraceTimer); hoverGraceTimer = null; }
+
+      if (hoveredMarker && hoveredMarker !== marker) {
+        disengageMarkerImmediate(hoveredMarker);
+      }
+
+      hoveredMarker = marker;
+      marker.userData.targetZ = marker.userData.hoveredZ;
+      marker.userData.targetScale = 2.0;
+
+      if (marker.userData.head) {
+        marker.userData.head.material.emissiveIntensity = 0.8;
+      }
+
+      createOrbitingPhotos(marker);
+      autoRotate = 0;
+      updateTooltip(marker);
+    }
+
+    function disengageMarkerImmediate(marker) {
+      if (!marker) return;
+      marker.userData.targetZ = marker.userData.defaultZ;
+      marker.userData.targetScale = 1;
+      if (marker.userData.head) {
+        marker.userData.head.material.emissiveIntensity = 0.5;
+      }
+      removeOrbitingPhotos(marker);
+    }
+
+    function scheduleDisengage() {
+      if (hoverGraceTimer) return; // already scheduled
+      hoverGraceTimer = setTimeout(function () {
+        hoverGraceTimer = null;
+        if (hoveredMarker) {
+          disengageMarkerImmediate(hoveredMarker);
+          hoveredMarker = null;
+        }
+        autoRotate = 0.0015;
+        clearTooltip();
+      }, 120); // 120 ms grace — enough to suppress flicker, short enough to feel responsive
+    }
+
     function handleHover(event) {
       const rect = renderer.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       raycaster.setFromCamera(mouse, camera);
-      const visibleMarkers = markers[currentMode];
 
-      // Check for intersections with pin groups (recursive to check children)
-      const intersects = raycaster.intersectObjects(visibleMarkers, true);
+      // Only raycast against hitbox meshes — NOT orbiting photos or other children
+      const activeHitboxes = hitboxes.filter(function (h) {
+        var c = h.userData.container;
+        return c && c.visible && c.userData.type === currentMode;
+      });
+      const intersects = raycaster.intersectObjects(activeHitboxes, false);
 
       if (intersects.length > 0) {
-        // Find the pin group that contains the intersected object
-        let pinGroup = intersects[0].object;
-        while (pinGroup.parent && !pinGroup.userData.type) {
-          pinGroup = pinGroup.parent;
-        }
+        // Resolve container from the hitbox tag
+        var container = intersects[0].object.userData.container;
+        if (!container) return;
 
         // Only interact with pins on the visible hemisphere (facing camera)
         var markerWorldPos = new THREE.Vector3();
-        pinGroup.getWorldPosition(markerWorldPos);
+        container.getWorldPosition(markerWorldPos);
         var dot = camera.position.clone().normalize().dot(markerWorldPos.clone().normalize());
         if (dot < 0.05) {
           // Pin is on the far side — treat as no hit
-          if (hoveredMarker) {
-            if (hoveredMarker.userData.pinGroup) hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
-            if (hoveredMarker.userData.head) hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
-            hoveredMarker.scale.set(1, 1, 1);
-            removeOrbitingPhotos(hoveredMarker);
-            hoveredMarker = null;
-          }
-          autoRotate = 0.0015;
-          clearTooltip();
+          if (!hoveredMarker) return;
+          scheduleDisengage();
           return;
         }
 
-        if (hoveredMarker && hoveredMarker !== pinGroup) {
-          // Reset previous marker
-          if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
-          }
-          if (hoveredMarker.userData.head) {
-            hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
-          }
-          hoveredMarker.scale.set(1, 1, 1);
-          removeOrbitingPhotos(hoveredMarker);
-        }
-
-        hoveredMarker = pinGroup;
-
-        // Animate pin pulling way out and scaling up
-        if (hoveredMarker.userData.pinGroup) {
-          hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.hoveredZ;
-        }
-        hoveredMarker.scale.set(2.0, 2.0, 2.0);
-
-        // Make the head glow more when hovered
-        if (hoveredMarker.userData.head) {
-          hoveredMarker.userData.head.material.emissiveIntensity = 0.8;
-        }
-
-        createOrbitingPhotos(hoveredMarker);
-        autoRotate = 0;
-        updateTooltip(hoveredMarker);
+        engageMarker(container);
       } else if (!isDragging) {
         if (hoveredMarker) {
-          if (hoveredMarker.userData.pinGroup) {
-            hoveredMarker.userData.pinGroup.position.z = hoveredMarker.userData.defaultZ;
-          }
-          if (hoveredMarker.userData.head) {
-            hoveredMarker.userData.head.material.emissiveIntensity = 0.5;
-          }
-          hoveredMarker.scale.set(1, 1, 1);
-          removeOrbitingPhotos(hoveredMarker);
-          hoveredMarker = null;
+          scheduleDisengage();
+        } else {
+          autoRotate = 0.0015;
+          clearTooltip();
         }
-        autoRotate = 0.0015;
-        clearTooltip();
       }
     }
 
@@ -886,15 +907,12 @@
       rotationX = Math.asin(marker.position.y / marker.position.length());
 
       if (hoveredMarker) {
-        hoveredMarker.scale.set(1, 1, 1);
-        if (hoveredMarker.userData.head) {
-          hoveredMarker.userData.head.material.emissiveIntensity = 0.3;
-        }
-        removeOrbitingPhotos(hoveredMarker);
+        disengageMarkerImmediate(hoveredMarker);
       }
 
       hoveredMarker = marker;
-      marker.scale.set(1.8, 1.8, 1.8);
+      marker.userData.targetScale = 1.8;
+      marker.userData.targetZ = marker.userData.hoveredZ;
       if (marker.userData.head) {
         marker.userData.head.material.emissiveIntensity = 0.6;
       }
@@ -906,11 +924,7 @@
     function resetCardHighlight(slug) {
       const marker = markerMap.get(slug);
       if (marker && marker === hoveredMarker) {
-        hoveredMarker.scale.set(1, 1, 1);
-        if (hoveredMarker.userData.head) {
-          hoveredMarker.userData.head.material.emissiveIntensity = 0.3;
-        }
-        removeOrbitingPhotos(hoveredMarker);
+        disengageMarkerImmediate(hoveredMarker);
         hoveredMarker = null;
         clearTooltip();
         autoRotate = 0.0015;

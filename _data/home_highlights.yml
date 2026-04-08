@@ -17,5 +17,5 @@
   media: "/assets/media/highlights/ThickGradientSheafFix.mp4"
   media_type: "video"
   links:
-    - label: "Paper"
-      url: "/files/sheaf_paper.pdf"
+    - label: "Project"
+      url: "https://cwru-aism.github.io/gluing-lc-page/"

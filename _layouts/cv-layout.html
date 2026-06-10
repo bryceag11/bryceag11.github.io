@@ -18,7 +18,7 @@ layout: compress
 
   <body class="cv-layout">
     {% include browser-upgrade.html %}
-    {% include masthead.html %}
+    {% if site.show_masthead != false %}{% include masthead.html %}{% endif %}
 
     <div id="main" role="main">
       <div class="container">

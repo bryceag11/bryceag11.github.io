@@ -1,165 +1,43 @@
 {% assign all_sections = site.data.home_sections %}
 {% if include.section_id and all_sections and all_sections[include.section_id] %}
   {% assign section = all_sections[include.section_id] %}
-  <style>
-  .home-card {
-    padding: 0 !important;
-    overflow: hidden;
-    gap: 0 !important;
-  }
-
-  .home-card-image {
-    width: 100%;
-    height: 180px;
-    overflow: hidden;
-  }
-
-  .home-card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .home-card-body {
-    padding: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .home-card-body h3 {
-    margin: 0;
-    padding: 1rem;
-    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-  }
-
-  .home-card-body .home-card-meta,
-  .home-card-body .home-card-date,
-  .home-card-body > p {
-    padding: 0 1rem;
-  }
-
-  .home-card-body .home-card-meta {
-    padding-top: 0.75rem;
-  }
-
-  .home-card-body > p {
-    display: none;
-  }
-
-  .home-card-badges {
-    display: none !important;
-  }
-
-  .home-card-links {
-    padding: 0 1rem 1rem;
-    margin-top: auto;
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .home-card-links a {
-    color: #1a237e;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-
-  .home-card-links a:hover {
-    text-decoration: underline;
-  }
-
-  .home-section-footer {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e2e8f0;
-  }
-
-  .home-section-footer-link {
-    color: #1a237e;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: color 0.2s ease;
-  }
-
-  .home-section-footer-link:hover {
-    color: #283593;
-    text-decoration: underline;
-  }
-  </style>
-  <div class="home-section-header">
-    <div>
-      {% if include.kicker or section.kicker %}
-        <p class="home-section-kicker">{{ include.kicker | default: section.kicker }}</p>
-      {% endif %}
-      <h2>{{ include.title | default: section.title }}</h2>
-      {% if section.intro %}
-        <p class="home-section-intro">{{ section.intro }}</p>
-      {% endif %}
-    </div>
-    {% if include.action_url %}
-      <a class="btn" href="{{ include.action_url }}">{{ include.action_label | default: 'View all' }}</a>
-    {% endif %}
-  </div>
-  <div class="home-card-grid">
+  <div class="home-publication-stack">
     {% for card in section.cards %}
-      {% assign url = card.link_url %}
-      {% if url %}
-        {% unless url contains '://' %}
-          {% assign url = url | relative_url %}
-        {% endunless %}
-      {% endif %}
-      <article class="home-card">
+      {% assign primary = card.links | first %}
+      <article class="pub-row">
         {% if card.image %}
-          <div class="home-card-image">
+          <div class="pub-thumb">
             <img src="{{ card.image | relative_url }}" alt="{{ card.title }}" loading="lazy">
           </div>
         {% endif %}
-        <div class="home-card-body">
+        <div class="pub-info">
+          {% if primary and primary.url %}
+            {% assign title_url = primary.url %}
+            {% unless title_url contains '://' %}{% assign title_url = title_url | relative_url %}{% endunless %}
+            <a class="pub-title-link" href="{{ title_url }}"{% if primary.url contains '://' %} target="_blank" rel="noopener"{% endif %}><span class="papertitle">{{ card.title }}</span></a>
+          {% else %}
+            <span class="papertitle">{{ card.title }}</span>
+          {% endif %}
           {% if card.meta %}
-            <p class="home-card-meta">{{ card.meta }}</p>
+            <p class="pub-authors">{{ card.meta }}{% if card.date %} / {{ card.date }}{% endif %}</p>
           {% endif %}
-          {% if card.date %}
-            <p class="home-card-date">{{ card.date }}</p>
-          {% endif %}
-          <h3>{{ card.title }}</h3>
           {% if card.description %}
-            <p>{{ card.description }}</p>
+            <p class="pub-desc">{{ card.description }}</p>
+          {% endif %}
+          {% if card.links %}
+            <p class="pub-links">
+              {% for link in card.links %}
+                {% assign link_url = link.url %}
+                {% if link_url %}{% unless link_url contains '://' %}{% assign link_url = link_url | relative_url %}{% endunless %}{% endif %}
+                {% if forloop.index0 > 0 %}<span class="sep">/</span>{% endif %}<a href="{{ link_url }}"{% if link.url contains '://' %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
+              {% endfor %}
+            </p>
           {% endif %}
         </div>
-        {% if card.badges %}
-          <ul class="home-card-badges">
-            {% for badge in card.badges %}
-              <li>{{ badge }}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-        {% if card.links %}
-          <div class="home-card-links">
-            {% for link in card.links %}
-              {% assign link_url = link.url %}
-              {% unless link_url contains '://' %}
-                {% assign link_url = link_url | relative_url %}
-              {% endunless %}
-              <a href="{{ link_url }}">{{ link.label }} →</a>
-            {% endfor %}
-          </div>
-        {% endif %}
       </article>
     {% endfor %}
   </div>
   {% if section.footer_link %}
-    <div class="home-section-footer">
-      <a href="{{ section.footer_link.url | relative_url }}" class="home-section-footer-link">{{ section.footer_link.label }} →</a>
-    </div>
+    <p class="home-projects-more"><a href="{{ section.footer_link.url | relative_url }}">{{ section.footer_link.label }}</a></p>
   {% endif %}
 {% endif %}

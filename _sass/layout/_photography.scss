@@ -29,11 +29,12 @@
 }
 
 .photography-hero__note {
-  background: linear-gradient(135deg, #0f172a, #5b21b6);
-  color: #e0f2fe;
+  background: var(--home-card-bg, #f8fafc);
+  color: var(--global-text-color);
   padding: 1.25rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+  border-radius: 1rem;
+  border: 1px solid var(--global-border-color);
+  box-shadow: none;
   font-size: 0.95rem;
 }
 
@@ -108,9 +109,10 @@
 
 .photography-globe__legend {
   background: var(--home-card-bg, #fff);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   padding: 1.25rem;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+  border: 1px solid var(--global-border-color);
+  box-shadow: none;
 }
 
 .photography-globe__note {
@@ -268,12 +270,12 @@
   margin: 0;
   overflow: hidden;
   border-radius: 0.75rem;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--global-border-color);
+  box-shadow: none;
+  transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
   }
 }
 

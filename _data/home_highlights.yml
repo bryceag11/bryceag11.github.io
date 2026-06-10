@@ -1,3 +1,10 @@
+- title: "SPARK"
+  description: "Sequential Planning via Anchored Robotic Keypoints"
+  media: "/spark/supp/video_build/segments/animation_1p5x.mp4"
+  media_type: "video"
+  links:
+    - label: "Project"
+      url: "https://cwru-aism.github.io/spark-page/"
 - title: "Not All Features Are Created Equal"
   description: "A Mechanistic Study of Vision-Language-Action Models"
   media: "/assets/media/highlights/vla_highlight_grid.mp4"

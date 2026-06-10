@@ -1,6 +1,16 @@
+- title: "Sequential Planning via Anchored Robotic Keypoints"
+  authors: "Bryce Grant, Aryeh Rothenberg*, Logan Senning*, Peng Wang"
+  venue: "Under Review"
+  image: "/spark/supp/video_build/segments/animation_1p5x.mp4"
+
+  summary: "Training free neurosymbolic protocol for robotic manipulation generalization"
+  links:
+    - label: "Project Page"
+      url: "https://cwru-aism.github.io/spark-page/"
+
 - title: "Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models"
   authors: "Bryce Grant*, Xijia Zhao*, Peng Wang"
-  venue: "Under Review | Presenting @ ICLR 2026 MM Intelligence Workshop"
+  venue: "Under Review | ICLR 2026 MM Intelligence Workshop (Oral)"
   image: "/assets/media/highlights/vla_highlight_grid.mp4"
 
   summary: "A mechanistic interpretability study revealing how different features contribute unequally to robotic action prediction in vision-language-action models."
@@ -26,14 +36,14 @@
 
 - title: "Gluing Local Contexts into Global Meaning"
   authors: "Bryce Grant, Peng Wang"
-  venue: "Presenting @ ICLR 2026 UCLR Workshop"
+  venue: "Under Review | ICLR 2026 UCLR Workshop"
   image: "/assets/media/highlights/ThickGradientSheafFix.mp4"
   summary: "A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning."
   links:
     - label: "Project Page"
       url: "https://cwru-aism.github.io/gluing-lc-page/"
 
-- title: "Quaternion Approximation Networks for Enhanced Image Classification and Oriented Object Detection"
+- title: "Quaternion Approximate Networks for Enhanced Image Classification and Oriented Object Detection"
   authors: "Bryce Grant, Peng Wang"
   venue: "IROS 2025"
   image: "/assets/media/highlights/quan.mp4"

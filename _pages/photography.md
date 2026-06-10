@@ -8,10 +8,6 @@ author_profile: false
 
 {% assign photo = site.data.photography %}
 
-<div style="margin-bottom: 1rem;">
-  <a href="/" style="color: var(--global-link-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← Back to Main Page</a>
-</div>
-
 <div class="photography-hero">
   <div>
     <p class="photography-hero__eyebrow">35mm & Digital Adventures</p>

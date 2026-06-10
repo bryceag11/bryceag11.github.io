@@ -43,7 +43,7 @@ film:
     title: "France"
     location: "Paris, Versailles"
     description: "Winter in Paris"
-    camera: "Minolta SRT 101 · Fuji Pro 400H"
+    camera: "Minolta SRT 101 / Fuji Pro 400H"
     coords:
       lat: 48.8566
       lng: 2.3522

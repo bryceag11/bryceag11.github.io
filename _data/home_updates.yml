@@ -3,15 +3,13 @@
   text: 'Attending ICLR in Rio to present <a href="https://action-atlas.com" target="_blank" rel="noopener">Action Atlas</a> and <a href="https://cwru-aism.github.io/gluing-lc-page/" target="_blank" rel="noopener">Sheaf Interpretability</a>'
 - date: "Dec 2025"
   emoji: "👁️"
-  text: "Awarded a NVIDIA Academic Grant for our Neuro-symbolic SPARK protocol"
+  text: 'Awarded a NVIDIA Academic Grant for our Neuro-symbolic <a href="https://cwru-aism.github.io/spark-page/" target="_blank" rel="noopener">SPARK</a> project'
 - date: "Oct 2025"
   emoji: "🤖"
-  text: "Attending IROS in Hanzghou to present QUAN"
-  url: "https://cwru-aism.github.io/QUANpaper/"
+  text: 'Attending IROS in Hanzghou to present <a href="https://cwru-aism.github.io/QUANpaper/" target="_blank" rel="noopener">QUAN</a>'
 - date: "Apr 2025"
   emoji: "🧭"
-  text: "Awarded the NSF GRFP"
-  url: "https://www.research.gov/grfp/AwardeeList.do?method=loadAwardeeList"
+  text: 'Awarded the <a href="https://www.research.gov/grfp/AwardeeList.do?method=loadAwardeeList" target="_blank" rel="noopener">NSF GRFP</a>'
 - date: "Aug 2024"
   emoji: "🎓"
   text: "Started my PhD at Case Western Reserve University"

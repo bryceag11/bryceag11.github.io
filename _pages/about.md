@@ -12,7 +12,7 @@ redirect_from:
 <div class="home-hero" id="top">
   <div class="home-hero__text">
     <h1>Bryce Grant</h1>
-    <p>I am a 2nd-year Electrical Engineering Ph.D. student at <a href="https://case.edu/">Case Western Reserve University</a>, where I’m advised by <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng “Edward” Wang</a> and <a href="https://scholar.google.com/citations?user=ot7kO10AAAAJ&hl=en">Zonghe Chua</a>. I received my dual B.S. in Electrical and Computer Engineering from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024, and I’m currently funded by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>. Previously, I spent time at Mercor on the Applied&nbsp;AI team, running data analytics and model evals.</p>     
+    <p>I am a 2nd-year Electrical Engineering Ph.D. student at <a href="https://case.edu/">Case Western Reserve University</a>, where I’m advised by <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng “Edward” Wang</a>. I received my dual B.S. in Electrical and Computer Engineering from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024, and I’m currently funded by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>. Previously, I spent time at Mercor on the Applied&nbsp;AI team, running data analytics and model evals.</p>     
     <div class="home-contact-links">
       <a href="mailto:bag100@case.edu">Email</a>
       <span>/</span>

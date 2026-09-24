@@ -10,7 +10,7 @@
 
 - title: "Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models"
   authors: "Bryce Grant*, Xijia Zhao*, Peng Wang"
-  venue: "Under Review | ICLR 2026 MM Intelligence Workshop (Oral)"
+  venue: "NeurIPS 2026 | ICLR 2026 MM Intelligence Workshop (Oral)"
   image: "/assets/media/highlights/vla_highlight_grid.mp4"
 
   summary: "A mechanistic interpretability study revealing how different features contribute unequally to robotic action prediction in vision-language-action models."
@@ -36,7 +36,7 @@
 
 - title: "Gluing Local Contexts into Global Meaning"
   authors: "Bryce Grant, Peng Wang"
-  venue: "Under Review | ICLR 2026 UCLR Workshop"
+  venue: "NeurIPS 2026 | ICLR 2026 UCLR Workshop"
   image: "/assets/media/highlights/ThickGradientSheafFix.mp4"
   summary: "A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning."
   links:

@@ -1,0 +1,30 @@
+{% assign experience = site.data.home_experience | default: [] %}
+{% assign service = site.data.home_service | default: [] %}
+{% if experience.size > 0 %}
+<p class="home-section-kicker">Experience</p>
+<ul class="home-updates">
+  {% for item in experience %}
+    <li>
+      <p class="home-update-line">
+        <strong>{{ item.org }}{% if item.role %}, {{ item.role }}{% endif %}</strong>
+        {% if item.date %}<span>{{ item.date }}</span>{% endif %}
+        {{ item.text }}
+      </p>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% if service.size > 0 %}
+<p class="home-section-kicker">Service</p>
+<ul class="home-updates">
+  {% for item in service %}
+    <li>
+      <p class="home-update-line">
+        <strong>{{ item.org }}{% if item.role %}, {{ item.role }}{% endif %}</strong>
+        {% if item.date %}<span>{{ item.date }}</span>{% endif %}
+        {{ item.text }}
+      </p>
+    </li>
+  {% endfor %}
+</ul>
+{% endif %}

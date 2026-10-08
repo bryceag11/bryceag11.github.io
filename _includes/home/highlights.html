@@ -26,7 +26,7 @@
           <div class="home-highlight-gif__media">
         {% endif %}
           {% if highlight.media_type == 'video' %}
-            <video class="home-highlight-video" {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} loop muted playsinline preload="metadata">
+            <video class="home-highlight-video" {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline preload="metadata">
               <source src="{{ media_url }}" type="video/mp4">
             </video>
           {% else %}
@@ -53,7 +53,7 @@
 </div>
 {% endif %}
 <script>
-  // Play only the cards on screen so a page with six clips never exceeds the browser's decoder budget.
+  /* Play only the cards on screen; the page is whitespace-collapsed, so no line comments here. */
   (function () {
     var vids = document.querySelectorAll('.home-highlight-video');
     if (!('IntersectionObserver' in window)) { vids.forEach(function (v) { v.play(); }); return; }

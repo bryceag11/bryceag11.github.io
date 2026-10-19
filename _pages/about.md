@@ -12,7 +12,7 @@ redirect_from:
 <div class="home-hero" id="top">
   <div class="home-hero__text">
     <h1>Bryce Grant</h1>
-    <p>I'm a third-year Electrical Engineering PhD candidate at <a href="https://case.edu/">Case Western Reserve University</a>, advised by <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng "Edward" Wang</a> in the AISM Lab and supported by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>. I received a dual B.S. in Electrical and Computer Engineering from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024. Previously, I spent time at HP building agentic workflows, and at Mercor on the Applied&nbsp;AI team, leading data analytics and engineering large-scale RL environments for frontier labs.</p>
+    <p>I'm a third-year Electrical Engineering PhD candidate at <a href="https://case.edu/">Case Western Reserve University</a>, advised by <a href="https://scholar.google.com/citations?user=4CbVWDcAAAAJ&hl=en">Peng "Edward" Wang</a> in the AISM Lab and supported by the <a href="https://www.nsfgrfp.org/">NSF GRFP</a>. I received a dual B.S. in Electrical and Computer Engineering from the <a href="https://www.uky.edu/">University of Kentucky</a> in 2024. Previously, I spent time at HP building agentic workflows, and at Mercor on the Applied&nbsp;AI team, running data analytics and engineering large-scale RL environments for frontier labs.</p>
     <div class="home-contact-links">
       <a href="mailto:bag100@case.edu">Email</a>
       <span>/</span>

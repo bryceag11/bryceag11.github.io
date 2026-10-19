@@ -17,3 +17,7 @@ vendor/
 .bundle/
 .claude/settings.local.json
 .claude/settings.local.json
+
+# Large slide decks hosted as GitHub Release assets, not committed
+# (GitHub rejects files >100MB; Pages cannot serve Git LFS pointers)
+files/Robot_Foundation_Evol.pptx

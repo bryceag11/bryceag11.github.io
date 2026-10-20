@@ -40,7 +40,7 @@
 
 - title: "Gluing Local Contexts into Global Meaning"
   authors: "Bryce Grant, Peng Wang"
-  venue: "NeurIPS 2026 | ICLR 2026 UCLR Workshop"
+  venue: "NeurIPS 2026 | ICLR 2026 UCRL Workshop"
   image: "/assets/media/highlights/sheaf_web.mp4"
   summary: "A sheaf-theoretic framework for decomposing and understanding how transformer models compose local contextual representations into global meaning."
   links:

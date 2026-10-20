@@ -19,7 +19,9 @@
   media: "/assets/media/highlights/wam_interp.mp4"
   media_type: "video"
   poster: "/assets/media/highlights/wam_interp.jpg"
-  links: []
+  links:
+    - label: "Blog"
+      url: "/blog/wam-imagination/"
 - title: "TrianguLang"
   description: "Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
   media: "/assets/media/highlights/triangulang.mp4"

@@ -1,0 +1,1 @@
+window.IMAGINE = {"n":17,"heads":[[24,2],[25,13],[25,15],[23,9],[23,8]],"meta":{"suite":"libero_10","task_id":0,"episode":0,"success":true,"n_steps":279,"n_chunks":17,"seconds":46.0},"eps":{"cosmos":{"dir":"img/imagine","n":17,"real_n":16,"attn":true},"lingbot_rt":{"dir":"img/imagine_rt","n":8,"real_n":8,"r43":true},"vpp":{"dir":"img/imagine_cv","n":8,"real_n":8}}};

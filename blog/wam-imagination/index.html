@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>World Action Model Imagination</title>
+<meta name="description" content="Interventions on released world action models: masking the imagined future cuts success in seven of eight models, a swapped future redirects the grasp, and on LIBERO-10 the features hold little about the future beyond the present state.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+:root {
+  --bg: #fdfcfa; --ink: #1d1d1b; --soft: #55534e; --faint: #8b8880; --rule: #e3e0d9; --panel: #f4f2ee; --dim: #6b6860;
+  --c-cosmos: #B03A7C; --c-lingbot: #2F6FA8; --c-dreamzero: #1F8582;
+  --c-jepa: #23395D; --c-lawam: #8C5A3C; --c-fastwam: #1D1D1B; --c-pi05: #4F7480;
+  --r-none: #6E695F; --r-none-f: #B9B3A8; --r-fut: #5E3F99; --r-fut-f: #9575CD; --r-cur: #8A6212; --r-cur-f: #E2B652;
+  --r-act: #1F6A3B; --r-act-f: #5FAF7A; --r-cf: #9A2C3A; --r-cf-f: #DE7480;
+  --link: #6B4FA0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --ink: #e8e6e1; --soft: #b3afa7; --faint: #858178; --rule: #34332f; --panel: #1f1e1c; --dim: #9a968d;
+    --c-cosmos: #E58DBE; --c-lingbot: #86B7E6; --c-dreamzero: #6DCBC8;
+  --c-jepa: #A9BCE0; --c-lawam: #D3A684; --c-fastwam: #E8E6E1; --c-pi05: #9FC2CC;
+  --r-none: #B3AEA4; --r-none-f: #5E5A52; --r-fut: #C7B5EC; --r-fut-f: #7356B4; --r-cur: #EAC97A; --r-cur-f: #A27A1C;
+  --r-act: #9FD6AE; --r-act-f: #3A8754; --r-cf: #F0A7AE; --r-cf-f: #AA4252;
+  --link: #C7B5EC;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --ink: #e8e6e1; --soft: #b3afa7; --faint: #858178; --rule: #34332f; --panel: #1f1e1c; --dim: #9a968d;
+  --c-cosmos: #E58DBE; --c-lingbot: #86B7E6; --c-dreamzero: #6DCBC8;
+  --c-jepa: #A9BCE0; --c-lawam: #D3A684; --c-fastwam: #E8E6E1; --c-pi05: #9FC2CC;
+  --r-none: #B3AEA4; --r-none-f: #5E5A52; --r-fut: #C7B5EC; --r-fut-f: #7356B4; --r-cur: #EAC97A; --r-cur-f: #A27A1C;
+  --r-act: #9FD6AE; --r-act-f: #3A8754; --r-cf: #F0A7AE; --r-cf-f: #AA4252;
+  --link: #C7B5EC;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 18px/1.65 "DM Sans", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+main { max-width: 690px; margin: 0 auto; padding: 56px 16px 80px; }
+h1 { font-size: 1.9rem; line-height: 1.2; font-weight: 700; margin: 0 0 22px; }
+h2 { font-size: 1.25rem; font-weight: 700; margin: 2.2em 0 0.5em; }
+p { margin: 0 0 1.05em; }
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+h1 { text-align: left; }
+.author { justify-content: flex-start; }
+.author a { display: inline-flex; align-items: center; color: var(--ink); font-weight: 700; text-decoration: none; }
+.author img { border: 1px solid var(--rule); }
+.author .author-meta { display: flex; flex-direction: column; gap: 2px; }
+.author .meta { color: var(--dim); font-weight: 400; font-size: 0.88rem; }
+.author .author-name { text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+a.jump { color: var(--soft); text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+a.jump:hover { color: var(--link); }
+.cite { position: relative; border: 1px solid var(--rule); border-radius: 3px; background: var(--panel); margin: 0 0 1.5em; }
+.cite pre { margin: 0; padding: 12px 64px 12px 14px; overflow-x: auto; font: 12.5px/1.55 "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--ink); }
+.cite .copy { position: absolute; top: 8px; right: 8px; font: 12px "DM Sans", sans-serif; padding: 3px 9px; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg); color: var(--ink); cursor: pointer; }
+.teaser svg, figure.diagram svg { display: block; width: 100%; height: auto; overflow: visible; font-family: "DM Sans", -apple-system, "Segoe UI", sans-serif; }
+.teaser .d-label, .diagram .d-label { font-size: 16px; fill: var(--ink); }
+.teaser .d-small, .diagram .d-small { font-size: 14px; fill: var(--soft); }
+.teaser .d-strong, .diagram .d-strong { font-weight: 700; }
+.diagram .d-mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; fill: var(--soft); }
+.teaser .d-script, .diagram .d-script { font-size: 0.72em; }
+.diagram .d-now { fill: var(--ink); font-weight: 700; }
+.diagram .d-ell { font-family: "Cambria Math", "STIX Two Math", "DejaVu Serif", "Times New Roman", serif; font-style: italic; }
+/* role colours: none (grey), predicted future (purple), current frame (gold), action (green), counterfactual (red) */
+.d-fut-text { fill: var(--r-fut) !important; } .d-cur-text { fill: var(--r-cur) !important; } .d-act-text { fill: var(--r-act) !important; }
+.d-cf-text { fill: var(--r-cf) !important; } .d-none-text { fill: var(--r-none) !important; }
+.teaser .d-axis, .diagram .d-axis { stroke: var(--r-none); stroke-width: 1.6; }
+.diagram .d-tick { fill: var(--bg); stroke: var(--r-none); stroke-width: 2; }
+.diagram .d-tick-done { fill: var(--ink); stroke: var(--ink); }
+.diagram .d-marker { fill: var(--r-fut); }
+.teaser .d-frame, .diagram .d-frame { fill: none; stroke: var(--rule); stroke-width: 1.5; }
+.d-frame-fut { stroke: var(--r-fut) !important; stroke-width: 2.5 !important; }
+.d-frame-cur { stroke: var(--r-cur) !important; stroke-width: 2.5 !important; }
+.d-frame-act { stroke: var(--r-act) !important; stroke-width: 2.5 !important; }
+.d-frame-cf { stroke: var(--r-cf) !important; stroke-width: 2.5 !important; }
+.d-frame-thick { stroke-width: 3.5 !important; }
+.diagram .d-path { fill: none; stroke: var(--r-act); stroke-width: 6; paint-order: stroke; stroke-linecap: round; stroke-linejoin: round; }
+.diagram .d-path-dot { fill: var(--r-act); stroke: #fff; stroke-width: 1.5; }
+.diagram .d-path-clip { stroke-width: 4; opacity: 0.95; }
+.diagram .d-path-none { stroke: var(--r-none); }
+.diagram .d-path-cf { stroke: var(--r-cf); }
+.diagram .d-tag { font-size: 13px; font-weight: 700; paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
+.d-tag-fut { fill: var(--r-fut); } .d-tag-cf { fill: var(--r-cf); }
+.diagram .d-arrow-act { stroke: var(--r-act); stroke-width: 2.5; }
+.diagram .d-head-act { fill: var(--r-act); }
+.diagram .d-band { fill: var(--panel); stroke: var(--rule); stroke-width: 1.2; }
+.diagram .d-col { fill: none; stroke: none; }
+.d-col-cf { fill: var(--r-cf-f) !important; opacity: 0.35; }
+.diagram .d-zoom { font-size: 12px; font-weight: 700; fill: #fff; paint-order: stroke; stroke: rgba(0,0,0,.55); stroke-width: 3px; }
+.d-col-cur { fill: var(--r-cur-f) !important; opacity: 0.35; } .d-col-pred { fill: var(--r-fut-f) !important; opacity: 0.35; } .d-col-act { fill: var(--r-act-f) !important; opacity: 0.35; }
+.teaser .d-chip, .diagram .d-chip { stroke-width: 1.6; }
+.d-chip-cur { fill: var(--r-cur-f); stroke: var(--r-cur); } .d-chip-pred { fill: var(--r-fut-f); stroke: var(--r-fut); }
+.d-chip-act { fill: var(--r-act-f); stroke: var(--r-act); } .d-chip-cf { fill: var(--r-cf-f); stroke: var(--r-cf); }
+.teaser .d-b, .diagram .d-b { stroke-width: 1.4; }
+.d-b-fut { fill: var(--r-fut-f); stroke: var(--r-fut); fill-opacity: 0.85; }
+.d-b-cf { fill: var(--r-cf-f); stroke: var(--r-cf); fill-opacity: 0.85; }
+.d-b-cur { fill: var(--r-cur-f); stroke: var(--r-cur); fill-opacity: 0.5; stroke-opacity: 0.6; }
+.diagram .d-funnel { stroke: none; opacity: 0.4; }
+.d-funnel-cur { fill: var(--r-cur-f); } .d-funnel-pred { fill: var(--r-fut-f); }
+.diagram .d-mask-pill { fill: var(--ink); opacity: 0.88; }
+.diagram .d-mask-text { fill: var(--bg) !important; font-size: 14px; }
+.diagram .d-placeholder { fill: none; stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.diagram .d-node { fill: none; stroke: var(--ink); stroke-width: 1.8; }
+.diagram .d-probe { fill: none; stroke: var(--r-fut); stroke-width: 3; }
+.diagram .d-head-fut { fill: var(--r-fut); }
+.diagram .d-exec { fill: var(--r-act-f); }
+.diagram .d-replan { fill: var(--r-none-f); }
+.diagram .d-box { stroke-width: 2.2; fill: none; }
+.diagram .d-box1 { fill: var(--r-none-f); stroke: var(--r-none); }
+.diagram .d-box2 { stroke: var(--soft); }
+.diagram .d-box3 { stroke: var(--ink); }
+.diagram .d-barbase { fill: var(--r-none-f); }
+.diagram .d-bard { fill: var(--r-fut); }
+.diagram .d-barframe { fill: none; stroke: var(--ink); stroke-width: 1.6; }
+.d-bar-none { fill: var(--r-none-f); stroke: var(--r-none); stroke-width: 1.6; }
+.d-bar-fut { fill: var(--r-fut-f); stroke: var(--r-fut); stroke-width: 1.6; }
+.d-bar-cur { fill: var(--r-cur-f); stroke: var(--r-cur); stroke-width: 1.6; }
+.d-bar-cf { fill: var(--r-cf-f); stroke: var(--r-cf); stroke-width: 1.6; }
+.d-controls { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 0.8rem; color: var(--soft); }
+.d-controls button { font: inherit; border: 1px solid var(--rule); border-radius: 3px; background: var(--bg); color: var(--ink); padding: 3px 10px; cursor: pointer; min-width: 64px; }
+.d-seek { flex: 1; accent-color: var(--r-fut); margin: 0; min-width: 0; }
+.d-clock { font-variant-numeric: tabular-nums; min-width: 78px; text-align: right; }
+.d-stage { font-size: 0.86rem; color: var(--soft); min-height: 2.8em; margin: 6px 0 0; }
+@media (prefers-reduced-motion: reduce) { .d-controls { display: none; } }
+code.instr { font: 0.92em "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--ink); background: var(--panel); padding: 0 3px; border-radius: 2px; }
+.diagram .d-mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; fill: var(--soft); }
+.d-wrap { width: 100%; }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.2em; }
+.home { font-size: 0.85rem; color: var(--soft); text-decoration: none; }
+.theme { font: inherit; font-size: 0.78rem; background: none; border: 1px solid var(--rule); border-radius: 3px; color: var(--soft); padding: 2px 9px; cursor: pointer; }
+.theme:hover { color: var(--ink); }
+.author { display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin-bottom: 2.4em; font-size: 0.95rem; line-height: 1.4; }
+.author img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex: none; }
+.tscroll { overflow-x: auto; }
+@media (max-width: 520px) { table.t1 { min-width: 440px; } }
+p.tcap { font-size: 0.8rem; color: var(--soft); margin-top: -0.4em; }
+table.fam { width: 100%; border-collapse: collapse; font-size: 0.86rem; line-height: 1.45; margin: 1.2em 0 0.6em; }
+table.fam th, table.fam td { text-align: left; vertical-align: top; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--rule); }
+table.fam th { font-weight: 700; border-bottom: 1px solid var(--soft); }
+sup.c { font-size: 0.7em; line-height: 0; }
+sup.c a { text-decoration: none; }
+figure { margin: 2.2em -16px; padding: 0 16px; }
+@media (min-width: 900px) { figure.wide { margin-left: -105px; margin-right: -105px; } }
+figcaption { font-size: 0.82rem; line-height: 1.5; color: var(--soft); margin-top: 10px; }
+figcaption b { color: var(--ink); font-weight: 600; }
+.controls { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; font-size: 0.82rem; margin-bottom: 10px; color: var(--soft); }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+.seg button { font: inherit; background: none; color: var(--soft); border: 0; padding: 4px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--panel); color: var(--ink); }
+button.play { font: inherit; background: none; border: 1px solid var(--rule); border-radius: 4px; color: var(--ink); padding: 3px 10px; cursor: pointer; min-width: 58px; }
+input[type=range] { flex: 1 1 160px; accent-color: var(--ink); }
+label.chk { display: inline-flex; gap: 5px; align-items: center; cursor: pointer; }
+.frames { display: grid; gap: 6px; align-items: end; }
+.frames.three { grid-template-columns: repeat(3, 1fr); }
+.frames.two { grid-template-columns: repeat(2, 1fr); }
+.frames.r43 img { aspect-ratio: 4 / 3; }
+.frames div { font-size: 0.78rem; color: var(--soft); }
+.frames img { width: 100%; display: block; aspect-ratio: 1; background: var(--panel); border-radius: 2px; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { font-family: "DM Sans", -apple-system, "Segoe UI", sans-serif; fill: var(--soft); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 0.8rem; margin-top: 6px; }
+.legend button { font: inherit; background: none; border: 0; padding: 2px 0; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.legend button[aria-pressed="false"] { color: var(--faint); text-decoration: line-through; }
+.legend i { width: 14px; height: 3px; display: inline-block; border-radius: 1px; }
+#fig-ladder .tr rect, #fig-ladder .tr text { transition: y .45s ease, height .45s ease, transform .45s ease; }
+@media (prefers-reduced-motion: reduce) { #fig-ladder .tr rect, #fig-ladder .tr text { transition: none; } }
+.tip { position: fixed; pointer-events: none; background: var(--bg); border: 1px solid var(--rule); padding: 4px 8px; font-size: 0.78rem; border-radius: 3px; color: var(--ink); opacity: 0; z-index: 5; }
+.eq { overflow-x: auto; margin: 0.4em 0 1.2em; }
+.refs { font-size: 0.82rem; line-height: 1.5; color: var(--soft); padding-left: 1.4em; }
+.refs li { margin-bottom: 0.5em; }
+.rv-stage { border: 3px solid var(--r-fut); border-radius: 4px; background: var(--panel); aspect-ratio: 1032 / 410; overflow: hidden; touch-action: pan-y; }
+.rv-swap .rv-stage { border-color: var(--r-cf); }
+.rv-stage video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.rv-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
+.rv-nav > button { font: inherit; font-size: 0.9rem; background: none; border: 1px solid var(--rule); border-radius: 4px; color: var(--ink); padding: 2px 12px; cursor: pointer; }
+.rv-dots { display: inline-flex; gap: 2px; }
+.rv-dots button { width: 18px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.rv-dots button::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--rule); }
+.rv-dots button[aria-current="true"]::after { background: var(--r-fut); }
+.rv-swap .rv-dots button[aria-current="true"]::after { background: var(--r-cf); }
+p.rv-cap { font-size: 0.82rem; line-height: 1.5; color: var(--soft); margin: 6px 0 0; text-align: center; min-height: 3em; }
+#fig-rollouts:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
+@media (max-width: 520px) {
+  body { font-size: 17px; }
+  h1 { font-size: 1.62rem; }
+  .frames.three { gap: 4px; }
+  table.fam { font-size: 0.8rem; }
+}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><a class="home" href="https://bryceag11.github.io/">&larr; bryceag11.github.io</a><button class="theme" type="button" aria-label="Switch color theme"></button></div>
+<h1>What world action models do with the futures they imagine</h1>
+<div class="author">
+  <a href="https://bryceag11.github.io/" aria-hidden="true" tabindex="-1"><img src="img/author.jpg" alt="" width="48" height="48"></a>
+  <span class="author-meta"><a href="https://bryceag11.github.io/"><span class="author-name">Bryce Grant</span></a><span class="meta">October 20, 2026</span><span class="meta">9 min read</span></span>
+</div>
+<p>A world action model (WAM) is a robot policy that learns to predict the future, usually as video, along with its
+actions. The usual explanation for their gains is that predicting the future teaches the policy how the world works. We tested
+that explanation on released checkpoints in simulation, where every object's pose is known, with two questions. Does
+the action <a class="jump" href="#blind">use the future the model imagines</a> at test time? And do the policy's features
+<a class="jump" href="#ladder">hold the future</a> beyond what the present state already determines?</p>
+
+<figure class="diagram" data-diagram="joint">
+  <div class="d-wrap"><svg viewBox="0 0 720 766" role="img" aria-label="Diagram of joint video-action denoising in Cosmos Policy: five sampler calls at sigma 80, 42, 21, 10 and 4 clear the predicted frames step by step, the action tokens attend to the predicted-frame and current-frame tokens at every layer, and in LingBot-VA rollouts on RoboTwin 2.0 from one initial state the unmasked run completes the task while the run with the predicted frames masked fails."></svg></div>
+  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
+  <p class="d-stage"></p>
+  <figcaption><b>Joint video-action denoising.</b> Cosmos Policy denoises its predicted frames and action tokens together. The rollouts come from LingBot-VA on RoboTwin 2.0, whose action also attends to its predicted frames. From the same initial state, the unmasked run puts the box in the basket and the run with the predicted frames masked from the action fails (52 of 60 unmasked episodes succeed, 0 of 60 masked). Intermediate frames show the decoded frame under noise scaled to each call's &sigma;.</figcaption>
+</figure>
+
+<p>In seven of the eight WAMs whose action can read a predicted future, <b>masking that future cuts success</b> far below a
+current-frame mask, on LIBERO-10, RoboTwin 2.0 or CALVIN. <a class="jump" href="#swap">Swapping that future</a> changes which object the robot grabs first, on LIBERO-10 and
+on RoboTwin 2.0. On LIBERO-10, once we control for the present state and
+the robot's own motion, the features of six policies hold <b>at most 0.003 more R<sup>2</sup> for a target's future displacement</b>.</p>
+
+
+<h2 id="families">Where the future meets the action</h2>
+
+<p>Zhang et al.<sup class="c"><a href="#r-tutorial">1</a></sup> sort WAMs into four paradigms, and we add latent foresight for two of our models.</p>
+
+<table class="fam">
+<thead><tr><th>Family</th><th>How the action sees the future</th><th>Models we tested</th></tr></thead>
+<tbody>
+<tr><td>Joint video-action generation</td><td>Action tokens attend to the frames the same network is generating</td>
+<td>Cosmos Policy<sup class="c"><a href="#r-cosmos">2</a></sup>, DreamZero<sup class="c"><a href="#r-dreamzero">3</a></sup>, Motus<sup class="c"><a href="#r-motus">4</a></sup> (diffusion) and LingBot-VA<sup class="c"><a href="#r-lingbot">5</a></sup> (autoregressive)</td></tr>
+<tr><td>Latent foresight</td><td>An expert predicts a future latent or feature state, and the action expert attends to it</td>
+<td>InternVLA-A1<sup class="c"><a href="#r-internvla">6</a></sup>, LaWAM<sup class="c"><a href="#r-lawam">7</a></sup></td></tr>
+<tr><td>Video features to a policy head</td><td>One denoising pass of a video model, read by a separate policy</td>
+<td>VPP<sup class="c"><a href="#r-vpp">8</a></sup></td></tr>
+<tr><td>Auxiliary prediction only</td><td>Future prediction shapes training, and the deployed action never sees a predicted future</td>
+<td>Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup>, VLA-JEPA<sup class="c"><a href="#r-vlajepa">10</a></sup></td></tr>
+</tbody>
+</table>
+
+<p>The wiring decides which tests apply. We intervened in three of the four families, on LIBERO<sup class="c"><a href="#r-libero">11</a></sup>, RoboTwin 2.0<sup class="c"><a href="#r-robotwin">12</a></sup> and CALVIN<sup class="c"><a href="#r-calvin">13</a></sup>, and scored gaze heads on BEHAVIOR-1K and DROID as well.</p>
+
+
+<h2 id="misread">Reading attention misleads twice</h2>
+
+<p>In manipulation the object that moves next is the one in or beside the gripper, so the gaze-head score of Gandikota and
+Bau<sup class="c"><a href="#r-gaze">14</a></sup> selects heads that follow the hand: distance to the gripper alone
+finds the next object at AUC .979 to 1.000 in all ten LIBERO policies we scored<sup class="c"><a href="#r-groot">15</a>,<a href="#r-oft">16</a>,<a href="#r-smolvla">17</a></sup>, and
+the score correlates with a held-object score at Spearman .90 to 1.00. We call the heads it picks <b>carry heads</b>. RIFT<sup class="c"><a href="#r-rift">18</a></sup> masks the whole predicted-frame cache of four WAMs and
+finds that success drops. A whole-cache mask names no layer or head and says nothing about what the read carries.</p>
+
+<h2 id="imagine">Four interventions on the read</h2>
+
+<p>We call the action tokens' attention to the predicted frames the action's <b>read</b> of the future. A controlled gaze score counts a head as anticipatory only on frames where the next object is far from the gripper, against a
+distance-matched null. Size-matched blinding masks the read in every layer and head and, as the control, the same
+number of current-frame tokens. Restricted masks take one band of layers or <i>k</i> heads at a time. A key/value swap runs a second
+pass under a counterfactual instruction and copies only its predicted frames' keys and values into the action pass. Figure&nbsp;1
+shows the read in three models, with five Cosmos Policy <b>tracker heads</b> overlaid, the carry heads whose
+attention inside the predicted frames best follows the gripper.</p>
+
+
+<figure class="wide" id="fig-imagine">
+  <div class="controls">
+    <span class="seg" role="group" aria-label="Episode">
+      <button type="button" data-e="cosmos" aria-pressed="true">Cosmos Policy, LIBERO-10</button>
+      <button type="button" data-e="lingbot_rt" aria-pressed="false">LingBot-VA, RoboTwin 2.0</button>
+      <button type="button" data-e="vpp" aria-pressed="false">VPP, CALVIN</button>
+    </span>
+    <button class="play" type="button">Play</button>
+    <input type="range" min="0" value="0" aria-label="Action chunk">
+    <span class="ui step"></span>
+    <label class="chk"><input type="checkbox" checked> attention</label>
+  </div>
+  <div class="frames three">
+    <div>Camera, start of chunk<img alt="Current camera frame"></div>
+    <div>Imagined by the policy<img alt="Imagined future frame"></div>
+    <div>Camera, start of next chunk<img alt="Camera frame at the next chunk"></div>
+  </div>
+  <figcaption><b>Figure 1.</b> The imagined frame (middle) shows the arm where the next camera frame (right) later finds it. For Cosmos Policy, the heatmap marks where five tracker heads of the action look.</figcaption>
+  </figure>
+
+<h2 id="gaze">Standard gaze heads are carry heads, and a second population looks ahead</h2>
+
+<p>With the gripper confound controlled, every simulated policy we scored has heads that prefer the next object before the hand
+reaches it: 2 to 248 heads per LIBERO policy, 38 to 162 in each of six RoboTwin policies (distance-matched top AUC .91
+to .97), all 48 perceiver heads of VPP on CALVIN (.73 to .82), and 120 of 144 &pi;<sub>0.5</sub><sup class="c"><a href="#r-pi05">19</a></sup> heads on
+BEHAVIOR-1K<sup class="c"><a href="#r-behavior">20</a></sup> (top .890). On recorded DROID<sup class="c"><a href="#r-droid">21</a></sup>
+frames, 3 of 144 &pi;<sub>0.5</sub>-DROID heads pass the distance-matched null (top .639). Outside &pi;<sub>0.5</sub> these
+heads are entangled with instruction mentions, so the interventions below use carry and tracker heads.</p>
+
+<h2 id="blind">The action needs its predicted frames</h2>
+
+<p>On LIBERO-10 (50 episodes per arm), masking the read drops success from <b>48 to 10 in Cosmos Policy, 49 to 0
+in LingBot-VA and 35 to 0 in DreamZero</b>, and the size-matched current-frame masks leave 34, 49 and 24. On RoboTwin 2.0 (60 per
+arm), LingBot-VA drops from 52 to 0 against 50 for the current mask, InternVLA-A1 from 44 to 11 against 39, LaWAM from 55 to 36
+against 57 and Motus from 45 to 0 against 27 (Table&nbsp;1).
+On CALVIN, VPP falls from 4.16 to 0.01 tasks per chain, against 4.12 for the smaller
+current-frame mask (Figure&nbsp;2).</p>
+
+<figure class="wide" id="fig-bridge">
+  <div class="controls">
+    <span class="seg" role="group" aria-label="View">
+      <button type="button" data-v="blind" aria-pressed="true">All layers</button>
+      <button type="button" data-v="depth" aria-pressed="false">One band</button>
+      <button type="button" data-v="dose" aria-pressed="false">Tracker heads</button>
+    </span>
+  </div>
+  <svg viewBox="0 0 640 300" role="img" aria-label="Task success under attention masks, grouped by benchmark"></svg>
+  <div class="legend"></div>
+  <figcaption><b>Figure 2.</b> On every benchmark, masking the predicted future (purple) drops success far more than a current-frame mask (gold). The other views locate the read in one band of layers and its tracker heads.</figcaption>
+  </figure>
+
+<p>Masking a quarter of the layers at a time locates a read band in each model, and inside it the top 100 tracker heads
+carry most of the effect where 100 random heads do little (Figure&nbsp;2, <i>One band</i> and <i>Tracker heads</i>). On RoboTwin 2.0,
+masking LingBot-VA's layers 7 to 14 alone gives 0 of 20, as masking every layer does, and the other bands leave 18 to 20. In DreamZero <b>three heads
+are sufficient to block the read</b>: on held-out initial states, masking their future reads leaves 1 of 50 successes, against 31 of 50 for
+their current-frame reads (Fisher <i>p</i>&nbsp;=&nbsp;2&times;10<sup>&minus;11</sup>).</p>
+
+<div class="tscroll"><table class="fam t1">
+<thead><tr><th>Model</th><th>Benchmark</th><th>Unmasked</th><th>Future masked</th><th>Current masked</th></tr></thead>
+<tbody>
+<tr><td>LingBot-VA</td><td>RoboTwin 2.0</td><td>52/60</td><td>0/60</td><td>50/60</td></tr>
+<tr><td>InternVLA-A1</td><td>RoboTwin 2.0</td><td>44/60</td><td>11/60</td><td>39/60</td></tr>
+<tr><td>LaWAM</td><td>RoboTwin 2.0</td><td>55/60</td><td>36/60</td><td>57/60</td></tr>
+<tr><td>Motus</td><td>RoboTwin 2.0</td><td>45/60</td><td>0/60</td><td>27/60</td></tr>
+<tr><td>VPP</td><td>CALVIN ABC-D</td><td>4.16</td><td>0.01</td><td>4.12</td></tr>
+</tbody>
+</table></div>
+<p class="tcap"><b>Table 1.</b> Blinding outside LIBERO.</p>
+
+
+<h2 id="swap">The read carries the plan</h2>
+
+<figure class="diagram" data-diagram="swap">
+  <div class="d-wrap"><svg viewBox="0 0 720 440" role="img" aria-label="Diagram of the key-value swap in LingBot-VA on RoboTwin 2.0: predicted-frame keys and values from a counterfactual pass that moves the phone replace those of the action pass that moves the red stapler, and from the same initial state the unmodified rollout picks up the stapler first while the swapped rollout picks up the phone first."></svg></div>
+  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
+  <figcaption><b>Key/value swap.</b> LingBot-VA on RoboTwin 2.0, task "position the red stapler to the right of the phone". The counterfactual pass predicts the wrist camera over the phone and the action pass predicts it over the stapler. With the counterfactual keys and values in the action pass, the arm picks up the phone first and reaches the stapler only at step 210 (39 of 60 swapped episodes go to the counterfactual object first, 5 of 60 with the current-frame swap).</figcaption>
+</figure>
+
+<p>On two LIBERO-10 basket tasks, LingBot-VA moves <b>the counterfactual object first in 39 of 40 episodes</b> and DreamZero in 40 of 40. The same swap on
+current-frame keys and values moves it in 0 of 40
+(McNemar <i>p</i>&nbsp;=&nbsp;4&times;10<sup>&minus;12</sup> and 2&times;10<sup>&minus;12</sup>), and the swapped runs fail the original task
+in all 40. Re-encoding LingBot-VA's counterfactual frames under the original instruction
+still redirects 39 of 40, so the imagined video carries the plan. On LIBERO-Object the swap redirects 179 of 200 Cosmos Policy episodes
+and 199 of 200 DreamZero. On RoboTwin 2.0, LingBot-VA grabs it first
+in 39 of 60 swapped episodes, against 5 of 60 with the current-frame swap and 40 of 60 under the counterfactual
+instruction (McNemar <i>p</i>&nbsp;=&nbsp;5&times;10<sup>&minus;9</sup>). Cosmos Policy is the weakest
+redirector, 10 of 40 on LIBERO-10. In one RoboTwin 2.0 episode, LingBot-VA's unmodified run reaches the gray mouse first and the swapped
+run reaches the blue bell.</p>
+
+<figure class="wide" id="fig-steer">
+  <div class="controls">
+    <span class="seg" role="group" aria-label="Benchmark">
+      <button type="button" data-b="robotwin" aria-pressed="true">LingBot-VA, RoboTwin 2.0</button>
+      <button type="button" data-b="restricted" aria-pressed="false">Restricted swaps</button>
+    </span>
+    <button class="play" type="button">Play</button>
+    <input type="range" min="0" value="0" aria-label="Time step">
+    <span class="ui step"></span>
+  </div>
+  <div class="frames two">
+    <div>Unmodified<img alt="Unmodified rollout frame"></div>
+    <div>Imagined frames swapped<img alt="Steered rollout frame"></div>
+  </div>
+  <svg viewBox="0 0 640 190" role="img" aria-label="Gripper distance to each named object, or counterfactual-first counts under restricted swaps"></svg>
+  <div class="legend"></div>
+  <figcaption><b>Figure 3.</b> Gripper distance to each named object in one RoboTwin 2.0 episode, unmodified (solid) and with the predicted-frame keys and values swapped (dashed). <i>Restricted swaps</i> counts counterfactual-first episodes when only a band of layers or a set of heads is swapped.</figcaption>
+  </figure>
+
+<p>On LIBERO-10, the read band alone redirects 21 of 40 DreamZero and, on fresh initial states, 19 of 40 LingBot-VA
+episodes, against 40 for all layers; LingBot-VA's top 100 tracker heads redirect 30. No band or head set reached
+the 35 of 40 we set in advance as sufficient. On RoboTwin 2.0 the band
+alone carries the redirect: in 80 fresh episodes, LingBot-VA's layers 8 to 14 redirect 57, against 59 for all layers and
+5 for layers 15 to 21 (<i>Restricted swaps</i>).
+ForeWAM<sup class="c"><a href="#r-forewam">22</a></sup> builds a model around this key-value channel.</p>
+
+<h2 id="plans">Stronger reads do not fix wrong plans</h2>
+
+<p>Without imagination, object choice is a distributed code: in VLA-JEPA, patching the outputs
+of its top-<i>k</i> carry heads from a counterfactual pass switches the first object with a 50 percent point at 32.5 heads [31.1, 34.0]
+over 288 held-out LIBERO-10 episodes. In a WAM the lever is the plan. Temporal Ratio<sup class="c"><a href="#r-tr">23</a></sup> scales language and plan
+guidance by how strongly the action attends to future frames (TR-AG). On Cosmos Policy, with settings frozen in-distribution, it <b>lowers success</b> on the compositional LIBERO Spatial-OOD suite<sup class="c"><a href="#r-ood">24</a></sup> from 171 to 139 of 600
+paired episodes (Holm <i>p</i>&nbsp;=&nbsp;.002), and our tracker-head variants stay at or below base (157 and 169). Told
+to put the bowl on the cookie box, it imagines the bowl on the plate and the action follows.</p>
+
+<p><b>A better plan through the same channel does help.</b> Frames imagined during a successful rollout of the same or nearest
+scene, re-noised to the level Cosmos's action reads (&sigma;&nbsp;&ge;&nbsp;4), raise success from 171 to 182 of 240 (12 gained,
+1 lost, Holm <i>p</i>&nbsp;=&nbsp;.007). Inserted clean, the same plans drop it to 124. Those plans were chosen with outcome
+knowledge. Without it, the value frame, a VLM judge and our gaze score fail to raise success, and an outcome-trained critic ranks
+held-out plans at Spearman +.34 [.31, .37] yet lifts best-of-8 success only from 168 to 172 of 240 (Holm <i>p</i>&nbsp;=&nbsp;.36):
+the sampler-seed candidates barely differ.</p>
+
+<h2 id="ladder">What the features hold beyond the state</h2>
+
+<p>The Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup> authors suggest the main value of video prediction &ldquo;may lie in improving world representations
+during training&rdquo;. Horizon tomography tests that credit: a probe predicts a target object's displacement &delta; steps ahead
+from the activations, and we report its cross-fitted gain over a nested control <i>c<sub>k</sub></i>, a conditional probe<sup class="c"><a href="#r-hewitt">25</a></sup>:</p>
+
+<div class="eq">$$\Delta R^2_k(\delta) \;=\; R^2\!\left(y_\delta \mid c_k,\, h\right) \;-\; R^2\!\left(y_\delta \mid c_k\right)$$</div>
+
+<figure class="diagram" data-diagram="ladder">
+  <div class="d-wrap"><svg viewBox="0 0 720 430" role="img" aria-label="Diagram of the control ladder: a probe reads the activation and predicts the target displacement. As the nuisance control grows from scene to full state to state plus own motion, the information gain shrinks from 0.46 to 0.51, to 0.001 to 0.021, to within 0.003."></svg></div>
+  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
+  <p class="d-stage"></p>
+  <figcaption><b>The control ladder.</b> As the nuisance control grows from the scene to the full state to the robot's own motion, the probe's gain (purple) shrinks to within 0.003.</figcaption>
+</figure>
+
+<p>Here <i>c</i><sub>1</sub> models the present scene, <i>c</i><sub>2</sub> the full simulator state, and <i>c</i><sub>3</sub> adds the
+robot's own upcoming motion. The test has <b>a blind spot by construction</b>: under a fixed policy in a deterministic simulator,
+anything an internal dynamics model predicts is a function of the state, so <i>c</i><sub>2</sub> absorbs it.</p>
+
+
+<figure class="wide" id="fig-ladder">
+  <div class="controls">
+    <span>beyond</span>
+    <span class="seg" role="group" aria-label="Control">
+      <button type="button" data-r="scene" aria-pressed="false">present scene</button>
+      <button type="button" data-r="fullrbf" aria-pressed="true">full state</button>
+      <button type="button" data-r="dyn" aria-pressed="false">state + own motion</button>
+    </span>
+    <button class="play" type="button">Play</button>
+    <input type="range" min="0" value="2" aria-label="Horizon">
+    <span class="ui step"></span>
+  </div>
+  <svg viewBox="0 0 640 300" role="img" aria-label="Partial R squared per policy at one horizon"></svg>
+  <div class="legend"></div>
+  <figcaption><b>Figure 4.</b> Beyond the present scene the features predict a target's displacement well, and beyond the full state the bars collapse toward zero.</figcaption>
+  </figure>
+
+<p>At &delta;&nbsp;=&nbsp;16 on LIBERO-10, six policies score 0.46 to 0.51 beyond the present scene, 0.001 to 0.021 beyond the full
+state, and within 0.003 of zero once their own motion enters the control. &pi;<sub>0.5</sub>, trained with no world objective,
+<b>carries as much beyond the state as the pixel-objective Fast-WAM</b>, 0.021 [0.015, 0.028] against 0.019 [0.013, 0.026]. RoboTwin 2.0
+repeats the pattern for Fast-WAM and &pi;<sub>0.5</sub> at &delta;&nbsp;=&nbsp;16 and for LingBot-VA at &delta;&nbsp;=&nbsp;32, with
+LingBot-VA at &delta;&nbsp;=&nbsp;16 undetermined (&minus;0.036 to +0.018 across five fold seeds). Beyond the commanded
+motion the residual is at most 0.009 on LIBERO-Spatial and LIBERO-Goal (500 episodes). In matched
+LeWorldModel<sup class="c"><a href="#r-lewm">26</a></sup> retrains on Push-T, a world objective added to behavior cloning raises the residual beyond state and
+motion by 0.0077 [0.0054, 0.0102], and no retrain reads hidden mass or friction.</p>
+
+<h2 id="limits">What this means</h2>
+
+<p>For the models we tested, <b>the imagined future's keys and values are a test-time handle on object choice, and plan selection is
+the lever</b>: the action follows whatever plan reaches it, and a better plan raised success where a stronger read lowered it. On
+LIBERO-10 the ladder finds no extra world knowledge behind the gains from video training, which fits Yu's<sup class="c"><a href="#r-yu">27</a></sup> proof
+that world-action imitation and behavior cloning share their population action target, and ARPS's<sup class="c"><a href="#r-arps">28</a></sup> finding that future
+supervision helps the action under shift. Richens et al.<sup class="c"><a href="#r-richens">29</a></sup> prove that agents generalizing across many goals contain a
+world model, a premise ten fine-tuning tasks do not meet. Probes and steering have reached
+VLAs<sup class="c"><a href="#r-haon">30</a>,<a href="#r-buur">31</a>,<a href="#r-swann">32</a>,<a href="#r-grant">33</a></sup> (our six-VLA study: <a href="/publication/2026-not-all-features">paper</a>, <a href="https://action-atlas.com">Action Atlas</a>), and
+Molinari et al.<sup class="c"><a href="#r-molinari">34</a></sup> find a world model in OpenVLA against a raw-embedding baseline without our controls.</p>
+
+<p>Every intervention ran in simulation. The blocking heads and most
+restricted swaps come from LIBERO-10, where 96 to 99 percent of target motion happens under contact, and the ladder's RoboTwin
+replication covers three policies. Next: interventions on a physical arm.</p>
+
+
+<h2 id="rollouts">More rollouts</h2>
+<figure class="wide" id="fig-rollouts" tabindex="0" aria-roledescription="carousel" aria-label="Paired rollout videos, left and right arrow keys change the video">
+  <div class="controls">
+    <span class="seg" role="group" aria-label="Intervention">
+      <button type="button" data-set="blind" aria-pressed="true">Masking</button>
+      <button type="button" data-set="swap" aria-pressed="false">Swap</button>
+    </span>
+  </div>
+  <div class="rv-stage"><video muted playsinline loop preload="metadata" width="1032" height="410"></video></div>
+  <div class="rv-nav"><button type="button" class="rv-prev" aria-label="Previous rollout">&larr;</button><span class="rv-dots"></span><button type="button" class="rv-next" aria-label="Next rollout">&rarr;</button></div>
+  <p class="rv-cap" aria-live="polite"></p>
+  </figure>
+
+<hr>
+<ol class="refs">
+<li id="r-tutorial">X. Zhang, X. Zeng, W. Zhang. <a href="https://arxiv.org/abs/2607.00836">From World Models to World Action Models: A Concise Tutorial for Robotics</a>. arXiv:2607.00836, 2026.</li>
+<li id="r-cosmos">M. J. Kim, Y. Gao, T.-Y. Lin, et al. <a href="https://arxiv.org/abs/2601.16163">Cosmos Policy: Fine-Tuning Video Models for Visuomotor Control and Planning</a>. arXiv:2601.16163, 2026.</li>
+<li id="r-dreamzero">S. Ye, Y. Ge, K. Zheng, et al. <a href="https://arxiv.org/abs/2602.15922">World Action Models are Zero-shot Policies</a> (DreamZero). arXiv:2602.15922, 2026.</li>
+<li id="r-motus">H. Bi, H. Tan, S. Xie, et al. <a href="https://arxiv.org/abs/2512.13030">Motus: A Unified Latent Action World Model</a>. CVPR, 2026.</li>
+<li id="r-lingbot">L. Li, Q. Zhang, Y. Luo, et al. <a href="https://arxiv.org/abs/2601.21998">Causal World Modeling for Robot Control</a> (LingBot-VA). arXiv:2601.21998, 2026.</li>
+<li id="r-internvla">InternVLA-A1 Team. <a href="https://arxiv.org/abs/2601.02456">InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation</a>. arXiv:2601.02456, 2026.</li>
+<li id="r-lawam">J. Chen, K. Wang, K. Chen, et al. <a href="https://arxiv.org/abs/2606.15768">LaWAM: Latent World Action Models for Efficient Dynamics-Aware Robot Policies</a>. arXiv:2606.15768, 2026.</li>
+<li id="r-vpp">Y. Hu, Y. Guo, P. Wang, et al. <a href="https://arxiv.org/abs/2412.14803">Video Prediction Policy: A Generalist Robot Policy with Predictive Visual Representations</a>. ICML, 2025.</li>
+<li id="r-fastwam">T. Yuan, Z. Dong, Y. Liu, H. Zhao. <a href="https://arxiv.org/abs/2603.16666">Fast-WAM: Do World Action Models Need Test-time Future Imagination?</a> arXiv:2603.16666, 2026.</li>
+<li id="r-vlajepa">J. Sun, W. Zhang, Z. Qi, et al. <a href="https://arxiv.org/abs/2602.10098">VLA-JEPA: Enhancing Vision-Language-Action Model with Latent World Model</a>. arXiv:2602.10098, 2026.</li>
+<li id="r-libero">B. Liu, Y. Zhu, C. Gao, Y. Feng, Q. Liu, Y. Zhu, P. Stone. <a href="https://arxiv.org/abs/2306.03310">LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning</a>. NeurIPS Datasets and Benchmarks, 2023.</li>
+<li id="r-robotwin">T. Chen, Z. Chen, B. Chen, et al. <a href="https://arxiv.org/abs/2506.18088">RoboTwin 2.0: A Scalable Data Generator and Benchmark with Strong Domain Randomization for Robust Bimanual Robotic Manipulation</a>. arXiv:2506.18088, 2025.</li>
+<li id="r-calvin">O. Mees, L. Hermann, E. Rosete-Beas, W. Burgard. <a href="https://arxiv.org/abs/2112.03227">CALVIN: A Benchmark for Language-Conditioned Policy Learning for Long-Horizon Robot Manipulation Tasks</a>. IEEE RA-L, 2022.</li>
+<li id="r-gaze">R. Gandikota, D. Bau. <a href="https://arxiv.org/abs/2606.14703">Gaze Heads: How VLMs Look at What They Describe</a>. arXiv:2606.14703, 2026.</li>
+<li id="r-groot">NVIDIA. <a href="https://arxiv.org/abs/2503.14734">GR00T N1: An Open Foundation Model for Generalist Humanoid Robots</a>. arXiv:2503.14734, 2025. We used the GR00T N1.7 checkpoint.</li>
+<li id="r-oft">M. J. Kim, C. Finn, P. Liang. <a href="https://arxiv.org/abs/2502.19645">Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success</a> (OpenVLA-OFT). arXiv:2502.19645, 2025.</li>
+<li id="r-smolvla">M. Shukor, D. Aubakirova, F. Capuano, et al. <a href="https://arxiv.org/abs/2506.01844">SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics</a>. arXiv:2506.01844, 2025.</li>
+<li id="r-rift">C. Zhang, J. Tong, X. Li, Y. Wang, H. Li. <a href="https://arxiv.org/abs/2608.11521">Keep the Future, Drop the Rollout: RIFT for World Action Models</a>. arXiv:2608.11521, 2026.</li>
+<li id="r-pi05">Physical Intelligence, K. Black, N. Brown, et al. <a href="https://arxiv.org/abs/2504.16054">&pi;<sub>0.5</sub>: a Vision-Language-Action Model with Open-World Generalization</a>. arXiv:2504.16054, 2025.</li>
+<li id="r-behavior">C. Li, R. Zhang, J. Wong, C. Gokmen, S. Srivastava, et al. <a href="https://arxiv.org/abs/2403.09227">BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation</a>. CoRL, 2022.</li>
+<li id="r-droid">A. Khazatsky, K. Pertsch, S. Nair, et al. <a href="https://arxiv.org/abs/2403.12945">DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset</a>. RSS, 2024.</li>
+<li id="r-forewam">J. Huang, Z. Wu, Z. Zhang, Z. Wang, S. You, T. Huang. <a href="https://arxiv.org/abs/2608.11605">Foresight Without Seeing: Latent Futures for World Action Models</a>. arXiv:2608.11605, 2026.</li>
+<li id="r-tr">U. A. Mishra, Y. Chen, D. Xu, Y. Liu, X. Chen, J. Mao. <a href="https://arxiv.org/abs/2607.08127">Understanding and Mitigating the Video-Action Generalization Gap via Temporal Ratio</a>. arXiv:2607.08127, 2026.</li>
+<li id="r-ood">Q. Li. <a href="https://arxiv.org/abs/2505.03500">VLAs are Confined yet Capable of Generalizing to Novel Instructions</a>. arXiv:2505.03500, 2025.</li>
+<li id="r-hewitt">J. Hewitt, K. Ethayarajh, P. Liang, C. D. Manning. <a href="https://aclanthology.org/2021.emnlp-main.122/">Conditional probing: measuring usable information beyond a baseline</a>. EMNLP, 2021.</li>
+<li id="r-lewm">L. Maes, Q. Le Lidec, D. Scieur, Y. LeCun, R. Balestriero. <a href="https://arxiv.org/abs/2603.19312">LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels</a>. arXiv:2603.19312, 2026.</li>
+<li id="r-yu">Y. Yu. <a href="https://arxiv.org/abs/2608.22197">On the Capability Separation Between World-Model Policy Learning and Imitated World-Action Models</a>. arXiv:2608.22197, 2026.</li>
+<li id="r-arps">Q. Gu, J. Li, B. Gao, et al. <a href="https://arxiv.org/abs/2609.23369">The Right Future for Action: Learning Action-Relevant Predictive States in World Action Models</a>. arXiv:2609.23369, 2026.</li>
+<li id="r-richens">J. Richens, T. Everitt, D. Abel. <a href="https://proceedings.mlr.press/v267/richens25a.html">General agents need world models</a>. ICML, 2025.</li>
+<li id="r-haon">B. H&auml;on, K. C. Stocking, I. Chuang, C. Tomlin. <a href="https://proceedings.mlr.press/v305/haon25a.html">Mechanistic Interpretability for Steering Vision-Language-Action Models</a>. CoRL, 2025.</li>
+<li id="r-buur">H. Buurmeijer, C. Amo Alonso, A. Swann, M. Pavone. <a href="https://arxiv.org/abs/2603.05487">Observing and Controlling Features in Vision-Language-Action Models</a>. arXiv:2603.05487, 2026.</li>
+<li id="r-swann">A. Swann, L. McGranahan, H. Buurmeijer, M. Kennedy III, M. Schwager. <a href="https://arxiv.org/abs/2603.19183">Sparse Autoencoders Reveal Interpretable and Steerable Features in VLA Models</a>. arXiv:2603.19183, 2026.</li>
+<li id="r-grant">B. Grant, X. Zhao, P. Wang. <a href="https://arxiv.org/abs/2603.19233">Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models</a>. NeurIPS 2026.</li>
+<li id="r-molinari">M. Molinari, L. Nevali, S. Navani, O. Younis. <a href="https://arxiv.org/abs/2509.24559">Emergent World Representations in OpenVLA</a>. arXiv:2509.24559, 2025.</li>
+</ol>
+</main>
+<div class="tip" id="tip"></div>
+<script src="data/IMAGINE.js"></script>
+<script src="data/STEER_RT.js"></script>
+<script src="data/BRIDGE.js"></script>
+<script src="data/LADDER.js"></script>
+<script src="data/CLIPS.js?v=3"></script>
+<script src="post.js?v=14"></script>
+<script>window.DIAG_JOINT = {"track": [[0.499, 0.307], [0.5273, 0.3], [0.5454, 0.3084], [0.56, 0.2978], [0.5793, 0.2995], [0.5962, 0.2957], [0.6134, 0.3001], [0.6385, 0.3014], [0.649, 0.3048], [0.672, 0.3036], [0.6895, 0.3046], [0.7116, 0.304], [0.7292, 0.3083], [0.7489, 0.3105], [0.7662, 0.319], [0.787, 0.3204]], "sigmas": [80.0, 42.3, 21.0, 9.6, 4.0]};</script>
+
+<script src="diagrams.js?v=32"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true}]})"></script>
+</body>
+</html>

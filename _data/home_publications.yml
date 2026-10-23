@@ -3,7 +3,7 @@
   venue: "Under Review"
   image: "/assets/media/highlights/spark_web.mp4"
 
-  summary: "Training free neurosymbolic protocol for robotic manipulation generalization"
+  summary: "Training-free agentic pipeline for robotic manipulation generalization"
   links:
     - label: "Project Page"
       url: "https://cwru-aism.github.io/spark-page/"

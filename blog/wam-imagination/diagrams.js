@@ -1,10 +1,3 @@
-// Animated architecture diagrams for "What world action models do with the futures they imagine".
-// Inline SVG driven by one eased timeline per figure (after the ExpertLens canvas films): play/pause, a seek bar,
-// a clock and stage captions outside the graphic; autoplay when the figure reaches the middle of the viewport;
-// prefers-reduced-motion shows the final state. Colours are the page's role variables (--r-*), so the diagrams are
-// transparent and follow light/dark mode. Each diagram has a wide layout and a stacked layout for narrow screens
-// (under 600 px). Camera frames are real (img/diag; sources in blog/tools/diagrams/img/*_meta.json). Rollout clips come
-// from data/CLIPS.js, one entry per clip (blog/tools/make_clips.py writes it).
 (() => {
   const NS = "http://www.w3.org/2000/svg";
   const clamp = (v) => Math.max(0, Math.min(1, v));
@@ -18,7 +11,7 @@
   function el(tag, attrs, parent, text) {
     const e = document.createElementNS(NS, tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
-    if (text != null && String(text).includes("ℓ")) {   // DM Sans has no script l; set it in a serif italic
+    if (text != null && String(text).includes("ℓ")) {   
       String(text).split(/(ℓ)/).forEach((p) => { if (!p) return; const t = document.createElementNS(NS, "tspan"); t.textContent = p; if (p === "ℓ") t.setAttribute("class", "d-ell"); e.appendChild(t); });
     } else if (text != null) e.textContent = text;
     if (parent) parent.appendChild(e);
@@ -49,13 +42,13 @@
     return out;
   }
   const centers = (n, cx, w = 14, gap = 4) => Array.from({ length: n }, (_, i) => cx - (n * (w + gap) - gap) / 2 + i * (w + gap) + w / 2);
-  // a filled bundle from a span on one row to a span on another (vertical end tangents)
+  // filled bundle from a span on one row to a span on another
   function bundle(parent, x0a, x1a, ya, x0b, x1b, yb, cls) {
     const m = (ya + yb) / 2;
     return el("path", { d: `M${x0a},${ya} C${x0a},${m} ${x0b},${m} ${x0b},${yb} L${x1b},${yb} C${x1b},${m} ${x1a},${m} ${x1a},${ya} Z`, class: cls }, parent);
   }
 
-  // A thumbnail zoomed into the region (cx, cy, half-size h, all normalised) where the two passes' predictions differ.
+  // A thumbnail zoomed into the region where the two passes' predictions differ.
   function zoomImg(parent, x, y, s, href, frameCls, cx = 0.5, cy = 0.5, h = 0.5) {
     const g = el("g", {}, parent), id = "zi" + uid++, Z = 0.5 / h;
     el("rect", { x, y, width: s, height: s, rx: 5 }, el("clipPath", { id }, el("defs", {}, g)));
@@ -92,13 +85,13 @@
       preload(c) { pending.push(c); },               // lazy: fetched the first time the clip starts playing
     };
   }
-  // two clips at the same control-step rate from step 0; the shorter holds its last frame. Returns the play time in s.
-  const STEPS_PER_S = 40;                          // track points per second (80 control steps per second)
+  // two clips at the same control-step rate from step 0
+  const STEPS_PER_S = 40;                         
   const clipSecs = (...cs) => Math.max(...cs.map((c) => c.track.length - 1)) / STEPS_PER_S;
   const clipStep = (t, t0) => Math.max(0, t - t0) * STEPS_PER_S;
   const ended = (c, st) => st >= c.track.length - 1;
 
-  // shared player: timeline, controls, autoplay, reduced motion, and a rebuild when the layout breakpoint changes
+  // timeline, controls, autoplay, reduced motion, and a rebuild when the layout breakpoint changes
   function film(fig, duration, build, captions) {
     const svg = fig.querySelector("svg");
     const btn = fig.querySelector(".d-play"), seek = fig.querySelector(".d-seek"), clock = fig.querySelector(".d-clock");
@@ -142,8 +135,6 @@
     }
   }
 
-  // Shared part: a stack of transformer layers with token columns and attention bundles between layers.
-  // groups: {cur:[cx,n], pred:[cx,n], act:[cx,n]}; returns handles for animation.
   function layerStack(svg, x0, x1, ys, bandH, groups, labels, predOnly = false) {
     ys.forEach((y, j) => {
       el("rect", { x: x0, y, width: x1 - x0, height: bandH, rx: 7, class: "d-band" }, svg);
@@ -158,7 +149,6 @@
     }
     const bundles = { cur: [], pred: [] };
     for (let j = 0; j < ys.length - 1; j++) {      // gap between layer j (top) and j+1 (below)
-      // ends sit on the chip rows: bottom edge of the upper action chips, top edge of the lower token chips
       const cy0 = (bandH - 10) / 2, yUp = ys[j] + cy0 + 10, yLow = ys[j + 1] + cy0;
       const [ca, na] = groups.act, aw = (na * 18 - 4) / 2;
       const [cc, nc] = groups.cur, cw = (nc * 18 - 4) / 2;
@@ -173,8 +163,7 @@
     return { bundles, rows, col, colRect };
   }
 
-  // Joint video-action denoising in Cosmos Policy (mechanism only): five sampler calls clear the predicted frames
-  // stop by stop while the action tokens read them and the current frame at every layer.
+  // Joint video-action denoising in Cosmos Policy (mechanism only)
   function joint(svg, N) {
     const D = window.DIAG_JOINT, sig = D.sigmas;
     const W = N ? 380 : 720;
@@ -334,7 +323,7 @@
     };
   }
 
-  // (c) The control ladder (animated version of the horizon tomography mechanism figure)
+  // (c) The control ladder
   function ladder(svg, N) {
     const W = N ? 380 : 720;
     const R = [

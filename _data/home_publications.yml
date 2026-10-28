@@ -26,18 +26,6 @@
     - label: "Action Atlas"
       url: "https://action-atlas.com"
 
-- title: "TrianguLang: Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
-  authors: "Bryce Grant, Aryeh Rothenberg, Atri Banerjee, Peng Wang"
-  venue: "Under Review"
-  image: "/assets/media/highlights/triangulang.mp4"
-
-  summary: "A geometry-aware approach to 3D localization that achieves semantic consensus without requiring camera pose information."
-  links:
-    - label: "Paper"
-      url: "https://arxiv.org/abs/2603.08096"
-    - label: "Project Page"
-      url: "https://cwru-aism.github.io/triangulang/"
-
 - title: "Gluing Local Contexts into Global Meaning"
   authors: "Bryce Grant, Peng Wang"
   venue: "NeurIPS 2026 | ICLR 2026 UCRL Workshop"
@@ -60,3 +48,15 @@
       url: "https://cwru-aism.github.io/QUANpaper/"
     - label: "Code"
       url: "https://github.com/bryceag11/QUAN_ultralytics"
+
+- title: "TrianguLang: Geometry-Aware Semantic Consensus for Pose-Free 3D Localization"
+  authors: "Bryce Grant, Aryeh Rothenberg, Atri Banerjee, Peng Wang"
+  venue: "Under Review"
+  image: "/assets/media/highlights/triangulang.mp4"
+
+  summary: "A geometry-aware approach to 3D localization that achieves semantic consensus without requiring camera pose information."
+  links:
+    - label: "Paper"
+      url: "https://arxiv.org/abs/2603.08096"
+    - label: "Project Page"
+      url: "https://cwru-aism.github.io/triangulang/"

@@ -347,9 +347,7 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
 
 <h2 id="ladder">Horizon tomography</h2>
 
-<p>The Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup> authors suggest the main value of video prediction &ldquo;may lie in improving world representations
-during training&rdquo;. Horizon tomography tests that credit: a probe predicts a target object's displacement &delta; steps ahead
-from the activations, and we report its cross-fitted gain over a nested control <i>c<sub>k</sub></i>, a conditional probe<sup class="c"><a href="#r-hewitt">25</a></sup>:</p>
+<p>The Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup> authors posit that the main value of video prediction "may lie in improving world representations during training". Horizon tomography puts this claim to work: given a probe that can predict a target object's movement δ steps ahead, we show how much it gains over a nested control <i>c</i><sub>k</sub>, a conditional probe<sup class="c"><a href="#r-hewitt">25</a></sup>:</p>
 
 <div class="eq">$$\Delta R^2_k(\delta) \;=\; R^2\!\left(y_\delta \mid c_k,\, h\right) \;-\; R^2\!\left(y_\delta \mid c_k\right)$$</div>
 
@@ -357,12 +355,10 @@ from the activations, and we report its cross-fitted gain over a nested control 
   <div class="d-wrap"><svg viewBox="0 0 720 430" role="img" aria-label="Diagram of the control ladder: a probe reads the activation and predicts the target displacement. As the nuisance control grows from scene to full state to state plus own motion, the information gain shrinks from 0.46 to 0.51, to 0.001 to 0.021, to within 0.003."></svg></div>
   <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
   <p class="d-stage"></p>
-  <figcaption><b>The control ladder.</b> As the nuisance control grows from the scene to the full state to the robot's own motion, the probe's gain (purple) shrinks to within 0.003.</figcaption>
+  <figcaption><b>The control ladder.</b> We show the probe gaining less information about where a target will be as we increase the nuisance control from just the scene to all of the states to including the robot's motion. It falls to within .003.</figcaption>
 </figure>
 
-<p>Here <i>c</i><sub>1</sub> models the present scene, <i>c</i><sub>2</sub> the full simulator state, and <i>c</i><sub>3</sub> adds the
-robot's own upcoming motion. The test has <b>a blind spot by construction</b>: under a fixed policy in a deterministic simulator,
-anything an internal dynamics model predicts is a function of the state, so <i>c</i><sub>2</sub> absorbs it.</p>
+<p><i>c</i><sub>1</sub> captures what the scene currently looks like, <i>c</i><sub>2</sub> all of the states, and <i>c</i><sub>3</sub> includes where the robot will go next. Note that this will never capture any learned internal dynamics model by definition, since if your policy is fixed and the simulator is deterministic, anything you could learn from that will be a function of the state.</p>
 
 
 <figure class="wide" id="fig-ladder">
@@ -379,31 +375,16 @@ anything an internal dynamics model predicts is a function of the state, so <i>c
   </div>
   <svg viewBox="0 0 640 300" role="img" aria-label="Partial R squared per policy at one horizon"></svg>
   <div class="legend"></div>
-  <figcaption><b>Figure 4.</b> Beyond the present scene the features predict a target's displacement well, and beyond the full state the bars collapse toward zero.</figcaption>
+  <figcaption><b>Figure 4.</b> We show that the activations can tell you more about where a target will be than just knowing the current scene, and when you know all of the states they fall off to nearly nothing.</figcaption>
   </figure>
 
-<p>At &delta;&nbsp;=&nbsp;16 on LIBERO-10, six policies score 0.46 to 0.51 beyond the present scene, 0.001 to 0.021 beyond the full
-state, and within 0.003 of zero once their own motion enters the control. &pi;<sub>0.5</sub>, trained with no world objective,
-<b>carries as much beyond the state as the pixel-objective Fast-WAM</b>, 0.021 [0.015, 0.028] against 0.019 [0.013, 0.026]. RoboTwin 2.0
-repeats the pattern for Fast-WAM and &pi;<sub>0.5</sub> at &delta;&nbsp;=&nbsp;16 and for LingBot-VA at &delta;&nbsp;=&nbsp;32. Beyond the commanded
-motion the residual is at most 0.009 on LIBERO-Spatial and LIBERO-Goal (500 episodes). In matched
-LeWorldModel<sup class="c"><a href="#r-lewm">26</a></sup> retrains on Push-T, a world objective added to behavior cloning raises the residual beyond state and
-motion by 0.0057 at the seed level, and no retrain reads hidden mass or friction.</p>
+<p>When predicting 16 steps ahead on LIBERO-10 we see 6 models able to predict where objects will go .46-.51 better than just knowing what the scene looks like, .001-.021 better than knowing all of the states, and within .003 when we include where the robot will go. π<sub>0.5</sub>, which was trained with no world objective, can predict just as well past the state as Fast-WAM, which uses pixels as its world objective: .021 [.015,.028] vs .019 [.013,.026]. This is also true on RoboTwin 2.0 for both Fast-WAM and π<sub>0.5</sub> when predicting 16 steps ahead and LingBot-VA when predicting 32 steps ahead. Past where we tell the robot to go, the gain is at most .009 on LIBERO-Spatial and LIBERO-Goal with 500 episodes. When we retrain LeWorldModel<sup class="c"><a href="#r-lewm">26</a></sup> on Push-T, adding a world objective to behavior cloning improves predictions past the state and where the robot will go by .0057 at the seed level. None of the retrains show an ability to read hidden mass and friction.</p>
 
 <h2 id="limits">Summary and limits</h2>
 
-<p>For the models we tested, <b>the imagined future's keys and values are a test-time handle on object choice, and the plan's target is
-the lever</b>: the action follows whatever plan reaches it, and steering that target raised success where a stronger read lowered it. On
-LIBERO-10 the ladder finds no extra world knowledge behind the gains from video training, which fits Yu's<sup class="c"><a href="#r-yu">27</a></sup> proof
-that world-action imitation and behavior cloning share their population action target, and ARPS's<sup class="c"><a href="#r-arps">28</a></sup> finding that future
-supervision helps the action under shift. Richens et al.<sup class="c"><a href="#r-richens">29</a></sup> prove that agents generalizing across many goals contain a
-world model, a premise ten fine-tuning tasks do not meet. Probes and steering have reached
-VLAs<sup class="c"><a href="#r-haon">30</a>,<a href="#r-buur">31</a>,<a href="#r-swann">32</a>,<a href="#r-grant">33</a></sup> (our six-VLA study: <a href="/publication/2026-not-all-features">paper</a>, <a href="https://action-atlas.com">Action Atlas</a>), and
-Molinari et al.<sup class="c"><a href="#r-molinari">34</a></sup> find a world model in OpenVLA against a raw-embedding baseline without our controls.</p>
+<p>We found that for these models we can manipulate the keys and values associated with the imagined future to control which object a model will act on, and that the target of the plan is what controls this. If you steer to a plan that has a target, the model will follow that. Steering that target increased success, while making the model read the plan more strongly decreased it. On LIBERO-10 we were unable to find evidence of world knowledge that came from training on video, which aligns with Yu<sup class="c"><a href="#r-yu">27</a></sup>, who proves that world-action imitation and behavior cloning have the same population level target for actions, and ARPS<sup class="c"><a href="#r-arps">28</a></sup>, who showed that supervising on the future can help the action under distribution shift. Richens et al.<sup class="c"><a href="#r-richens">29</a></sup> have proven that an agent that can generalize across many goals contains a world model. The 10 tasks we fine-tune on don't satisfy this. Probes and steering have also been applied to VLAs<sup class="c"><a href="#r-haon">30</a>,<a href="#r-buur">31</a>,<a href="#r-swann">32</a>,<a href="#r-grant">33</a></sup> (we did this for 6 VLAs: <a href="/publication/2026-not-all-features">paper</a>, <a href="https://action-atlas.com">Action Atlas</a>). Molinari et al.<sup class="c"><a href="#r-molinari">34</a></sup> found a world model in OpenVLA but did not use any of our controls and compared to raw embeddings.</p>
 
-<p>Every intervention ran in simulation. The blocking heads and most
-restricted swaps come from LIBERO-10, where 96 to 99 percent of target motion happens under contact, and the ladder's RoboTwin
-replication covers three policies. Next: interventions on a physical arm.</p>
+<p>All interventions were done in simulation. We used LIBERO-10 for our blocking heads and most of the restricted swaps. LIBERO-10 has 96-99% of its target movement happening while in contact. We replicated the horizon tomography on RoboTwin for 3 policies. In the future we would like to intervene on a real arm.</p>
 
 
 <h2 id="rollouts">Rollout videos</h2>

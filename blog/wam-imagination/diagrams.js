@@ -401,7 +401,7 @@
       [6.0, "Blinding masks the predicted frames from the action in every layer and head."],
       [7.4, "LingBot-VA on RoboTwin 2.0, both runs from the same initial state. With the read intact the robot puts the box in the basket and moves the basket. With the predicted frames masked the arm stays parked at the edge of the view and the box stays put for all 400 steps."]]);
     if (d === "swap") film(fig, 4.2 + clipSecs(C.swap_none, C.swap_swapped) + 0.8, swap, []);
-    if (d === "ladder") film(fig, 9.5, ladder, [[0, "The probe reads the activation at chunk start and predicts the target's displacement δ steps later. We report its gain over a nuisance control."],
+    if (d === "ladder") film(fig, 9.5, ladder, [[0, "Where the probe is looking at an activation from the beginning of the chunk and predicting where the target will be δ steps ahead. We show how much it gains over some nuisance control."],
       [3.4, "Adding the full simulator state to the control drops the gain from 0.46 to 0.51 down to 0.001 to 0.021."],
       [6.4, "Adding the robot's own upcoming motion leaves it within 0.003 of zero (LIBERO-10, δ = 16)."]]);
   });

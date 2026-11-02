@@ -22,7 +22,7 @@ redirect_from:
       <span>/</span>
       <a href="https://github.com/bryceag11" target="_blank" rel="noopener">GitHub</a>
       <span>/</span>
-      <a href="{{ '/files/CV.pdf' | relative_url }}" target="_blank" rel="noopener">Resume</a>
+      <a href="{{ '/files/CV.pdf' | relative_url }}" target="_blank" rel="noopener">CV</a>
       <span>/</span>
       <a href="{{ '/blog/' | relative_url }}">Blog</a>
     </div>

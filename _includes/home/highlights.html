@@ -1,61 +1,30 @@
 {% assign highlights = site.data.home_highlights | default: [] %}
 {% if highlights.size > 0 %}
-<div class="home-highlight-gifs">
+<div class="home-highlight-grid">
   {% for highlight in highlights %}
-    {% assign media_src = highlight.media %}
-    {% if media_src %}
-      {% if media_src contains '://' %}
-        {% assign media_url = media_src %}
-      {% else %}
-        {% assign media_url = media_src | relative_url %}
-      {% endif %}
+    {% assign label = highlight.title | append: ": " | append: highlight.description %}
+    {% assign first_link = highlight.links | first %}
+    {% if first_link %}
+      {% assign highlight_link = first_link.url %}
+      {% unless highlight_link contains '://' %}{% assign highlight_link = highlight_link | relative_url %}{% endunless %}
+      <a class="home-highlight-tile" href="{{ highlight_link }}" title="{{ label | escape }}" aria-label="{{ label | escape }}"{% if first_link.url contains '://' %} target="_blank" rel="noopener"{% endif %}>
+    {% else %}
+      <div class="home-highlight-tile" title="{{ label | escape }}" role="img" aria-label="{{ label | escape }}">
     {% endif %}
-    <div class="home-highlight-gif">
-      {% assign first_link = highlight.links | first %}
-      {% assign highlight_link = nil %}
-      {% if first_link %}
-        {% assign highlight_link = first_link.url %}
-        {% unless highlight_link contains '://' %}
-          {% assign highlight_link = highlight_link | relative_url %}
-        {% endunless %}
+      {% if highlight.media_type == 'video' %}
+        <video class="home-highlight-video" {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} loop muted playsinline preload="none" src="{{ highlight.media | relative_url }}"></video>
+      {% else %}
+        <img src="{{ highlight.media | relative_url }}" alt="" loading="lazy" decoding="async">
       {% endif %}
-      {% if media_src %}
-        {% if highlight_link %}
-          <a class="home-highlight-gif__media" href="{{ highlight_link }}" target="_blank" rel="noopener">
-        {% else %}
-          <div class="home-highlight-gif__media">
-        {% endif %}
-          {% if highlight.media_type == 'video' %}
-            <video class="home-highlight-video" {% if highlight.poster %}poster="{{ highlight.poster | relative_url }}"{% endif %} autoplay loop muted playsinline preload="metadata">
-              <source src="{{ media_url }}" type="video/mp4">
-            </video>
-          {% else %}
-            <img src="{{ media_url }}" alt="{{ highlight.title | escape }} visual" loading="lazy" decoding="async">
-          {% endif %}
-        {% if highlight_link %}
-          </a>
-        {% else %}
-          </div>
-        {% endif %}
-      {% elsif highlight_link %}
-        <a class="home-highlight-gif__media home-highlight-gif__media--placeholder" href="{{ highlight_link }}" target="_blank" rel="noopener">
-          <span>{{ highlight.title }}</span>
-        </a>
-      {% endif %}
-      <div class="home-highlight-gif__text">
-        <h3>{{ highlight.title }}</h3>
-        {% if highlight.description %}
-          <p>{{ highlight.description }}</p>
-        {% endif %}
-      </div>
-    </div>
+    {% if first_link %}</a>{% else %}</div>{% endif %}
   {% endfor %}
 </div>
 {% endif %}
 <script>
-  /* Play only the cards on screen; the page is whitespace-collapsed, so no line comments here. */
+  /* Play only the tiles on screen, and none when reduced motion is on. The page is whitespace-collapsed, so no line comments here. */
   (function () {
     var vids = document.querySelectorAll('.home-highlight-video');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!('IntersectionObserver' in window)) { vids.forEach(function (v) { v.play(); }); return; }
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -63,7 +32,7 @@
         if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
         else { v.pause(); }
       });
-    }, { threshold: 0.25 });
+    }, { rootMargin: '100px' });
     vids.forEach(function (v) { io.observe(v); });
   })();
 </script>

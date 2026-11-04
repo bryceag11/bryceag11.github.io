@@ -79,6 +79,44 @@ film:
       lng: 19.9372
     cover: "assets/images/photography/film/poland/20190902_021835234_iOS.jpg"
     palette: ["#a855f7", "#6366f1"]
+  - slug: brazil
+    title: "Brazil"
+    location: "Rio de Janeiro"
+    description: "Carioca"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: -22.9083
+      lng: -43.1964
+    cover: "assets/images/photography/film/brazil/IMG_8571.jpg"
+    palette: ["#22c55e", "#facc15"]
+  - slug: italy
+    title: "Italy"
+    location: "Tuscany & Dolomites"
+    description: "Sasa"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 43.7710
+      lng: 11.2486
+    cover: "assets/images/photography/film/italy/000087900020.jpg"
+    palette: ["#16a34a", "#dc2626"]
+  - slug: canada-film
+    title: "Canada"
+    location: "Banff"
+    description: "Rockies on film"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 51.1784
+      lng: -115.5708
+    palette: ["#06b6d4", "#0e7490"]
+  - slug: central-asia
+    title: "Central Asia"
+    location: "🇰🇬🇹🇯🇰🇿"
+    description: "Stans"
+    camera: "Minolta SRT 101"
+    coords:
+      lat: 42.8746
+      lng: 74.5698
+    palette: ["#0ea5e9", "#fbbf24"]
 
 digital:
   - slug: washington

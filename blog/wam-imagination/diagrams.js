@@ -173,8 +173,9 @@
     return { bundles, rows, col, colRect };
   }
 
-  // Joint video-action denoising in Cosmos Policy (mechanism only): five sampler calls clear the predicted frames
-  // stop by stop while the action tokens read them and the current frame at every layer.
+  // Joint video-action denoising in Cosmos Policy: five sampler calls clear the predicted frames stop by stop while the
+  // action tokens attend to them and to the current frame at every layer. The read site (last call, L21-27) lights up,
+  // then the attention to the predicted frames is knocked out and a LingBot-VA pair shows what that does to a rollout.
   function joint(svg, N) {
     const D = window.DIAG_JOINT, sig = D.sigmas;
     const W = N ? 380 : 720;
@@ -186,7 +187,7 @@
     svg.setAttribute("viewBox", `0 0 ${W} ${P.H}`);
     // sampler timeline: one stop per call at its sigma, then the decoded frame (sigma 0)
     const tx = (k) => P.tx0 + k * P.tdx;
-    el("text", { x: P.tx0 - 6, y: P.ty - 22, class: "d-label" }, svg, "5 sampler calls");
+    el("text", { x: P.tx0 - 6, y: P.ty - 22, class: "d-label" }, svg, "5 denoising steps");
     el("line", { x1: P.tx0 - 6, y1: P.ty, x2: tx(5) + 18, y2: P.ty, class: "d-axis" }, svg);
     const ticks = [], tl = [];
     for (let k = 0; k <= 5; k++) {
@@ -222,21 +223,27 @@
     const pc = (thumbs.pred[0] + thumbs.pred[1] + s) / 2;
     rich(svg, pc, base, [["predicted ô"], ["t+16", "sub"]], "d-label d-fut-text", "middle");
     const pill = el("g", {}, svg);
-    el("rect", { x: pc - 40, y: ty + s / 2 - 14, width: 80, height: 28, rx: 14, class: "d-mask-pill" }, pill);
-    el("text", { x: pc, y: ty + s / 2 + 5, class: "d-label d-strong d-mask-text", "text-anchor": "middle" }, pill, "masked");
+    el("rect", { x: pc - 56, y: ty + s / 2 - 14, width: 112, height: 28, rx: 14, class: "d-mask-pill" }, pill);
+    el("text", { x: pc, y: ty + s / 2 + 5, class: "d-label d-strong d-mask-text", "text-anchor": "middle" }, pill, "knocked out");
+    // read site: the last sampler call and the top band of layers (L21-27 of 28 in Cosmos Policy)
+    const site = el("g", {}, svg);
+    el("rect", { x: tx(4) - 22, y: P.ty - 16, width: 44, height: 50, rx: 8, class: "d-site" }, site);
+    el("text", { x: tx(4), y: P.ty - 22, class: "d-small d-fut-text d-strong", "text-anchor": "middle" }, site, "read site");
+    el("rect", { x: P.x0 - 4, y: P.ys[0] - 4, width: P.x1 - P.x0 + 8, height: P.bandH + 8, rx: 9, class: "d-site" }, site);
+    el("text", { x: P.x1, y: P.ys[0] - 10, class: "d-small d-fut-text", "text-anchor": "end" }, site, N ? "L21-27" : "L21-27 of 28");
     // paired rollouts from one initial state: unmasked and future masked, same step rate from step 0
     const C = window.CLIPS, [g1x, g2x] = P.gx, gy = P.gy, gs = P.gs;
     el("text", { x: g1x, y: gy - 12, class: "d-label d-strong" }, svg, "LingBot-VA rollouts, RoboTwin 2.0");
     const p1 = clipPanel(svg, g1x, gy, gs, "d-frame d-frame-act");
     const p2 = clipPanel(svg, g2x, gy, gs, "d-frame d-frame-fut d-frame-thick");
-    el("text", { x: g1x, y: gy + gs + 22, class: "d-label d-act-text" }, svg, "unmasked");
-    el("text", { x: g2x, y: gy + gs + 22, class: "d-label d-strong d-fut-text" }, svg, "future masked");
+    el("text", { x: g1x, y: gy + gs + 22, class: "d-label d-act-text" }, svg, "no knockout");
+    el("text", { x: g2x, y: gy + gs + 22, class: "d-label d-strong d-fut-text" }, svg, N ? "knocked out" : "predicted frames knocked out");
     const n1 = el("text", { x: g1x, y: gy + gs + 42, class: "d-small" }, svg, "");
     const n2 = el("text", { x: g2x, y: gy + gs + 42, class: "d-small d-fut-text" }, svg, "");
     p1.preload(C.blind_none); p2.preload(C.blind_masked);
     el("text", { x: P.g.act[0], y: yb + 26, class: "d-label d-act-text", "text-anchor": "middle" }, svg, N ? "action" : "action tokens");
 
-    const T = { call: 1.1, mask: [6.0, 7.0], play: 7.4 };
+    const T = { call: 1.1, site: [5.0, 5.6], mask: [6.0, 7.0], play: 7.4 };
     return (t) => {
       const prog = Math.min(5, t / T.call), k = Math.floor(prog), fr = ease((prog - k) / 0.4);
       const pos = Math.min(5, k + (k < 5 ? fr : 0));
@@ -248,6 +255,7 @@
       for (const st of stops) st.forEach((g, i) => (g.style.opacity = i ? clamp(pos - i + 1).toFixed(3) : 1));
       pg.style.opacity = (1 - 0.6 * cut).toFixed(3); pg.style.filter = `grayscale(${cut.toFixed(2)})`;
       pill.style.opacity = cut.toFixed(3);
+      site.style.opacity = between(t, T.site[0], T.site[1]).toFixed(3);
       S.rows.act.forEach((r) => r.forEach((c) => (c.style.fillOpacity = (0.25 + 0.75 * clean).toFixed(3))));
       S.rows.pred.forEach((r) => r.forEach((c) => { c.style.fillOpacity = ((0.25 + 0.75 * clean) * (1 - 0.7 * cut)).toFixed(3); c.style.strokeOpacity = (1 - 0.6 * cut).toFixed(3); }));
       S.bundles.pred.forEach((b) => {
@@ -262,8 +270,8 @@
     };
   }
 
-  // (b) The key/value swap
-  function swap(svg, N) {
+  // (b) The interchange intervention: the patched run's action queries read the source run's predicted-frame K/V
+  function interchange(svg, N) {
     const W = N ? 380 : 720;
     // row geometry: title, instruction, thumbs, two layer bands
     const R = N
@@ -271,13 +279,13 @@
       : { rows: [10, 262], thumbS: 96, tx: 14, bx0: 236, bx1: 706, bandY: 46, g: { cur: [300, 3], kv: [470, 6], act: [640, 3] }, gx: [130, 370], gy: 548, gs: 220, H: 820 };
     svg.setAttribute("viewBox", `0 0 ${W} ${R.H}`);
     const rows = [
-      { name: "counterfactual", instr: ["position the phone to the", "right of the red stapler"], fut: "swap_futB.jpg", cf: true },
-      { name: "action pass", instr: ["position the red stapler to", "the right of the phone"], fut: "swap_futA.jpg", cf: false },
+      { name: "source run", instr: ["position the phone to the", "right of the red stapler"], fut: "swap_futB.jpg", cf: true },
+      { name: "base run", instr: ["position the red stapler to", "the right of the phone"], fut: "swap_futA.jpg", cf: false },
     ];
     const refs = {};
     rows.forEach((r, i) => {
       const y = R.rows[i];
-      el("text", { x: R.tx, y: y + 16, class: `d-label d-strong ${r.cf ? "d-cf-text" : ""}` }, svg, r.name);
+      const nameEl = el("text", { x: R.tx, y: y + 16, class: `d-label d-strong ${r.cf ? "d-cf-text" : ""}` }, svg, r.name);
       r.instr.forEach((l, j) => el("text", { x: R.tx, y: y + 38 + j * 17, class: "d-mono" }, svg, l));
       const ty = y + 76, s = R.thumbS;
       img(svg, R.tx, ty, s, "img/diag/swap_cur.jpg", "d-frame d-frame-cur");
@@ -295,7 +303,7 @@
       if (r.cf) S.colRect.pred.setAttribute("class", "d-col d-col-cf");
       el("text", { x: R.g.cur[0], y: by + 128, class: "d-small d-cur-text", "text-anchor": "middle" }, svg, "current");
       el("text", { x: R.g.act[0], y: by + 128, class: "d-small d-act-text", "text-anchor": "middle" }, svg, "action");
-      refs[r.cf ? "cf" : "ap"] = { fg, fsw, plab, kvlab, tgt, S, by, bundles: S.bundles.pred };
+      refs[r.cf ? "cf" : "ap"] = { fg, fsw, plab, kvlab, tgt, S, by, bundles: S.bundles.pred, name: nameEl };
     });
     // moving copy of the counterfactual K/V (both layers)
     const mv = el("g", {}, svg);
@@ -306,9 +314,9 @@
     el("text", { x: g1x, y: R.gy - 14, class: "d-label d-strong" }, svg, "LingBot-VA rollouts, RoboTwin 2.0");
     const C = window.CLIPS;
     const p1 = clipPanel(svg, g1x, g1y, gs, "d-frame d-frame-none");
-    el("text", { x: g1x, y: g1y + gs + 22, class: "d-label" }, svg, "unmodified");
+    el("text", { x: g1x, y: g1y + gs + 22, class: "d-label" }, svg, "no intervention");
     const p2 = clipPanel(svg, g2x, g2y, gs, "d-frame d-frame-cf d-frame-thick");
-    el("text", { x: g2x, y: g2y + gs + 22, class: "d-label d-strong d-cf-text" }, svg, "swapped");
+    el("text", { x: g2x, y: g2y + gs + 22, class: "d-label d-strong d-cf-text" }, svg, "interchange");
     const n1 = el("text", { x: g1x, y: g1y + gs + 42, class: "d-small" }, svg, "");
     const n2 = el("text", { x: g2x, y: g2y + gs + 42, class: "d-small d-cf-text" }, svg, "");
     p1.preload(C.swap_none); p2.preload(C.swap_swapped);
@@ -321,13 +329,14 @@
       refs.ap.S.rows.pred.forEach((row) => row.forEach((c) => c.setAttribute("class", done ? "d-chip d-chip-cf" : "d-chip d-chip-pred")));
       refs.ap.bundles.forEach((b) => b.setAttribute("class", done ? "d-b d-b-cf" : "d-b d-b-fut"));
       refs.ap.fsw.style.opacity = m.toFixed(3);
-      refs.ap.plab.textContent = done ? "swapped (wrist)" : "predicted (wrist)";
+      refs.ap.plab.textContent = done ? "from source (wrist)" : "predicted (wrist)";
+      refs.ap.name.textContent = done ? "patched run" : "base run";
       refs.ap.plab.setAttribute("class", done ? "d-small d-cf-text" : "d-small d-fut-text");
       refs.ap.kvlab.setAttribute("class", done ? "d-small d-cf-text" : "d-small d-fut-text");
       refs.ap.S.colRect.pred.setAttribute("class", done ? "d-col d-col-cf" : "d-col d-col-pred");
       refs.ap.tgt.textContent = done ? "phone" : "stapler";
       refs.ap.tgt.setAttribute("class", "d-tag " + (done ? "d-tag-cf" : "d-tag-fut"));
-      const st = clipStep(t, T.play);      // same step rate from step 0 once the swap lands
+      const st = clipStep(t, T.play);      // same step rate from step 0 once the patch lands
       p1.show(C.swap_none, st, "d-path-none"); p2.show(C.swap_swapped, st, "d-path-cf");
       n1.textContent = ended(C.swap_none, st) ? C.swap_none.note || "" : "";
       n2.textContent = ended(C.swap_swapped, st) ? C.swap_swapped.note || "" : "";
@@ -338,9 +347,9 @@
   function ladder(svg, N) {
     const W = N ? 380 : 720;
     const R = [
-      { name: "L1", desc: "scene", base: 0.40, d: 0.49, lab: "0.46 to 0.51", cls: "d-box1" },
-      { name: "L2", desc: "full state", base: 0.90, d: 0.021, lab: "0.001 to 0.021", cls: "d-box2" },
-      { name: "L3", desc: "+ own motion", base: 0.95, d: 0.003, lab: "≤ 0.003", cls: "d-box3" },
+      { name: "L1", desc: "linear, present", base: 0.40, d: 0.49, lab: "0.46 to 0.51", cls: "d-box1" },
+      { name: "L2", desc: "kernel, full state", base: 0.90, d: 0.021, lab: "0.001 to 0.021", cls: "d-box2" },
+      { name: "L3", desc: "+ robot motion", base: 0.95, d: 0.003, lab: "within 0.003", cls: "d-box3" },
     ];
     const P = N ? { T0: 40, TE: 160, TD: 300, axis1: 360, boxes: [[30, 372, 118, 70], [20, 300, 196, 152], [10, 232, 250, 230]], bx: 296, bw: 44, b0: 462, bh: 200, H: 530, labTop: true }
       : { T0: 80, TE: 300, TD: 600, axis1: 690, boxes: [[52, 314, 210, 76], [36, 272, 340, 130], [20, 230, 470, 186]], bx: 540, bw: 40, b0: 416, bh: 186, H: 450, labTop: false };
@@ -362,7 +371,7 @@
     el("line", { x1: T0 + 42, y1: 116, x2: TD - 34, y2: 116, class: "d-probe" }, svg);
     el("path", { d: `M${TD - 30},116 l-11,-6 v12 z`, class: "d-head-fut" }, svg);
     el("text", { x: (T0 + TD) / 2, y: 106, class: "d-label d-strong d-fut-text", "text-anchor": "middle" }, svg, "probe");
-    el("text", { x: 10, y: P.boxes[2][1] - 12, class: "d-label" }, svg, "nuisance control");
+    el("text", { x: 10, y: P.boxes[2][1] - 12, class: "d-label" }, svg, "control set");
     const boxes = R.map((r, i) => {
       const g = el("g", {}, svg), [x, y, w, h] = P.boxes[i];
       el("rect", { x, y, width: w, height: h, rx: 9, class: "d-box " + r.cls }, g);
@@ -397,12 +406,13 @@
   document.querySelectorAll("figure.diagram").forEach((fig) => {
     const d = fig.dataset.diagram;
     const C = window.CLIPS;
-    if (d === "joint") film(fig, 7.4 + clipSecs(C.blind_none, C.blind_masked) + 0.8, joint, [[0, "There are five sampler calls to denoise the predicted frames and action tokens from σ = 80 down to σ = 4. The decoder outputs a clean frame at each step. The action tokens have access to the predicted frames (purple) and the current frame tokens (gold) at all layers."],
-      [6.0, "Blinding masks the predicted frames from the action in every layer and head."],
-      [7.4, "LingBot-VA on RoboTwin 2.0, both runs from the same initial state. With the read intact the robot puts the box in the basket and moves the basket. With the predicted frames masked the arm stays parked at the edge of the view and the box stays put for all 400 steps."]]);
-    if (d === "swap") film(fig, 4.2 + clipSecs(C.swap_none, C.swap_swapped) + 0.8, swap, []);
-    if (d === "ladder") film(fig, 9.5, ladder, [[0, "Where the probe is looking at an activation from the beginning of the chunk and predicting where the target will be δ steps ahead. We show how much it gains over some nuisance control."],
-      [3.4, "Adding the full simulator state to the control drops the gain from 0.46 to 0.51 down to 0.001 to 0.021."],
-      [6.4, "Adding the robot's own upcoming motion leaves it within 0.003 of zero (LIBERO-10, δ = 16)."]]);
+    if (d === "joint") film(fig, 7.4 + clipSecs(C.blind_none, C.blind_masked) + 0.8, joint, [[0, "Cosmos Policy runs five denoising steps, from σ = 80 down to σ = 4, and each step denoises the predicted frames and the action tokens together. The action tokens attend to the predicted frames (purple) and the current frame (gold) in every layer."],
+      [5.0, "Only some of that attention changes the action. In Cosmos Policy it is the last call and layers 21 to 27, the read site."],
+      [6.0, "Attention knockout cuts the action's attention to the predicted frames. The control cuts the same number of current-frame keys."],
+      [7.4, "LingBot-VA on RoboTwin 2.0, both runs from the same initial state. Without the knockout the robot puts the box in the basket. With the predicted frames knocked out the arm stays parked at the edge of the view and the box sits still for all 400 steps."]]);
+    if (d === "interchange") film(fig, 4.2 + clipSecs(C.swap_none, C.swap_swapped) + 0.8, interchange, []);
+    if (d === "ladder") film(fig, 9.5, ladder, [[0, "The probe reads an activation from the start of the chunk and predicts how far the target moves over the next δ steps. We report what it adds on top of a control set."],
+      [3.4, "A kernel model of the full simulator state takes the gain from 0.46 to 0.51 down to 0.001 to 0.021."],
+      [6.4, "Adding the robot's own motion over the horizon leaves it within 0.003 of zero (LIBERO-10, δ = 16)."]]);
   });
 })();

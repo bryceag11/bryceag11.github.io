@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:,">
 <title>World Action Model Imagination</title>
-<meta name="description" content="World action models act on the plan they imagine: masking the imagined future cuts success in seven of eight models, a swapped future redirects the grasp, steering the plan's target raises out-of-distribution success, and on LIBERO-10 the features hold little about the future beyond the present state.">
+<meta name="description" content="Where eight world action models read their predicted frames (attention knockout, interchange, proportion mediated), and what horizon tomography finds about the future in robot policy features once the present state and the robot's own motion are controlled.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -48,6 +48,7 @@ h2 { font-size: 1.25rem; font-weight: 400; margin: 2.2em 0 0.5em; }
 p { margin: 0 0 1.05em; }
 a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px; }
 h1 { text-align: left; }
+.subtitle { font-size: 1.12rem; line-height: 1.45; color: var(--soft); margin: -12px 0 22px; }
 .author { justify-content: flex-start; }
 .author a { display: inline-flex; align-items: center; color: var(--ink); font-weight: 700; text-decoration: none; }
 .author img { border: 1px solid var(--rule); }
@@ -105,6 +106,7 @@ a.jump:hover { color: var(--link); }
 .d-funnel-cur { fill: var(--r-cur-f); } .d-funnel-pred { fill: var(--r-fut-f); }
 .diagram .d-mask-pill { fill: var(--ink); opacity: 0.88; }
 .diagram .d-mask-text { fill: var(--bg) !important; font-size: 14px; }
+.diagram .d-site { fill: none; stroke: var(--r-fut); stroke-width: 2; stroke-dasharray: 5 4; }
 .diagram .d-placeholder { fill: none; stroke: var(--rule); stroke-width: 1.5; stroke-dasharray: 5 4; }
 .diagram .d-node { fill: none; stroke: var(--ink); stroke-width: 1.8; }
 .diagram .d-probe { fill: none; stroke: var(--r-fut); stroke-width: 3; }
@@ -176,7 +178,7 @@ svg text { font-family: "DM Sans", -apple-system, "Segoe UI", sans-serif; fill: 
 .refs { font-size: 0.82rem; line-height: 1.5; color: var(--soft); padding-left: 1.4em; }
 .refs li { margin-bottom: 0.5em; }
 .rv-stage { border: 3px solid var(--r-fut); border-radius: 4px; background: var(--panel); aspect-ratio: 1032 / 410; overflow: hidden; touch-action: pan-y; }
-.rv-swap .rv-stage { border-color: var(--r-cf); }
+.rv-ic .rv-stage { border-color: var(--r-cf); }
 .rv-stage video { display: block; width: 100%; height: 100%; object-fit: contain; }
 .rv-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 8px; }
 .rv-nav > button { font: inherit; font-size: 0.9rem; background: none; border: 1px solid var(--rule); border-radius: 4px; color: var(--ink); padding: 2px 12px; cursor: pointer; }
@@ -184,9 +186,11 @@ svg text { font-family: "DM Sans", -apple-system, "Segoe UI", sans-serif; fill: 
 .rv-dots button { width: 18px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
 .rv-dots button::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--rule); }
 .rv-dots button[aria-current="true"]::after { background: var(--r-fut); }
-.rv-swap .rv-dots button[aria-current="true"]::after { background: var(--r-cf); }
+.rv-ic .rv-dots button[aria-current="true"]::after { background: var(--r-cf); }
 p.rv-cap { font-size: 0.82rem; line-height: 1.5; color: var(--soft); margin: 6px 0 0; text-align: center; min-height: 3em; }
 #fig-rollouts:focus-visible { outline: 2px solid var(--link); outline-offset: 4px; }
+figure.paperfig img { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; padding: 10px; border: 1px solid var(--rule); }
+.eqtxt { font-size: 0.95rem; }
 hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
 @media (max-width: 520px) {
   body { font-size: 17px; }
@@ -195,56 +199,54 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
   table.fam { font-size: 0.8rem; }
 }
 </style>
-</head>
 <body>
 <main>
 <div class="top"><a class="home" href="https://bryceag11.github.io/">&larr; bryceag11.github.io</a><button class="theme" type="button" aria-label="Switch color theme"></button></div>
 <h1>What world action models do with their imagined futures</h1>
+<p class="subtitle">Where robot policies read their predicted frames, and why that decides where an edit can work</p>
 <div class="author">
   <a href="https://bryceag11.github.io/" aria-hidden="true" tabindex="-1"><img src="img/author.jpg" alt="" width="48" height="48"></a>
-  <span class="author-meta"><a href="https://bryceag11.github.io/"><span class="author-name">Bryce Grant</span></a><span class="meta">October 20, 2026</span><span class="meta">9 min read</span></span>
+  <span class="author-meta"><a href="https://bryceag11.github.io/"><span class="author-name">Bryce Grant</span></a><span class="meta">October 20, 2026, updated November 23, 2026</span><span class="meta">10 min read</span></span>
 </div>
-<p>World action models (WAM) are robot policies that try to learn the future typically in the form of video and their actions. A common intuition is that learning to predict the future will allow the policy to understand how the world behaves. We test this hypothesis on public checkpoints within simulation environments that have access to ground truth pose of all objects. Can we tell if the action utilizes the future the model has imagined? Do the features of the policy represent the future more than the present allows? World action models follow the plan they have imagined.</p>
+
+<p id="p-intro-1">The authors of Sora suggest that at sufficiently large scales video generation models become simulators of the physical world, and give a number of capabilities observed to emerge as model size increases, including 3D consistency, coherence over longer timescales, object permanence, and the ability to perform basic actions that change the state of the world<sup class="c"><a href="#r-sora">1</a></sup>. All of these seem useful for a robot policy. Hence the assumption underlying world action models (WAMs), robot policies trained to predict future camera frames as well as take an action, is that what is learned from predicting video carries over into a good policy.</p>
+
+<p id="p-intro-2">All experiments are done on policies that have been publicly released, in simulation with ground-truth knowledge of all object poses. To what extent does the action rely on the predicted frames? Over which denoising steps and network depths? And is the target it acts on depicted in the image or specified in the language instruction? This post follows our paper <i>Where World Action Models Read Their Predicted Frames</i>. At the end we briefly describe the findings of a related paper, <i>Horizon Tomography: Controls That Decide Whether Robot Policies Represent the Future</i>, which looks at the content of these frames.</p>
+
+<p id="p-intro-3">For all 8 WAMs, knocking out the predicted frames had a greater adverse effect on task success than knocking out the same number of current-frame keys. It also seemed that there were specific sites at which the action reads the predicted frames: the last few denoising steps, for 3 of the 5 models we timed; contiguous layers, for 3 models. Where the target comes from varies between models, and this site decides where edits to the frames will alter the robot's behavior.</p>
 
 <figure class="diagram" data-diagram="joint">
-  <div class="d-wrap"><svg viewBox="0 0 720 766" role="img" aria-label="Diagram of joint video-action denoising in Cosmos Policy: five sampler calls at sigma 80, 42, 21, 10 and 4 clear the predicted frames step by step, the action tokens attend to the predicted-frame and current-frame tokens at every layer, and in LingBot-VA rollouts on RoboTwin 2.0 from one initial state the unmasked run completes the task while the run with the predicted frames masked fails."></svg></div>
+  <div class="d-wrap"><svg viewBox="0 0 720 766" role="img" aria-label="Diagram of joint video-action denoising in Cosmos Policy: five denoising steps at sigma 80, 42, 21, 10 and 4 clear the predicted frames step by step, and the action tokens attend to the predicted-frame and current-frame tokens at every layer. The read site, the last step in layers 21 to 27, is outlined. Below, LingBot-VA rollouts on RoboTwin 2.0 from one initial state: the run without a knockout completes the task, and the run with the predicted frames knocked out fails."></svg></div>
   <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
   <p class="d-stage"></p>
-  <figcaption><b>Cosmos Policy joint video-action denoising. </b> Cosmos Policy will denoise its predicted frames and action tokens jointly. These are rollouts from LingBot-VA on RoboTwin 2.0 who also has access to their predicted frames. Starting from the same scene without masking the frames allows the robot to place the box in the basket. With predicted frames masked from the action the robot fails (52/60 no mask vs 0/60 mask). Frames shown in between are decoded frames with noise applied to match the corresponding samplers call σ value.</figcaption>
+  <figcaption id="cap-joint"><b>Joint video-action denoising.</b> Cosmos Policy denoises its predicted frames and actions together over 5 steps. Below, LingBot-VA on RoboTwin 2.0 succeeds normally and fails with its predicted frames knocked out.</figcaption>
 </figure>
 
-<p>For 7 out of the 8 world action models that can access a predicted future we find that <b>masking that future results in lower success rates</b> compared to masking the current frame on LIBERO-10, RoboTwin 2.0 or CALVIN. By changing the future we can cause the robot to pick up different objects and by guiding the predicted plan towards the correct object we can <b>improve Cosmos Policies out of distribution performance</b>. On LIBERO-10 the amount of additional R<sup>2</sup> the target objects future displacement is represented in is at most .003 after accounting for current state and the actions taken by the robot.</p>
 
+<h2 id="families">Four types of world action models</h2>
 
-<h2 id="families">Four Types of World Action Models</h2>
-
-<p>We can classify world action models into four categories based on the work by Zhang et al.<sup class="c"><a href="#r-tutorial">1</a></sup>. We will include latent foresight for 2 of our world action models.</p>
+<p id="p-families-1">Zhang et al.<sup class="c"><a href="#r-tutorial">2</a></sup> distinguish 4 main families of WAMs, depending on how the action reaches the predicted future. The read-site paper includes 8 models from the first 3 families. 2 further models fall into the last family, in which predicting the future enters only as a loss term during training, and are considered by horizon tomography. Finally, we include π<sub>0.5</sub><sup class="c"><a href="#r-pi05">3</a></sup>, which has no world objective at all.</p>
 
 <table class="fam">
-<thead><tr><th>Family</th><th>How does the action know about the future</th><th>Our models</th></tr></thead>
+<thead><tr><th>Family</th><th>How the action reaches the future</th><th>Our models</th></tr></thead>
 <tbody>
-<tr><td>Joint Video-Action Generation</td><td>Actions are able to attend to frames being generated by the same network</td>
-<td>Cosmos Policy<sup class="c"><a href="#r-cosmos">2</a></sup>, DreamZero<sup class="c"><a href="#r-dreamzero">3</a></sup>, Motus<sup class="c"><a href="#r-motus">4</a></sup> (all diffusion) LingBot-VA<sup class="c"><a href="#r-lingbot">5</a></sup> (auto-regressive)</td></tr>
-<tr><td>Latent Foresight</td><td>There is an expert that predicts a future latent or feature representation the action expert can attend to</td>
-<td>InternVLA-A1<sup class="c"><a href="#r-internvla">6</a></sup>, LaWAM<sup class="c"><a href="#r-lawam">7</a></sup></td></tr>
-<tr><td>Using Video Features to Inform Policy Head</td><td>A single forward denoise pass of a video model to get features that can be used by a policy</td>
-<td>VPP<sup class="c"><a href="#r-vpp">8</a></sup></td></tr>
-<tr><td>Prediction as an Auxiliary Task</td><td>The model predicts a future but the deployed action never has access to a predicted future</td>
-<td>Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup>, VLA-JEPA<sup class="c"><a href="#r-vlajepa">10</a></sup></td></tr>
+<tr><td>Joint video-action generation</td><td>Actions attend to frames that the same network is generating</td>
+<td>Cosmos Policy<sup class="c"><a href="#r-cosmos">4</a></sup>, DreamZero<sup class="c"><a href="#r-dreamzero">5</a></sup>, Motus<sup class="c"><a href="#r-motus">6</a></sup> (diffusion), LingBot-VA<sup class="c"><a href="#r-lingbot">7</a></sup> (autoregressive)</td></tr>
+<tr><td>Latent foresight</td><td>A module predicts future latents or tokens, and the action attends to them</td>
+<td>InternVLA-A1<sup class="c"><a href="#r-internvla">8</a></sup>, LaWAM<sup class="c"><a href="#r-lawam">9</a></sup>, Seer-Large<sup class="c"><a href="#r-seer">10</a></sup></td></tr>
+<tr><td>Video features for the policy head</td><td>One denoising pass of a video model gives features the policy reads</td>
+<td>VPP<sup class="c"><a href="#r-vpp">11</a></sup></td></tr>
+<tr><td>Prediction as an auxiliary task</td><td>The model learns to predict, but the deployed action never sees a prediction</td>
+<td>Fast-WAM<sup class="c"><a href="#r-fastwam">12</a></sup>, VLA-JEPA<sup class="c"><a href="#r-vlajepa">13</a></sup> (horizon tomography only)</td></tr>
 </tbody>
 </table>
 
-<p>Based on the architecture we are able to test some of these hypotheses. We were able to intervene on three out of the four types of world action models on LIBERO<sup class="c"><a href="#r-libero">11</a></sup>, RoboTwin 2.0<sup class="c"><a href="#r-robotwin">12</a></sup> and CALVIN<sup class="c"><a href="#r-calvin">13</a></sup>. We also evaluate the gaze heads on BEHAVIOR-1K and DROID.</p>
+<p id="p-families-2">We tested on various settings, including LIBERO<sup class="c"><a href="#r-libero">14</a></sup> (LIBERO-10, LIBERO-Object, and the Spatial-OOD layouts<sup class="c"><a href="#r-ood">15</a></sup>), 24 tasks in RoboCasa kitchens<sup class="c"><a href="#r-robocasa">16</a></sup>, a subset of RoboTwin 2.0<sup class="c"><a href="#r-robotwin">17</a></sup> with 2 objects, and CALVIN ABC-D chains<sup class="c"><a href="#r-calvin">18</a></sup>. The step, source and mediation tests, along with our predictions and fail conditions, were registered prior to running the counted episodes.</p>
 
 
-<h2 id="misread">The gripper confound</h2>
+<h2 id="why">Does the action use its predicted frames?</h2>
 
-<p>Since whatever is next to be manipulated will be near or in the gripper the gaze-head score from Gandikota and Bau<sup class="c"><a href="#r-gaze">14</a></sup> which targets heads looking after the hand: just distance to the gripper identifies the next object with an AUC between .979 and 1.000 across all ten LIBERO policies that we score<sup class="c"><a href="#r-groot">15</a>,<a href="#r-oft">16</a>,<a href="#r-smolvla">17</a></sup> and is correlated with a held object score from Spearman .90 to 1.00. We refer to these heads as <b>carry heads</b>. When we mask out all the WAM's four future frames in RIFT<sup class="c"><a href="#r-rift">18</a></sup> we see performance drop. Masking all future frames doesn't point to a specific layer or head or what information they are reading from the future.</p>
-
-<h2 id="imagine">Scoring the read</h2>
-
-<p>We define the attention of the actions onto the predicted frames as the actions <b>read</b> on the future. Using our controlled gaze score we can identify heads that look at the future only when the next object is away from the gripper compared to a distance matched baseline. Our size matched blinding masks the read in all layers and heads as well as masking an equal number of current frames as a control. We can also mask limited ranges of layers or <i>k</i> amount of heads. Our key value swap takes another forward pass of the model with a different instruction and copies only the key and values of the predicted frames over to our actions pass. Figure 1 visualizes the read for three models. We have highlighted the Cosmos Policy <b>tracker heads</b> which are the carry heads that look at the gripper the most within the predicted frames.</p>
-
+<p id="p-why-1">If the bet pays off anywhere, it would be in how the action reads its predictions of future frames. There are a range of methods which attempt to improve behavior by acting on these predictions: both RoboIRS<sup class="c"><a href="#r-roboirs">19</a></sup> and WA-LQR<sup class="c"><a href="#r-walqr">20</a></sup> modify internal states during testing; LoopWAM<sup class="c"><a href="#r-loopwam">21</a></sup> and ReGuide<sup class="c"><a href="#r-reguide">22</a></sup> do additional training using rollouts from the policy itself. All of these will affect the predicted action only via the attention from the action queries to the keys and values (K/V) of the predicted frames, that is, only at the denoising steps and layers where that attention carries information.</p>
 
 <figure class="wide" id="fig-imagine">
   <div class="controls">
@@ -259,140 +261,132 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
     <label class="chk"><input type="checkbox" checked> attention</label>
   </div>
   <div class="frames three">
-    <div>Camera at beginning of chunk<img alt="Current camera frame"></div>
-    <div>Predicted by the policy<img alt="Imagined future frame"></div>
-    <div>Camera at beginning of next chunk<img alt="Camera frame at next chunk"></div>
+    <div>Camera at the start of the chunk<img alt="Current camera frame"></div>
+    <div>Predicted by the policy<img alt="Predicted frame"></div>
+    <div>Camera at the start of the next chunk<img alt="Camera frame at the next chunk"></div>
   </div>
-  <figcaption><b>Figure 1. </b> The policy predicts where the arm will be in the next camera frame (right). For Cosmos Policy we visualize where five of the actions tracker heads are looking.</figcaption>
-  </figure>
+  <figcaption id="cap-imagine"><b>Figure 1.</b> Each policy's predicted frame (center) beside the camera view at the start (left) and end (right) of the chunk. For Cosmos Policy the overlay shows where five tracker heads look.</figcaption>
+</figure>
 
-<h2 id="gaze">Heads that anticipate</h2>
+<p id="p-why-2">We refer to this denoising step and range of layers as the <i>read site</i>. Attention from the action to all future tokens was knocked out by RIFT<sup class="c"><a href="#r-rift">23</a></sup> for 4 WAMs, with a corresponding decrease in success. There was no equivalent knockout of current-frame keys to control for the total number of keys, so this may be a contributing factor. For EWAM<sup class="c"><a href="#r-ewam">24</a></sup>, the cost was found to be in the mid-layers. Neither states at which denoising step the frames are read, where the target object in the frames comes from, or how large an effect the frames carry.</p>
 
-<p>Once we account for the gripper confound all simulation policies we have scored contain heads that look at the next object before the gripper: Between 2 and 248 heads per LIBERO policy 38-162 per RoboTwin policy across the six we score (top AUC distance matched .91-.97), all 48 heads in VPP's perceiver for CALVIN (.73-.82) and 120/144 heads in π<sub>0.5</sub><sup class="c"><a href="#r-pi05">19</a></sup> on BEHAVIOR-1K<sup class="c"><a href="#r-behavior">20</a></sup> (top .890). For real world data in DROID<sup class="c"><a href="#r-droid">21</a></sup> we find 3/144 heads in π<sub>0.5</sub>-DROID that beat our distance matched baseline (top .639). As these heads are correlated to instructions outside of π<sub>0.5</sub> we use the carry and tracker heads for our interventions.</p>
+<p id="p-misread-1">The attention scores provide a natural starting point. When performing manipulation tasks, high attention will tend to fall over the gripper. On LIBERO the next object to be moved is almost always the closest object to the gripper, so simply sorting all objects by 3D distance to the gripper gave very high AUCs (.979 to 1.000) across all 10 policies tested. None of the individual heads' gaze scores<sup class="c"><a href="#r-gaze">25</a></sup> outperformed this simple measure when tested (8 policies). Some form of intervention was thus required to locate the read site.</p>
 
-<h2 id="blind">Masking future frames</h2>
+<p id="p-why-3">The read-site protocol uses 4 interventions. For attention knockouts<sup class="c"><a href="#r-geva">26</a></sup>, all keys corresponding to the set of predicted frames are prevented from being attended to by actions; an equivalent number of keys for the current frame or frames are knocked out in a control. This can be restricted to occur at only 1 denoising step, or over a quarter of the total number of layers, to localize the effect. With an interchange<sup class="c"><a href="#r-geiger">27</a></sup>, actions attend to K/V for the predicted frames from a run under another instruction. Interchanging after re-computing these frames' K/V with the original instruction will therefore show if the target is carried in the frames themselves. Mediation analysis<sup class="c"><a href="#r-vig">28</a></sup> returns the fraction of the total effect on the output which is mediated via the predicted frames.</p>
 
-<p>Masking the read decreases success rate on LIBERO-10 (50 episodes for each arm) from <b>48 to 10 for Cosmos Policy, 49 to 0 for LingBot-VA and 35 to 0 for DreamZero</b> while the size matched current frame masks result in 34, 49 and 24. For RoboTwin 2.0 (60 episodes for each arm) LingBot-VA drops from 52 to 0 compared to 50 for the current frame mask. InternVLA-A1 drops from 44 to 11 compared to 39, LaWAM from 55 to 36 compared to 57 and Motus from 45 to 0 compared to 27 (Table 1). VPP drops from 4.16 to 0.01 average tasks completed per sequence on CALVIN compared to 4.12 when we mask the same number of current frames (Figure 2).</p>
+<figure class="wide paperfig" id="fig-method">
+  <img src="img/paper/fig_method.png" width="1714" height="625" loading="lazy" alt="Read-site protocol on Cosmos Policy. Panel a: the instruction and current frame enter a 28-block video diffusion transformer that denoises predicted frames and actions together over five steps. At layers 21 to 27 and the last step, the action queries' attention to the predicted-frame keys and values is knocked out, or replaced with keys and values from a counterfactual source run. Panel b: mediation analysis, where a recording run under one condition stores the predicted-frame keys and values and an executed run under another condition reads them, with the same seed.">
+  <figcaption id="cap-method"><b>Figure 2.</b> The protocol on Cosmos Policy. (a) Knockout and interchange act on the predicted-frame K/V at the read site (purple). (b) Mediation moves those K/V from a recording run into an executed run with the same seed.</figcaption>
+</figure>
 
-<p>By removing the keys we are also causing the model to go out of distribution from its input so these numbers may overestimate how reliant the actions are on the plan. On LIBERO-Object when we mask Cosmos Policy's future frames we get 23 out of 50 paired episodes compared to 50 when unmasked. If we replace the keys and values with the average of their tokens we get 41 and if we replace them with the previous chunks plan we get 39. So there is roughly a 10 out of 50 difference from the content of the plan the model is currently using.</p>
 
-<figure class="wide" id="fig-bridge">
+<h2 id="knockout">The action needs its frames</h2>
+
+<p id="p-knockout-1">All 8 models perform worse when the predicted frames are removed than when an equivalent number of current-frame keys are removed (Figure 3). In particular, 2 of them are completely unsuccessful on LIBERO-10: LingBot-VA drops from 49 to 0 out of 50 successes, compared to 49 for its control, and DreamZero to 0. The same holds on RoboTwin 2.0, RoboCasa and CALVIN, where VPP sees a large drop, with most chains failing.</p>
+
+<figure class="wide" id="fig-knockout">
+  <svg viewBox="0 0 640 300" role="img" aria-label="Success with no knockout, with the predicted frames knocked out and with a size-matched current-frame knockout, grouped by benchmark"></svg>
+  <div class="legend"></div>
+  <figcaption id="cap-knockout"><b>Figure 3.</b> Success with no knockout, with the predicted frames knocked out, or with the same number of current-frame keys knocked out (95% Wilson intervals). VPP counts chains out of 100.</figcaption>
+</figure>
+
+<p id="p-knockout-3">Attention masses give no indication of such costs. In the last step, the action queries put about 13% of their attention on Cosmos Policy's predicted frames, compared to 18% for the actual current images. And LingBot-VA is able to complete 44 out of 50 episodes relying solely on its own predicted future when all real frames in its cache have been knocked out.</p>
+
+<p id="p-knockout-4">As all frames were available at train time, fully knocking them out provides an upper bound on the extent to which the action relies on them. Replacing Cosmos Policy's predicted-frame K/V with in-distribution values, namely the mean over tokens, or the prediction made 1 chunk earlier, yielded 41 and 39 successes out of 50 on LIBERO-Object. Both are much higher than 23 for the full knockout, indicating reliance on the current predicted frames, but showing that the knockout overestimates this by a factor of 2.4 to 3.</p>
+
+
+<h2 id="site"><a id="gaze" aria-hidden="true"></a><a id="imagine" aria-hidden="true"></a>When and where the action reads them</h2>
+
+<p id="p-site-1">This occurs towards the end of the denoising process: 3 out of 5 models we timed read their predicted frames in one or more of the very last steps. Removing predicted frames from only the final step out of 5 reduced Cosmos Policy substantially, to 11 out of 50 successful completions on LIBERO-10 (48 with none removed), with all other individual steps giving similar high performance (Figure 4). All episodes fail for DreamZero when the final 2 out of 8 steps are removed, and LaWAM's final 2 out of 10 reproduce its full loss. For Cosmos Policy, the output of this last step is the one the model returns, and the effect followed the returned step at all other noise levels we tried.</p>
+
+<p id="p-site-3">This step also specifies which object should be grasped. Interchanging Cosmos Policy's predicted frames only at the last step causes the first grasp to go to the other object in 44 of 50 episodes of LIBERO-Object. If done at steps 1 to 4, no episodes were affected.</p>
+
+<p id="p-site-5">It is also narrow in depth, with 3 models reading in one block of consecutive layers. Knocking out only layers 21 to 27 brings Cosmos Policy down to 24 of 50, and knocking out only layers 8 to 14 leaves LingBot-VA with 4 of 50; all other quarters have much smaller effects (Figure 4). DreamZero reads in the latter half of its layers. The Cosmos Policy and LingBot-VA blocks also hold on a second benchmark. However, for LaWAM, InternVLA-A1 and VPP, none of the quarters of layers gives a close match to the full loss.</p>
+
+<figure class="wide" id="fig-site">
   <div class="controls">
     <span class="seg" role="group" aria-label="View">
-      <button type="button" data-v="blind" aria-pressed="true">All layers</button>
-      <button type="button" data-v="depth" aria-pressed="false">One band</button>
+      <button type="button" data-v="steps" aria-pressed="true">Denoising step</button>
+      <button type="button" data-v="depth" aria-pressed="false">Layer range</button>
       <button type="button" data-v="dose" aria-pressed="false">Tracker heads</button>
     </span>
   </div>
-  <svg viewBox="0 0 640 300" role="img" aria-label="Task success under attention masks, grouped by benchmark"></svg>
+  <svg viewBox="0 0 640 300" role="img" aria-label="Success with the predicted frames knocked out at one group of denoising steps, in one layer quarter, or for the top tracker heads against random heads"></svg>
   <div class="legend"></div>
-  <figcaption><b>Figure 2. </b> Masking the future results in lower performance than a size matched current frame mask on all benchmarks. Other views show that the read can be found in one band of layers and highlight the tracker heads.</figcaption>
-  </figure>
-
-<p>When we mask 1/4 of the layers at a time we find a band of layers that contain the read for each model. Within this band we find that the top 100 tracker heads result in a similar drop as masking all heads while 100 random heads do not (Figure 2 <i>One band</i> and <i>Tracker heads</i>). For RoboTwin 2.0 when we only mask layers 7-14 of LingBot-VA we get 0/20 success just as masking all layers does. All other bands result in 18-20 successes. For DreamZero <b>masking three heads is enough to stop the read</b>: when we test on unseen starting states we find 1/50 successes when we mask the future frames for these three heads compared to 31/50 when masking the current frames (Fisher p=2×10<sup>−11</sup>).</p>
-
-<p><b>The read develops as the model is trained to take actions. </b> Before training the Cosmos Policy model on actions it has the same score as random heads for its top 50 tracker heads. After fine tuning the action's attention to the predicted frames increases from .058 to .132 in layers 21-27. LingBot-VA develops this band during it's robot video action pretraining.</p>
-
-<div class="tscroll"><table class="fam t1">
-<thead><tr><th>Model</th><th>Benchmark</th><th>Unmasked</th><th>Future masked</th><th>Current masked</th></tr></thead>
-<tbody>
-<tr><td>LingBot-VA</td><td>RoboTwin 2.0</td><td>52/60</td><td>0/60</td><td>50/60</td></tr>
-<tr><td>InternVLA-A1</td><td>RoboTwin 2.0</td><td>44/60</td><td>11/60</td><td>39/60</td></tr>
-<tr><td>LaWAM</td><td>RoboTwin 2.0</td><td>55/60</td><td>36/60</td><td>57/60</td></tr>
-<tr><td>Motus</td><td>RoboTwin 2.0</td><td>45/60</td><td>0/60</td><td>27/60</td></tr>
-<tr><td>VPP</td><td>CALVIN ABC-D</td><td>4.16</td><td>0.01</td><td>4.12</td></tr>
-</tbody>
-</table></div>
-<p class="tcap"><b>Table 1. </b> Blinding results outside of LIBERO.</p>
-
-
-<h2 id="swap">Swapping the imagined future</h2>
-
-<figure class="diagram" data-diagram="swap">
-  <div class="d-wrap"><svg viewBox="0 0 720 440" role="img" aria-label="Diagram of the key-value swap in LingBot-VA on RoboTwin 2.0: predicted-frame keys and values from a counterfactual pass that moves the phone replace those of the action pass that moves the red stapler, and from the same initial state the unmodified rollout picks up the stapler first while the swapped rollout picks up the phone first."></svg></div>
-  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
-  <figcaption><b>Key/value swap. </b> LingBot-VA on RoboTwin 2.0 doing the task to place the red stapler to the right of the phone. The counterfactual pass imagines the wrist cam over the phone while the action pass imagines the wrist cam over the stapler. If we use the keys/values from the counterfactual pass in our action pass we see the arm reach for the phone first and only make contact with the stapler at step 210. We find that in 39/60 of these swapped episodes it will reach for the counterfactual object first. Using the current frame we get 5/60.</figcaption>
+  <figcaption id="cap-site"><b>Figure 4.</b> Locating the read site: knocking out the predicted frames at one group of denoising steps (action steps for LingBot-VA), one quarter of the layers, or the top tracker heads in the located range. 50 episodes per bar, 20 on RoboTwin 2.0.</figcaption>
 </figure>
 
-<p>For 2 LIBERO-10 tasks that involve baskets LingBot-VA reaches for the counterfactual object first in 39/40 trials. DreamZero reaches for the counterfactual object first in 40/40 trials. When using the current frame keys and values to swap we get 0/40 (McNemar p = 4×10<sup>−12</sup> and 2×10<sup>−12</sup>). All 40 of these failed to complete the original task. We also tried this on Cosmos Policy with LIBERO-Object. If we take another pass with the same instructions but different sampler seeds there was no effect on 50/50 trials. However if we use the keys and values from a pass with a counterfactual prompt we get 45/50 trials reaching for the counterfactual object first. This shows that the swap is happening due to the information within the plan. If we take LingBot-VAs counterfactual frames and encode them with the correct instruction it will still reach for the counterfactual object first 39/40. Showing that the video is what contains the information about the plan. For LIBERO-Object we can get 179/200 Cosmos Policy episodes and 199/200 DreamZero to reach for the counterfactual object first. When doing this on RoboTwin 2.0 LingBot-VA reaches for the counterfactual object first in 39/60 trials. Using the current frame gets us 5/60 and the counterfactual prompt 40/60 (McNemar p = 5×10<sup>−9</sup>). Cosmos Policy had the least amount of trials it could get to reach for the counterfactual object first at 10/40.</p>
+
+<h2 id="source">Where the target comes from</h2>
+
+<figure class="diagram" data-diagram="interchange">
+  <div class="d-wrap"><svg viewBox="0 0 720 440" role="img" aria-label="Diagram of the interchange intervention in LingBot-VA on RoboTwin 2.0: predicted-frame keys and values from a source run that moves the phone replace those of the base run that moves the red stapler. From the same initial state the run without intervention picks up the stapler first, and the patched run picks up the phone first."></svg></div>
+  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
+  <figcaption id="cap-interchange"><b>Interchange intervention</b>, LingBot-VA on RoboTwin 2.0. Reading the predicted-frame K/V of a run given the reverse instruction sends the first grasp to the other object in 39 of 60 episodes, against 5 for the current-frame K/V.</figcaption>
+</figure>
+
+<p id="p-source-1">For LIBERO-10, swapping in the predicted-frame K/V causes 39 of 40 episodes for LingBot-VA, and all 40 episodes for DreamZero, to follow the counterfactual. This is comparable to the fraction of redirections if we explicitly supply the counterfactual instruction. In contrast, swapping in the current-frame K/V causes none of the 40 episodes to be redirected, for either model. Therefore, the predicted frames do carry a target.</p>
+
+<p id="p-source-2">The target can be either inherent in the image, or induced by the generating instruction. We therefore re-encode the source's predicted frames with the original instruction, that is, without any counterfactual language but with the same image. For Cosmos Policy, the target is carried by the instruction: the source frames redirect 86 of 100 LIBERO-Object episodes, compared to 0 of 100 after re-encoding.</p>
+
+<p id="p-source-3">LingBot-VA is at the other extreme, with all but one (39 of 40) of its original redirects preserved following re-encoding. DreamZero is similar, with 59 of 60 preserved. For VPP around .59 of redirects are preserved, compared to the .80 we had registered. Both Cosmos Policy and LingBot-VA jointly denoise an action sequence and video, but differ in where the corresponding target is taken from. Thus, modifying the video will depend on which source each model uses.</p>
 
 <figure class="wide" id="fig-steer">
   <div class="controls">
-    <span class="seg" role="group" aria-label="Benchmark">
+    <span class="seg" role="group" aria-label="View">
       <button type="button" data-b="robotwin" aria-pressed="true">LingBot-VA, RoboTwin 2.0</button>
-      <button type="button" data-b="restricted" aria-pressed="false">Restricted swaps</button>
+      <button type="button" data-b="source" aria-pressed="false">Re-encoding test</button>
     </span>
     <button class="play" type="button">Play</button>
     <input type="range" min="0" value="0" aria-label="Time step">
     <span class="ui step"></span>
   </div>
   <div class="frames two">
-    <div>Unmodified<img alt="Unmodified rollout frame"></div>
-    <div>Imagined frames swapped<img alt="Steered rollout frame"></div>
+    <div>No intervention<img alt="Rollout frame without intervention"></div>
+    <div>Interchange<img alt="Rollout frame after the interchange"></div>
   </div>
-  <svg viewBox="0 0 640 190" role="img" aria-label="Gripper distance to each named object, or counterfactual-first counts under restricted swaps"></svg>
+  <svg viewBox="0 0 640 190" role="img" aria-label="Gripper distance to each named object over one episode, or redirect counts in the re-encoding test"></svg>
   <div class="legend"></div>
-  <figcaption><b>Figure 3. </b> Distance of gripper to objects mentioned in the instruction for 1 RoboTwin 2.0 trial. Without any modifications (solid line) and using the keys/values from the predicted frames (dashed line). <i>Restricted swaps</i> show how many trials can be made to reach for the counterfactual object first when only certain layers and/or heads are used to swap.</figcaption>
-  </figure>
-
-<p>When only using the layers that contain our read band we can get DreamZero to reach for the counterfactual object first in 21/40 trials on LIBERO-10. Compared to all layers which is 40/40. On 40 new LingBot-VA trials that have the ability to reach for the counterfactual object first when swapping all layers we find that using only the band we can get 19/40. Using the top 100 tracker heads we can get 30/40. We were unable to find a band of layers or set of heads that could reach our predetermined threshold of 35/40. On RoboTwin 2.0 we are able to use just the layers in the band to get our desired result. Over 80 new trials LingBot-VA layers 8-14 are able to reach for the counterfactual object first 57/80. While all layers can reach 59/80 and layers 15-21 only reach 5/80 (<i>Restricted swaps</i>). ForeWAM<sup class="c"><a href="#r-forewam">22</a></sup> uses this layer to help create their model.</p>
-
-<h2 id="plans">Out of distribution guidance</h2>
-
-<p>When operating out of distribution Cosmos will frequently hallucinate the incorrect object. If prompted to place the bowl on the cookie box it will imagine the bowl on top of the plate and perform the action. Scaling guidance by attention to future frames (Temporal Ratio<sup class="c"><a href="#r-tr">23</a></sup>) (TR-AG) can scale both language and plan guidance. When using these values obtained from in-distribution performance we see TR-AG decrease performance on the compositional LIBERO Spatial-OOD benchmark suite<sup class="c"><a href="#r-ood">24</a></sup>. From 171 successes to 139 out of 600 pair episodes (holm p=.002). Our tracker head implementations perform no better than base (157 and 169 successes).</p>
-
-<p>Guiding with a better plan works. We take frames from successful rollouts of the same or closest scene. Re noise these to the level that Cosomos actions are reading from (σ≥4) we see an increase from 171 to 182 successes out of 240. (Gained 12 lost 1 holm p=.007). Since these plans were selected based on their outcome we also train a critic on outcomes to improve selection. Using this critic to select the best plan out of 8 increases our success rate from 168 to 172 out of 240. Our sampler seed has little effect on what plans are sampled.</p>
-
-<p>Steering the imagined frames near the end of generation. We can probe the network at layer 21 (inside of where actions are being read) to identify what object the imagined frames are traveling towards. During the final 2 out of 5 sampling steps we add the gradient of this probe towards the desired object if our second probe identifies the plan is heading towards something else. On a holdout set that we registered before running we see our success rate increase from 104 to 122 out of 160 scenes. <b>An improvement of 11 points</b> (24 gained 6 lost). On our registered new test set we see our success rate go from 108 to 116 out of 160 (11 gained 3 lost p=.057). Adding a second sampler seed on our holdout set sees our success rate go from 103 to 134. Here we can see our model lifting the bowl and placing it on top of the plate compared to our base model who just hovers over the bowl. The direction we add this to doesn't matter much. Adding a random direction with our gating and magnitude will yield 118/160 successes. If we guide opposite to our probed direction we see 17 successes gained and 13 lost (p=.58). Our probed direction causes less failures of previously successful examples (6 vs 14) but seems to be the perturbation late in the plan that is allowing us to gain these successes. If we add this signal during the first 3 calls we see no change in success rate. There is a reason for this. If we mask the imagined frames during 1 sampling step we can see what step actions are being informed by them. For Cosmos this is only the last sampling step. 11 out of 50 LIBERO-10 examples succeed when only the final sampling step has access to the plan. Dreamzero also shows this behavior by informing actions during it's last 2 denoiser steps. If we replace Dreamzeros plan with a different instructions during these final 2 steps we can see our arm travel to that objects 18/20 times. Replacing it during any other step yields 0 successes. We also see this behavior in Cosmos if we replace the plan on it's last sampling step we can direct our arm to the other object 18/20. Replacing during the first 4 sampling steps yields no successes. This also occurs if we replace the prompt with another instruction on these steps. 20/20 successes when replacing on the last step and 0 when replacing during the first 4 steps. So in Cosmos the plan or prompt on the last step determines what our action is aimed at. This is because the plan is informed by the sampler. With LingBot-VA we can separate this behavior as the video is fully generated before actions begin sampling. If we mask our first 10 actions the model is unable to complete the task. However if we only give it a replaced plan during these 10 actions we see no successes and if we give it a replaced plan on actions 10-49 we see 20/20 successes. It appears that LingBot-VA needs a plan to generate the first few actions then knows what object to target on later steps. As you can see across all of our models they inform what object they should be targeting late into their action sampling. Which is where we can help steer them. Adding our objects to the residual at layer 23 on these steps allows us to gain 8 points on our holdout set. (117/160). This did not generalize to new scenes or our second sampler seed. Ungated steering did not help at any strength we tried. Steering the tracker heads yielded no increase in success rate.</p>
-
-<h2 id="ladder">Horizon tomography</h2>
-
-<p>The Fast-WAM<sup class="c"><a href="#r-fastwam">9</a></sup> authors posit that the main value of video prediction "may lie in improving world representations during training". Horizon tomography puts this claim to work: given a probe that can predict a target object's movement δ steps ahead, we show how much it gains over a nested control <i>c</i><sub>k</sub>, a conditional probe<sup class="c"><a href="#r-hewitt">25</a></sup>:</p>
-
-<div class="eq">$$\Delta R^2_k(\delta) \;=\; R^2\!\left(y_\delta \mid c_k,\, h\right) \;-\; R^2\!\left(y_\delta \mid c_k\right)$$</div>
-
-<figure class="diagram" data-diagram="ladder">
-  <div class="d-wrap"><svg viewBox="0 0 720 430" role="img" aria-label="Diagram of the control ladder: a probe reads the activation and predicts the target displacement. As the nuisance control grows from scene to full state to state plus own motion, the information gain shrinks from 0.46 to 0.51, to 0.001 to 0.021, to within 0.003."></svg></div>
-  <div class="d-controls"><button class="d-play" type="button">Play</button><input class="d-seek" type="range" min="0" value="0" aria-label="Animation position"><span class="d-clock"></span></div>
-  <p class="d-stage"></p>
-  <figcaption><b>The control ladder.</b> We show the probe gaining less information about where a target will be as we increase the nuisance control from just the scene to all of the states to including the robot's motion. It falls to within .003.</figcaption>
+  <figcaption id="cap-steer"><b>Figure 5.</b> Gripper distance to the two named objects in one RoboTwin 2.0 episode, without (solid) and with (dashed) the interchange. <i>Re-encoding test</i>: redirects with the source frames as they are, after re-encoding, and for the current-frame interchange.</figcaption>
 </figure>
 
-<p><i>c</i><sub>1</sub> captures what the scene currently looks like, <i>c</i><sub>2</sub> all of the states, and <i>c</i><sub>3</sub> includes where the robot will go next. Note that this will never capture any learned internal dynamics model by definition, since if your policy is fixed and the simulator is deterministic, anything you could learn from that will be a function of the state.</p>
+
+<h2 id="pm"><a id="plans" aria-hidden="true"></a>How much passes through the frames</h2>
+
+<p id="p-pm-1">We can put one number on this with mediation analysis. For each chunk, we perform 2 runs with identical seeds: save the predicted-frame K/V under 1 set of conditions, and use these K/V in a run under a different set of conditions. The proportion mediated (PM) is the fraction of the conditions' effect on the outcome that is carried by these K/V alone.</p>
+
+<p id="p-pm-2">As can be seen from Figure 6, the 4 models we measured cover the whole range for an instruction change. Simply interchanging the K/V of the predicted frames in VPP (CALVIN) moves the other block first nearly as often as changing the instruction, a PM of .99. For the foresight tokens of Seer-Large, this is much less, .36; on RoboTwin 2.0 it is .09 for LaWAM's predicted tokens, and .00 for the predicted tokens of InternVLA-A1, although .67 for its current image. Thus about two thirds of the effect of the instruction on the action is mediated via the current image, for InternVLA-A1.</p>
+
+<p id="p-pm-5">Mediation can also measure a weight change. We trained a LoRA adapter on successful rollouts of the released Cosmos Policy weights in the Spatial-OOD layouts. On 480 test pairs, the released weights get 326 and the adapter gets 414. Giving the released model the adapter's predicted-frame K/V only at the read site (that is, layers 21 to 27 at the last step) gives a PM of .83. The same patch in layers 7 to 13, the registered off-site control, gives a PM of only .02. Hence most of the adapter's gain passes through the predicted frames at the read site.</p>
+
+<figure class="wide" id="fig-pm">
+  <svg viewBox="0 0 640 250" role="img" aria-label="Proportion mediated with 95 percent intervals: VPP .99, Seer-Large .36, LaWAM .09, InternVLA-A1 .00, Cosmos Policy adapter gain at L21-27 .83, and at the L7-13 control .02"></svg>
+  <figcaption id="cap-pm"><b>Figure 6.</b> Proportion mediated by the predicted frames, with 95% cluster-bootstrap intervals. Top 4 rows: instruction changes. Bottom 2: the Cosmos Policy adapter's gain patched at the read site or off site (480 pairs).</figcaption>
+</figure>
+
+<p id="p-steer-1">Further fine-tuning with successful rollouts from the policy itself leads to improved results in the Spatial-OOD layouts. Similarly, probe guidance helps when applied at layer 21. Limiting the adapter to layers 21 to 27 helps no more than limiting it to an earlier range. Of course, these results are for only 1 model and 4 tasks, and fine-tuning in this manner decreases success on RoboCasa and in DreamZero.</p>
 
 
-<figure class="wide" id="fig-ladder">
-  <div class="controls">
-    <span>beyond</span>
-    <span class="seg" role="group" aria-label="Control">
-      <button type="button" data-r="scene" aria-pressed="false">present scene</button>
-      <button type="button" data-r="fullrbf" aria-pressed="true">full state</button>
-      <button type="button" data-r="dyn" aria-pressed="false">state + own motion</button>
-    </span>
-    <button class="play" type="button">Play</button>
-    <input type="range" min="0" value="2" aria-label="Horizon">
-    <span class="ui step"></span>
-  </div>
-  <svg viewBox="0 0 640 300" role="img" aria-label="Partial R squared per policy at one horizon"></svg>
-  <div class="legend"></div>
-  <figcaption><b>Figure 4.</b> We show that the activations can tell you more about where a target will be than just knowing the current scene, and when you know all of the states they fall off to nearly nothing.</figcaption>
-  </figure>
+<h2 id="carry">What the frames carry</h2>
 
-<p>When predicting 16 steps ahead on LIBERO-10 we see 6 models able to predict where objects will go .46-.51 better than just knowing what the scene looks like, .001-.021 better than knowing all of the states, and within .003 when we include where the robot will go. π<sub>0.5</sub>, which was trained with no world objective, can predict just as well past the state as Fast-WAM, which uses pixels as its world objective: .021 [.015,.028] vs .019 [.013,.026]. This is also true on RoboTwin 2.0 for both Fast-WAM and π<sub>0.5</sub> when predicting 16 steps ahead and LingBot-VA when predicting 32 steps ahead. Past where we tell the robot to go, the gain is at most .009 on LIBERO-Spatial and LIBERO-Goal with 500 episodes. When we retrain LeWorldModel<sup class="c"><a href="#r-lewm">26</a></sup> on Push-T, adding a world objective to behavior cloning improves predictions past the state and where the robot will go by .0057 at the seed level. None of the retrains show an ability to read hidden mass and friction.</p>
+<p id="p-carry-1">If the action reads the frames, what is in them? The WAM bet is that they hold physics, and the DreamZero authors argue that WAMs learn physical dynamics by predicting future world states<sup class="c"><a href="#r-dreamzero">5</a></sup>. Our companion paper tests this in the features of 6 LIBERO-10 policies. Against only a linear model of the present, every policy looks like it predicts the future. Once a kernel model of the present scene and the robot's commanded motion are controlled for, what is left about an object's future motion is equivalent to zero at bounds of 0.02 to 0.03 of its variance, for linear codes in the token mean. The future information we can read follows the robot's own plan.</p>
 
-<h2 id="limits">Summary and limits</h2>
+<h2 id="limits">A plan the action consults</h2>
 
-<p>We found that for these models we can manipulate the keys and values associated with the imagined future to control which object a model will act on, and that the target of the plan is what controls this. If you steer to a plan that has a target, the model will follow that. Steering that target increased success, while making the model read the plan more strongly decreased it. On LIBERO-10 we were unable to find evidence of world knowledge that came from training on video, which aligns with Yu<sup class="c"><a href="#r-yu">27</a></sup>, who proves that world-action imitation and behavior cloning have the same population level target for actions, and ARPS<sup class="c"><a href="#r-arps">28</a></sup>, who showed that supervising on the future can help the action under distribution shift. Richens et al.<sup class="c"><a href="#r-richens">29</a></sup> have proven that an agent that can generalize across many goals contains a world model. The 10 tasks we fine-tune on don't satisfy this. Probes and steering have also been applied to VLAs<sup class="c"><a href="#r-haon">30</a>,<a href="#r-buur">31</a>,<a href="#r-swann">32</a>,<a href="#r-grant">33</a></sup> (we did this for 6 VLAs: <a href="/publication/2026-not-all-features">paper</a>, <a href="https://action-atlas.com">Action Atlas</a>). Molinari et al.<sup class="c"><a href="#r-molinari">34</a></sup> found a world model in OpenVLA but did not use any of our controls and compared to raw embeddings.</p>
+<p id="p-limits-1">Taken together, the predicted frames in these policies work as a plan the action consults at a specific site, with a denoising step, range of layers, and target source that differ between checkpoints.</p>
 
-<p>All interventions were done in simulation. We used LIBERO-10 for our blocking heads and most of the restricted swaps. LIBERO-10 has 96-99% of its target movement happening while in contact. We replicated the horizon tomography on RoboTwin for 3 policies. In the future we would like to intervene on a real arm.</p>
+<p id="p-limits-2">First, editing predictions will only have an effect if the edit reaches the point at which values are read. So for Cosmos Policy this is the final denoising iteration, editing the corresponding instruction as well; and for LingBot-VA any such edit to the frames would be permanent. With InternVLA-A1 it would be appropriate to act on the current image to follow the desired instruction.</p>
+
+<p id="p-limits-5">All numbers reported here come from simulation with published checkpoints. There were 5 models tested with the step test, 6 with the layer test (a single range for 3 of these), and 4 with the source test. Each policy tested is associated with one checkpoint, with corresponding changes to backbone and training distribution, so any comparison between different policies should only be taken descriptively. The next step is to perform the knockout and interchange tests on a physical arm.</p>
 
 
 <h2 id="rollouts">Rollout videos</h2>
+
 <figure class="wide" id="fig-rollouts" tabindex="0" aria-roledescription="carousel" aria-label="Paired rollout videos, left and right arrow keys change the video">
   <div class="controls">
     <span class="seg" role="group" aria-label="Intervention">
-      <button type="button" data-set="blind" aria-pressed="true">Masking</button>
-      <button type="button" data-set="swap" aria-pressed="false">Swap</button>
+      <button type="button" data-set="knockout" aria-pressed="true">Knockout</button>
+      <button type="button" data-set="interchange" aria-pressed="false">Interchange</button>
     </span>
   </div>
   <div class="rv-stage"><video muted playsinline loop preload="metadata" width="1032" height="410"></video></div>
@@ -402,52 +396,45 @@ hr { border: 0; border-top: 1px solid var(--rule); margin: 3em 0 1.5em; }
 
 <hr>
 <ol class="refs">
+<li id="r-sora">T. Brooks, B. Peebles, C. Holmes, et al. <a href="https://openai.com/index/video-generation-models-as-world-simulators/">Video generation models as world simulators</a>. OpenAI technical report, 2024.</li>
 <li id="r-tutorial">X. Zhang, X. Zeng, W. Zhang. <a href="https://arxiv.org/abs/2607.00836">From World Models to World Action Models: A Concise Tutorial for Robotics</a>. arXiv:2607.00836, 2026.</li>
+<li id="r-pi05">Physical Intelligence, K. Black, N. Brown, et al. <a href="https://arxiv.org/abs/2504.16054">&pi;<sub>0.5</sub>: a Vision-Language-Action Model with Open-World Generalization</a>. arXiv:2504.16054, 2025.</li>
 <li id="r-cosmos">M. J. Kim, Y. Gao, T.-Y. Lin, et al. <a href="https://arxiv.org/abs/2601.16163">Cosmos Policy: Fine-Tuning Video Models for Visuomotor Control and Planning</a>. arXiv:2601.16163, 2026.</li>
 <li id="r-dreamzero">S. Ye, Y. Ge, K. Zheng, et al. <a href="https://arxiv.org/abs/2602.15922">World Action Models are Zero-shot Policies</a> (DreamZero). arXiv:2602.15922, 2026.</li>
 <li id="r-motus">H. Bi, H. Tan, S. Xie, et al. <a href="https://arxiv.org/abs/2512.13030">Motus: A Unified Latent Action World Model</a>. CVPR, 2026.</li>
 <li id="r-lingbot">L. Li, Q. Zhang, Y. Luo, et al. <a href="https://arxiv.org/abs/2601.21998">Causal World Modeling for Robot Control</a> (LingBot-VA). arXiv:2601.21998, 2026.</li>
 <li id="r-internvla">InternVLA-A1 Team. <a href="https://arxiv.org/abs/2601.02456">InternVLA-A1: Unifying Understanding, Generation and Action for Robotic Manipulation</a>. arXiv:2601.02456, 2026.</li>
 <li id="r-lawam">J. Chen, K. Wang, K. Chen, et al. <a href="https://arxiv.org/abs/2606.15768">LaWAM: Latent World Action Models for Efficient Dynamics-Aware Robot Policies</a>. arXiv:2606.15768, 2026.</li>
+<li id="r-seer">Y. Tian, S. Yang, J. Zeng, P. Wang, D. Lin, H. Dong, J. Pang. <a href="https://arxiv.org/abs/2412.15109">Predictive Inverse Dynamics Models are Scalable Learners for Robotic Manipulation</a> (Seer). arXiv:2412.15109, 2024.</li>
 <li id="r-vpp">Y. Hu, Y. Guo, P. Wang, et al. <a href="https://arxiv.org/abs/2412.14803">Video Prediction Policy: A Generalist Robot Policy with Predictive Visual Representations</a>. ICML, 2025.</li>
 <li id="r-fastwam">T. Yuan, Z. Dong, Y. Liu, H. Zhao. <a href="https://arxiv.org/abs/2603.16666">Fast-WAM: Do World Action Models Need Test-time Future Imagination?</a> arXiv:2603.16666, 2026.</li>
 <li id="r-vlajepa">J. Sun, W. Zhang, Z. Qi, et al. <a href="https://arxiv.org/abs/2602.10098">VLA-JEPA: Enhancing Vision-Language-Action Model with Latent World Model</a>. arXiv:2602.10098, 2026.</li>
 <li id="r-libero">B. Liu, Y. Zhu, C. Gao, Y. Feng, Q. Liu, Y. Zhu, P. Stone. <a href="https://arxiv.org/abs/2306.03310">LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning</a>. NeurIPS Datasets and Benchmarks, 2023.</li>
+<li id="r-ood">Q. Li. <a href="https://arxiv.org/abs/2505.03500">VLAs are Confined yet Capable of Generalizing to Novel Instructions</a>. arXiv:2505.03500, 2025.</li>
+<li id="r-robocasa">S. Nasiriany, A. Maddukuri, L. Zhang, A. Parikh, A. Lo, A. Joshi, A. Mandlekar, Y. Zhu. <a href="https://arxiv.org/abs/2406.02523">RoboCasa: Large-Scale Simulation of Everyday Tasks for Generalist Robots</a>. arXiv:2406.02523, 2024.</li>
 <li id="r-robotwin">T. Chen, Z. Chen, B. Chen, et al. <a href="https://arxiv.org/abs/2506.18088">RoboTwin 2.0: A Scalable Data Generator and Benchmark with Strong Domain Randomization for Robust Bimanual Robotic Manipulation</a>. arXiv:2506.18088, 2025.</li>
 <li id="r-calvin">O. Mees, L. Hermann, E. Rosete-Beas, W. Burgard. <a href="https://arxiv.org/abs/2112.03227">CALVIN: A Benchmark for Language-Conditioned Policy Learning for Long-Horizon Robot Manipulation Tasks</a>. IEEE RA-L, 2022.</li>
-<li id="r-gaze">R. Gandikota, D. Bau. <a href="https://arxiv.org/abs/2606.14703">Gaze Heads: How VLMs Look at What They Describe</a>. arXiv:2606.14703, 2026.</li>
-<li id="r-groot">NVIDIA. <a href="https://arxiv.org/abs/2503.14734">GR00T N1: An Open Foundation Model for Generalist Humanoid Robots</a>. arXiv:2503.14734, 2025. We used the GR00T N1.7 checkpoint.</li>
-<li id="r-oft">M. J. Kim, C. Finn, P. Liang. <a href="https://arxiv.org/abs/2502.19645">Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success</a> (OpenVLA-OFT). arXiv:2502.19645, 2025.</li>
-<li id="r-smolvla">M. Shukor, D. Aubakirova, F. Capuano, et al. <a href="https://arxiv.org/abs/2506.01844">SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics</a>. arXiv:2506.01844, 2025.</li>
+<li id="r-roboirs">J. Lei, C. Liu, D. Li, et al. <a href="https://arxiv.org/abs/2610.04681">RoboIRS: Inference-Time Internal Representation Steering for Generalist Robot Policies</a>. arXiv:2610.04681, 2026.</li>
+<li id="r-walqr">J. Hong, J. Skifstad, Q. Dai, A. Chan, G. Chou. <a href="https://arxiv.org/abs/2607.14943">Steering Robustness into World Action Models via Mechanistic Interpretability and Optimal Control</a> (WA-LQR). arXiv:2607.14943, 2026.</li>
+<li id="r-loopwam">W. Guo, Y. Liang, Z. Wang, Z. Li, A. Ma, et al. <a href="https://arxiv.org/abs/2610.18873">LoopWAM: Closed-Loop Generalist Policy Improvement from Deployment Rollouts</a>. arXiv:2610.18873, 2026.</li>
+<li id="r-reguide">T.-H. Lin, S. Shakkottai, D. Kalathil, P. R. Kumar. <a href="https://arxiv.org/abs/2606.28939">ReGuide: From Test-Time Guidance to Self-Improving Diffusion Policies</a>. arXiv:2606.28939, 2026.</li>
 <li id="r-rift">C. Zhang, J. Tong, X. Li, Y. Wang, H. Li. <a href="https://arxiv.org/abs/2608.11521">Keep the Future, Drop the Rollout: RIFT for World Action Models</a>. arXiv:2608.11521, 2026.</li>
-<li id="r-pi05">Physical Intelligence, K. Black, N. Brown, et al. <a href="https://arxiv.org/abs/2504.16054">&pi;<sub>0.5</sub>: a Vision-Language-Action Model with Open-World Generalization</a>. arXiv:2504.16054, 2025.</li>
-<li id="r-behavior">C. Li, R. Zhang, J. Wong, C. Gokmen, S. Srivastava, et al. <a href="https://arxiv.org/abs/2403.09227">BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation</a>. CoRL, 2022.</li>
-<li id="r-droid">A. Khazatsky, K. Pertsch, S. Nair, et al. <a href="https://arxiv.org/abs/2403.12945">DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset</a>. RSS, 2024.</li>
-<li id="r-forewam">J. Huang, Z. Wu, Z. Zhang, Z. Wang, S. You, T. Huang. <a href="https://arxiv.org/abs/2608.11605">Foresight Without Seeing: Latent Futures for World Action Models</a>. arXiv:2608.11605, 2026.</li>
-<li id="r-tr">U. A. Mishra, Y. Chen, D. Xu, Y. Liu, X. Chen, J. Mao. <a href="https://arxiv.org/abs/2607.08127">Understanding and Mitigating the Video-Action Generalization Gap via Temporal Ratio</a>. arXiv:2607.08127, 2026.</li>
-<li id="r-ood">Q. Li. <a href="https://arxiv.org/abs/2505.03500">VLAs are Confined yet Capable of Generalizing to Novel Instructions</a>. arXiv:2505.03500, 2025.</li>
-<li id="r-hewitt">J. Hewitt, K. Ethayarajh, P. Liang, C. D. Manning. <a href="https://aclanthology.org/2021.emnlp-main.122/">Conditional probing: measuring usable information beyond a baseline</a>. EMNLP, 2021.</li>
-<li id="r-lewm">L. Maes, Q. Le Lidec, D. Scieur, Y. LeCun, R. Balestriero. <a href="https://arxiv.org/abs/2603.19312">LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels</a>. arXiv:2603.19312, 2026.</li>
-<li id="r-yu">Y. Yu. <a href="https://arxiv.org/abs/2608.22197">On the Capability Separation Between World-Model Policy Learning and Imitated World-Action Models</a>. arXiv:2608.22197, 2026.</li>
-<li id="r-arps">Q. Gu, J. Li, B. Gao, et al. <a href="https://arxiv.org/abs/2609.23369">The Right Future for Action: Learning Action-Relevant Predictive States in World Action Models</a>. arXiv:2609.23369, 2026.</li>
-<li id="r-richens">J. Richens, T. Everitt, D. Abel. <a href="https://proceedings.mlr.press/v267/richens25a.html">General agents need world models</a>. ICML, 2025.</li>
-<li id="r-haon">B. H&auml;on, K. C. Stocking, I. Chuang, C. Tomlin. <a href="https://proceedings.mlr.press/v305/haon25a.html">Mechanistic Interpretability for Steering Vision-Language-Action Models</a>. CoRL, 2025.</li>
-<li id="r-buur">H. Buurmeijer, C. Amo Alonso, A. Swann, M. Pavone. <a href="https://arxiv.org/abs/2603.05487">Observing and Controlling Features in Vision-Language-Action Models</a>. arXiv:2603.05487, 2026.</li>
-<li id="r-swann">A. Swann, L. McGranahan, H. Buurmeijer, M. Kennedy III, M. Schwager. <a href="https://arxiv.org/abs/2603.19183">Sparse Autoencoders Reveal Interpretable and Steerable Features in VLA Models</a>. arXiv:2603.19183, 2026.</li>
-<li id="r-grant">B. Grant, X. Zhao, P. Wang. <a href="https://arxiv.org/abs/2603.19233">Not All Features Are Created Equal: A Mechanistic Study of Vision-Language-Action Models</a>. NeurIPS 2026.</li>
-<li id="r-molinari">M. Molinari, L. Nevali, S. Navani, O. Younis. <a href="https://arxiv.org/abs/2509.24559">Emergent World Representations in OpenVLA</a>. arXiv:2509.24559, 2025.</li>
+<li id="r-ewam">H. Wang, J. Wen, J. Liu, S. Xue, Z. Chen, et al. <a href="https://arxiv.org/abs/2609.39973">EWAM: Emergent Depth-Wise Specialization in a Unified Embodied Model</a>. arXiv:2609.39973, 2026.</li>
+<li id="r-gaze">R. Gandikota, D. Bau. <a href="https://arxiv.org/abs/2606.14703">Gaze Heads: How VLMs Look at What They Describe</a>. arXiv:2606.14703, 2026.</li>
+<li id="r-geva">M. Geva, J. Bastings, K. Filippova, A. Globerson. <a href="https://arxiv.org/abs/2304.14767">Dissecting Recall of Factual Associations in Auto-Regressive Language Models</a>. EMNLP, 2023.</li>
+<li id="r-geiger">A. Geiger, H. Lu, T. Icard, C. Potts. <a href="https://arxiv.org/abs/2106.02997">Causal Abstractions of Neural Networks</a>. NeurIPS, 2021.</li>
+<li id="r-vig">J. Vig, S. Gehrmann, Y. Belinkov, S. Qian, D. Nevo, Y. Singer, S. Shieber. <a href="https://arxiv.org/abs/2004.12265">Investigating Gender Bias in Language Models Using Causal Mediation Analysis</a>. NeurIPS, 2020.</li>
 </ol>
 </main>
 <div class="tip" id="tip"></div>
 <script src="data/IMAGINE.js"></script>
 <script src="data/STEER_RT.js"></script>
-<script src="data/BRIDGE.js"></script>
-<script src="data/LADDER.js"></script>
+<script src="data/BRIDGE.js?v=2"></script>
 <script src="data/CLIPS.js?v=3"></script>
-<script src="post.js?v=14"></script>
+<script src="post.js?v=16"></script>
 <script>window.DIAG_JOINT = {"track": [[0.499, 0.307], [0.5273, 0.3], [0.5454, 0.3084], [0.56, 0.2978], [0.5793, 0.2995], [0.5962, 0.2957], [0.6134, 0.3001], [0.6385, 0.3014], [0.649, 0.3048], [0.672, 0.3036], [0.6895, 0.3046], [0.7116, 0.304], [0.7292, 0.3083], [0.7489, 0.3105], [0.7662, 0.319], [0.787, 0.3204]], "sigmas": [80.0, 42.3, 21.0, 9.6, 4.0]};</script>
 
-<script src="diagrams.js?v=32"></script>
+<script src="diagrams.js?v=34"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true}]})"></script>
 </body>

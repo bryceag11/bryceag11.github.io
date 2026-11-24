@@ -1,4 +1,4 @@
-// Figures for "The action reads its imagination". Data: data/*.js, exported by tools/export_data.py.
+// Figures for "What world action models do with their imagined futures". Data: data/*.js, exported by tools/export_data.py.
 const NS = "http://www.w3.org/2000/svg";
 const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 const SHORT = { "Cosmos Policy": "Cosmos", "LingBot-VA": "LingBot", "InternVLA-A1": "InternVLA", "LIBERO-10": "LIBERO",
@@ -22,9 +22,11 @@ const FR = { "LIBERO-10": "img/imagine/now_00.jpg", "RoboTwin 2.0": "img/diag/rt
 let uid = 0;
 function benchHead(svg, x0, x1, top, th, bench, label, sub) {  // rounded frame cropped to fill, name under it
   const cx = (x0 + x1) / 2, w = Math.min(x1 - x0 - 4, th * 4 / 3), id = "fc" + uid++, box = { x: cx - w / 2, y: top, width: w, height: th, rx: 5 };
-  el("rect", box, el("clipPath", { id }, svg));
-  el("image", { href: FR[bench], x: box.x, y: top, width: w, height: th, preserveAspectRatio: "xMidYMid slice", "clip-path": `url(#${id})` }, svg);
-  el("rect", Object.assign({ fill: "none", stroke: css("--rule"), "stroke-width": 1 }, box), svg);
+  if (FR[bench]) {  // benchmarks without a stored frame get the label only
+    el("rect", box, el("clipPath", { id }, svg));
+    el("image", { href: FR[bench], x: box.x, y: top, width: w, height: th, preserveAspectRatio: "xMidYMid slice", "clip-path": `url(#${id})` }, svg);
+    el("rect", Object.assign({ fill: "none", stroke: css("--rule"), "stroke-width": 1 }, box), svg);
+  }
   txt(svg, cx, top + th + 15, label || bench, { "text-anchor": "middle", fill: css("--ink") });
   if (sub) txt(svg, cx, top + th + 29, sub, { "text-anchor": "middle", "font-size": 11 });
 }
@@ -176,7 +178,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   select(ep);
 })();
 
-// Figure 3: steering scrubber with distance traces (RoboTwin 2.0; the LIBERO-10 episode is in the swap diagram)
+// Figure 5: interchange scrubber with distance traces (RoboTwin 2.0), and the source test (re-encoding) as bars
 (function () {
   const fig = document.getElementById("fig-steer");
   const SETS = {
@@ -185,11 +187,12 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   };
   const [a, b] = fig.querySelectorAll(".frames img"), frames = fig.querySelector(".frames"), step = fig.querySelector(".step"), svg = fig.querySelector("svg");
   const scrub = [fig.querySelector("button.play"), fig.querySelector("input[type=range]"), step], lg = fig.querySelector(".legend");
-  // restricted K/V swaps: episodes with the counterfactual object first. src: results/INDEX.csv P4-081 (DreamZero), P4-150 (LingBot-VA LIBERO-10, fresh init 20-39, no control arm), P4-149 (LingBot-VA RoboTwin, fresh eps 20-46, 80 per arm)
+  // source test: redirects under the predicted-frame interchange, after re-encoding the source frames under the original
+  // instruction, and under the current-frame interchange. src: P4 paper sec. "The source of the target object";
+  // results/INDEX.csv P4-209 (Cosmos Policy, LIBERO-Object, 100 per arm), P4-148 and P4-070/P4-071 (LingBot-VA, LIBERO-10, 40 per arm)
   const RS = [
-    ["DreamZero", "LIBERO-10", 40, [["all", "all layers", 40], ["band", "band L15-29", 21], ["heads", "3 blocking heads", 2], ["ctrl", "band L0-14", 0]]],
-    ["LingBot-VA", "LIBERO-10", 40, [["all", "all layers", 40], ["band", "band L8-14", 19], ["heads", "top-100 trackers", 30]]],
-    ["LingBot-VA", "RoboTwin 2.0", 80, [["all", "all layers", 59], ["band", "band L8-14", 57], ["ctrl", "band L15-21", 5]]],
+    ["Cosmos Policy", "LIBERO-Object", 100, [["all", "interchange", 86], ["band", "re-encoded", 0]]],
+    ["LingBot-VA", "LIBERO-10", 40, [["all", "interchange", 39], ["band", "re-encoded", 39], ["ctrl", "current frame", 0]]],
   ];
   let restricted = false;
   function drawRS() {  // grouped bars per model, frames as benchmark headers, conditions labelled under the bars
@@ -199,8 +202,8 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
     axes(svg, null, yy, W, H2, mm, [0, 0.5, 1], (v) => num(v, 1), [], null, null);
     if (!narrow) txt(svg, 0, th + 52, "redirected", { "font-size": 11 });
     const nb = RS.reduce((t, r) => t + r[3].length, 0), gap = narrow ? 12 : 26, bw = (W - mm.l - mm.r - gap * (RS.length - 1)) / nb;
-    const sty = { all: ["cf", {}], band: ["cf", { fo: 0.45 }], heads: ["cf", { hollow: true }], ctrl: ["none", {}] };
-    const under = { all: "all", band: "band", heads: "heads", ctrl: narrow ? "ctrl" : "control" };
+    const sty = { all: ["cf", {}], band: ["cf", { fo: 0.45 }], ctrl: ["cur", {}] };
+    const under = { all: "interchange", band: "re-encoded", ctrl: narrow ? "current" : "current frame" };
     let x0 = mm.l;
     const spans = {};
     for (const [model, bench, n, cells] of RS) {
@@ -224,7 +227,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   const pad = (i) => String(i).padStart(S.pad, "0");
   function draw() {
     svg.innerHTML = "";
-    legend(lg, [["n", "unmodified", css("--soft"), "line"], ["s", "imagined frames swapped", css("--soft"), "dash"]], null);
+    legend(lg, [["n", "no intervention", css("--soft"), "line"], ["s", "interchange", css("--soft"), "dash"]], null);
     W = fit(svg, H);
     m = { l: 48, r: W < 500 ? 96 : 120, t: 24, b: 40 };
     x = scale(0, maxSteps, m.l, W - m.r);
@@ -260,7 +263,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   };
   const select = (k) => {
     stop();
-    restricted = k === "restricted";
+    restricted = k === "source";
     frames.style.display = restricted ? "none" : "";
     scrub.forEach((e) => e.style.visibility = restricted ? "hidden" : "");
     if (restricted) return drawRS();
@@ -282,11 +285,14 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   addEventListener("resize", redraw);
 })();
 
-// Figure 2: blinding, bands, tracker dose; filled bars with frames as benchmark headers
-(function () {
-  const fig = document.getElementById("fig-bridge"), D = window.BRIDGE, svg = fig.querySelector("svg"), lg = fig.querySelector(".legend");
-  const all = Object.keys(D.models), libero = all.filter((k) => D.models[k].bands);
-  let view = "blind";
+// Figures 2 and 4: knockout (fig-knockout), and the read site by denoising step, layer range and tracker heads (fig-site);
+// filled bars with frames as benchmark headers
+function bridgeFig(figId, view) {
+  const fig = document.getElementById(figId), D = window.BRIDGE;
+  if (!fig) return;
+  const svg = fig.querySelector("svg"), lg = fig.querySelector(".legend");
+  const all = Object.keys(D.models);
+  let libero = all.filter((k) => D.models[k].bands);
   const nOf = (M) => M.nb || N(M), N = (M) => M.n || D.n, noneOf = (M) => M.none_b ?? M.none;
   const hit = (g, x, w, y0, y1, html) => hover(el("rect", { x, y: y0, width: w, height: y1 - y0, fill: "transparent" }, g), html);
 
@@ -303,7 +309,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
       const ks = all.filter((k) => D.models[k].bench === bench), bx0 = x0;
       ks.forEach((k, j) => {
         const M = D.models[k], cx = x0 + gw * (j + 0.5), g = el("g", {}, svg), name = M.label || k, n = M.n;
-        [["none", M.none, "no mask", {}], ["fut", M.fut, "predicted future masked", {}], ["cur", M.cur, `current frame masked (${M.tok_note})`, { fill: cur }]]
+        [["none", M.none, "no knockout", {}], ["fut", M.fut, "predicted frames knocked out", {}], ["cur", M.cur, `current frames knocked out (${M.tok_note})`, { fill: cur }]]
           .forEach(([role, kk, what, o], i) => {
             const [p, lo, hi] = wilson(kk, n), bx = cx + (i - 1) * w * 1.1;
             rbar(g, bx, w, y, p, lo, hi, role, o);
@@ -318,7 +324,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
       benchHead(svg, bx0, bx1, 0, th, bench, narrow || bx1 - bx0 < 160 ? SHORT[bench] || bench : bench, `n = ${n}`);
       x0 = bx1 + gap;
     });
-    legend(lg, [["none", "no mask", "none", "role"], ["fut", "predicted future masked", "fut", "role"], ["cur", "current frame masked", "cur", "hatchrole"]], null);
+    legend(lg, [["none", "no knockout", "none", "role"], ["fut", "predicted frames knocked out", "fut", "role"], ["cur", "same number of current-frame keys knocked out", "cur", "hatchrole"]], null);
   }
 
   // band and head views: one group per model, LIBERO-10 and RoboTwin frames on top
@@ -338,9 +344,9 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
     if (gloss) words(svg, (mm.l + W - mm.r) / 2, H - 6, gloss);
     lg.innerHTML = "";
   }
-  function depth(g, M, x0, gw, y, H, mm, first, who, narrow) {  // grey no-mask bar, then the four bands from early to late
+  function depth(g, M, x0, gw, y, H, mm, first, who, narrow) {  // grey no-knockout bar, then the four layer quarters, shallow to deep
     const n = nOf(M), slot = gw / 5, w = Math.min(24, slot * 0.72), imin = M.bands.indexOf(Math.min(...M.bands));
-    [[noneOf(M), "none", "no mask"]].concat(M.bands.map((b, i) => [b, "fut", `${M.band_names[i]} masked`])).forEach(([kk, role, what], i) => {
+    [[noneOf(M), "none", "no knockout"]].concat(M.bands.map((b, i) => [b, "fut", `${M.band_names[i]} knocked out`])).forEach(([kk, role, what], i) => {
       const [p, lo, hi] = wilson(kk, n), cx = x0 + slot * (i + 0.5);
       rbar(g, cx, w, y, p, lo, hi, role);
       if (i === imin + 1) { count(g, cx, y(hi), String(kk), "fut", true); if (!narrow) txt(g, cx, y(hi) - 24, M.band_names[i - 1], { "text-anchor": "middle", fill: css("--r-fut"), "font-size": 11 }); }
@@ -348,7 +354,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
     });
     if (first) {
       if (!narrow) txt(g, x0 + slot / 2, H - mm.b + 16, "none", { "text-anchor": "middle", fill: css("--r-none"), "font-size": 11 });
-      txt(g, x0 + slot * 3, H - mm.b + 16, "early → late", { "text-anchor": "middle", fill: css("--r-fut"), "font-size": 11 });
+      txt(g, x0 + slot * 3, H - mm.b + 16, "shallow → deep", { "text-anchor": "middle", fill: css("--r-fut"), "font-size": 11 });
     }
   }
   function dose(g, M, x0, gw, y, H, mm, first, who) {  // tracker (purple) and random (grey) heads at each k
@@ -365,22 +371,78 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
     });
   }
 
+  function steps(g, M, x0, gw, y, H, mm, first, who, narrow) {  // grey no-knockout bar, then one bar per group of denoising steps, first to last
+    const S = M.steps, n = nOf(M), slot = gw / (S.k.length + 1), w = Math.min(24, slot * 0.72), imin = S.k.indexOf(Math.min(...S.k));
+    [[S.none, "none", "no knockout"]].concat(S.k.map((b, i) => [b, "fut", `${S.names[i]} knocked out`])).forEach(([kk, role, what], i) => {
+      const [p, lo, hi] = wilson(kk, n), cx = x0 + slot * (i + 0.5);
+      rbar(g, cx, w, y, p, lo, hi, role);
+      if (i === imin + 1) { count(g, cx, y(hi), String(kk), "fut", true); if (!narrow) txt(g, cx, y(hi) - 24, S.names[i - 1], { "text-anchor": "middle", fill: css("--r-fut"), "font-size": 11 }); }
+      hit(g, cx - slot / 2, slot, mm.t, y(0), `${what}: ${kk}/${n}`);
+    });
+    txt(g, x0 + slot * (S.k.length + 2) / 2, H - mm.b + 16, narrow ? S.unit.split(" ").pop() : S.unit + ", first → last", { "text-anchor": "middle", fill: css("--r-fut"), "font-size": narrow ? 10 : 11 });
+  }
+
   function draw() {
     svg.innerHTML = "";
     const narrow = (svg.clientWidth || 640) < 560;
-    if (view === "blind") blind(narrow);
+    if (view === "blind") return blind(narrow);
+    libero = all.filter((k) => view === "steps" ? D.models[k].steps : D.models[k].bands);
+    if (view === "steps") grouped(narrow, steps, null);
     else if (view === "depth") grouped(narrow, depth, null);
-    else grouped(narrow, dose, [["tracker heads", "--r-fut"], [" or "], ["random heads", "--r-none"], [narrow ? " masked" : " masked from the future"]]);
+    else grouped(narrow, dose, [["tracker heads", "--r-fut"], [" or "], ["random heads", "--r-none"], [narrow ? " knocked out" : " knocked out from the predicted frames"]]);
   }
   segment(fig, "data-v", (v) => { view = v; draw(); });
   draw();
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
   addEventListener("themechange", draw);
   addEventListener("resize", draw);
+}
+bridgeFig("fig-knockout", "blind");
+bridgeFig("fig-site", "steps");
+
+// Figure 6: proportion mediated per model, with 95% cluster-bootstrap intervals. src: P4 paper tab:pm; INDEX P4-300, P4-301, P4-309, P4-310, P4-293
+(function () {
+  const fig = document.getElementById("fig-pm");
+  if (!fig) return;
+  const svg = fig.querySelector("svg");
+  const ROWS = [
+    ["VPP", "CALVIN, instruction", 0.99, 0.94, 1.03, "fut"],
+    ["Seer-Large", "CALVIN, instruction", 0.36, 0.25, 0.47, "fut"],
+    ["LaWAM", "RoboTwin 2.0, instruction", 0.09, -0.03, 0.21, "fut"],
+    ["InternVLA-A1", "RoboTwin 2.0, instruction", 0.00, 0.00, 0.00, "fut"],
+    ["Cosmos Policy", "adapter gain, L21-27, last step", 0.83, 0.69, 0.99, "act"],
+    ["Cosmos Policy", "adapter gain, L7-13 (control)", 0.02, -0.05, 0.10, "none"],
+  ];
+  function draw() {
+    svg.innerHTML = "";
+    const narrow = (svg.clientWidth || 640) < 520, rh = narrow ? 44 : 34, H = ROWS.length * rh + 46, W = fit(svg, H);
+    const m = { l: narrow ? 8 : 320, r: 40, t: 10, b: 36 }, x = scale(-0.1, 1.1, m.l, W - m.r);
+    for (const v of [0, 0.5, 1]) {
+      el("line", { x1: x(v), x2: x(v), y1: m.t, y2: H - m.b, stroke: v === 0 ? css("--faint") : css("--rule"), "stroke-width": 1.2, "stroke-dasharray": v === 0 ? "" : "1.5 3.5" }, svg);
+      txt(svg, x(v), H - m.b + 16, num(v, 1), { "text-anchor": "middle" });
+    }
+    txt(svg, (m.l + W - m.r) / 2, H - 4, "proportion mediated", { "text-anchor": "middle", "font-size": 11 });
+    ROWS.forEach(([model, what, p, lo, hi, role], i) => {
+      const yc = m.t + rh * i + rh / 2 + (narrow ? 8 : 0), d = css(`--r-${role}`), g = el("g", {}, svg);
+      const lab = narrow ? [m.l, yc - 13, "start"] : [m.l - 10, yc + 4, "end"];
+      const t = txt(g, lab[0], lab[1], model, { "text-anchor": lab[2], fill: css("--ink"), "font-weight": 700 });
+      const sp = el("tspan", {}, t); sp.textContent = "  " + what; sp.style.fill = css("--soft"); sp.style.fontWeight = 400;
+      const bh = narrow ? 12 : 14;
+      el("rect", { x: Math.min(x(0), x(p)), y: yc - bh / 2, width: Math.max(1.5, Math.abs(x(p) - x(0))), height: bh, fill: css(`--r-${role}-f`), stroke: d, "stroke-width": 1.4 }, g);
+      el("line", { x1: x(lo), x2: x(hi), y1: yc, y2: yc, stroke: d, "stroke-width": 2 }, g);
+      txt(g, Math.max(x(hi), x(p)) + 6, yc + 4, p.toFixed(2).replace(/^(-?)0\./, "$1."), { fill: d, "font-weight": 700 });
+      hover(el("rect", { x: m.l, y: yc - rh / 2, width: W - m.l - m.r, height: rh, fill: "transparent" }, g), `${model}, ${what}: ${num(p, 2)} [${num(lo, 2)}, ${num(hi, 2)}]`);
+    });
+  }
+  draw();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+  addEventListener("themechange", draw);
+  addEventListener("resize", draw);
 })();
 
-// Figure 4: control ladder, one bar per policy at horizon delta; the colour follows the control (L1 grey, L2 purple, L3 green)
+// Figure 7: control ladder, one bar per policy at horizon delta; the colour follows the control (L1 grey, L2 purple, L3 green)
 (function () {
+  if (!document.getElementById("fig-ladder")) return;
   const fig = document.getElementById("fig-ladder"), D = window.LADDER, svg = fig.querySelector("svg"), step = fig.querySelector(".step");
   const keys = Object.keys(D.models), HS = D.models[keys[0]].rungs.scene.map((p) => p[0]);
   const LBL = { pi05: "π0.5", fastwam: "Fast-WAM" }, SH = { vla_jepa: "JEPA", lingbot_va: "LingBot", cosmos_policy: "Cosmos", fastwam: "Fast-WAM", pi05: "π0.5", lawam: "LaWAM" };
@@ -439,27 +501,27 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   const fig = document.getElementById("fig-rollouts");
   if (!fig) return;
   const SETS = {
-    blind: [
-      ["blind_01_lingbot-va_robotwin_basket_e0", "LingBot-VA, RoboTwin 2.0, box into the basket: masked arm stays parked off-camera"],
-      ["blind_02_lingbot-va_robotwin_a2b-left_e1", "LingBot-VA, RoboTwin 2.0, mouse left of the bell: masked arm stays parked, the mouse never moves"],
-      ["blind_03_dreamzero_libero10_t1-i0", "DreamZero, LIBERO-10, cream cheese and butter into the basket: masked arm hovers and grasps nothing"],
-      ["blind_04_cosmos_libero10_t1-i8_paired", "Cosmos Policy, LIBERO-10, cream cheese and butter into the basket: masked arm pushes the milk carton to the basket instead"],
-      ["blind_05_cosmos_libero10_t7-i6_paired", "Cosmos Policy, LIBERO-10, soup and cream cheese into the basket: masked arm knocks the soup over, then grabs and tips the basket"],
-      ["blind_06_cosmos_libero10_t7-i8_paired", "Cosmos Policy, LIBERO-10, soup and cream cheese into the basket: masked arm hovers near the soup and grasps nothing"],
-      ["blind_07_cosmos_libero10_t0-i5_paired_nearmiss", "Near-miss. Cosmos Policy, LIBERO-10, soup and sauce into the basket: masked arm puts the soup in, then tips the basket; the sauce stays on the table"],
+    knockout: [
+      ["blind_01_lingbot-va_robotwin_basket_e0", "LingBot-VA, RoboTwin 2.0, box into the basket: with the knockout the arm stays parked off-camera"],
+      ["blind_02_lingbot-va_robotwin_a2b-left_e1", "LingBot-VA, RoboTwin 2.0, mouse left of the bell: with the knockout the arm stays parked and the mouse never moves"],
+      ["blind_03_dreamzero_libero10_t1-i0", "DreamZero, LIBERO-10, cream cheese and butter into the basket: with the knockout the arm hovers and grasps nothing"],
+      ["blind_04_cosmos_libero10_t1-i8_paired", "Cosmos Policy, LIBERO-10, cream cheese and butter into the basket: with the knockout the arm pushes the milk carton to the basket instead"],
+      ["blind_05_cosmos_libero10_t7-i6_paired", "Cosmos Policy, LIBERO-10, soup and cream cheese into the basket: with the knockout the arm knocks the soup over, then grabs and tips the basket"],
+      ["blind_06_cosmos_libero10_t7-i8_paired", "Cosmos Policy, LIBERO-10, soup and cream cheese into the basket: with the knockout the arm hovers near the soup and grasps nothing"],
+      ["blind_07_cosmos_libero10_t0-i5_paired_nearmiss", "Near-miss. Cosmos Policy, LIBERO-10, soup and sauce into the basket: with the knockout the arm puts the soup in, then tips the basket; the sauce stays on the table"],
     ],
-    swap: [
-      ["swap_01_lingbot-va_robotwin_a2b-right_e0", "LingBot-VA, RoboTwin 2.0, stapler right of the phone: swapped arm picks up the phone first"],
-      ["swap_02_lingbot-va_robotwin_a2b-left_e1", "LingBot-VA, RoboTwin 2.0, mouse left of the bell: swapped arm moves the bell to the mouse"],
-      ["swap_03_lingbot-va_robotwin_basket_e0", "LingBot-VA, RoboTwin 2.0, box into the basket: swapped arm moves the basket, never picks the box"],
-      ["swap_04_lingbot-va_robotwin_basket_e1", "LingBot-VA, RoboTwin 2.0, toy car into the basket: swapped arm goes to the basket first, drops the car beside it"],
-      ["swap_05_dreamzero_libero10_t0-i0", "DreamZero, LIBERO-10, soup and sauce into the basket: swapped arm picks the cream cheese, then the butter"],
-      ["swap_06_dreamzero_libero10_t1-i0", "DreamZero, LIBERO-10, cream cheese and butter into the basket: swapped arm picks the soup, then the sauce"],
+    interchange: [
+      ["swap_01_lingbot-va_robotwin_a2b-right_e0", "LingBot-VA, RoboTwin 2.0, stapler right of the phone: after the interchange the arm picks up the phone first"],
+      ["swap_02_lingbot-va_robotwin_a2b-left_e1", "LingBot-VA, RoboTwin 2.0, mouse left of the bell: after the interchange the arm moves the bell to the mouse"],
+      ["swap_03_lingbot-va_robotwin_basket_e0", "LingBot-VA, RoboTwin 2.0, box into the basket: after the interchange the arm moves the basket and never picks the box"],
+      ["swap_04_lingbot-va_robotwin_basket_e1", "LingBot-VA, RoboTwin 2.0, toy car into the basket: after the interchange the arm goes to the basket first and drops the car beside it"],
+      ["swap_05_dreamzero_libero10_t0-i0", "DreamZero, LIBERO-10, soup and sauce into the basket: after the interchange the arm picks the cream cheese, then the butter"],
+      ["swap_06_dreamzero_libero10_t1-i0", "DreamZero, LIBERO-10, cream cheese and butter into the basket: after the interchange the arm picks the soup, then the sauce"],
     ],
   };
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const video = fig.querySelector("video"), cap = fig.querySelector(".rv-cap"), dots = fig.querySelector(".rv-dots");
-  let set = "blind", i = 0, near = false, inView = false;
+  let set = "knockout", i = 0, near = false, inView = false;
   video.muted = true;
   if (reduced.matches) video.controls = true;
   function sync() { if (inView && !reduced.matches) video.play().catch(() => {}); else video.pause(); }
@@ -476,7 +538,7 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   }
   function pick(s) {
     set = s;
-    fig.classList.toggle("rv-swap", s === "swap");
+    fig.classList.toggle("rv-ic", s === "interchange");
     fig.querySelectorAll("[data-set]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.set === s));
     dots.innerHTML = "";
     SETS[s].forEach((_, k) => {
@@ -505,5 +567,5 @@ function segment(fig, attr, onpick) {  // segmented control: aria-pressed follow
   new IntersectionObserver((es) => { if (es[0].isIntersecting && !near) { near = true; load(); } }, { rootMargin: "400px" }).observe(fig);
   new IntersectionObserver((es) => { inView = es[0].isIntersecting; sync(); }, { threshold: 0.5 }).observe(stage);
   reduced.addEventListener("change", () => { video.controls = reduced.matches; sync(); });
-  pick("blind");
+  pick("knockout");
 })();
